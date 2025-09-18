@@ -20,6 +20,10 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const deleteUser = catchAsync(async (req, res) => {
+	const user = await userService.getUserById(req.params.userId);
+	if (!user || user.del_flag == '1') {
+		throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+	}
 	await userService.deleteUserById(req.params.userId);
 	res.send({ success: true });
 });

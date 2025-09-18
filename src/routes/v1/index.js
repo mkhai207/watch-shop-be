@@ -3,6 +3,9 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const roleRoute = require('./role.route');
 const docsRoute = require('./docs.route');
+const brandRoute = require('./brand.route');
+const categoryRoute = require('./category.route');
+const uploadRoute = require('./upload.route');
 
 const router = express.Router();
 
@@ -10,5 +13,8 @@ router.use('/auth', authRoute);
 router.use('/users', userRoute);
 router.use('/roles', roleRoute);
 router.use('/docs', docsRoute);
+router.use('/brands', brandRoute);
+router.use('/categorys', categoryRoute);
+router.use('/uploads', uploadRoute);
 
 module.exports = router;

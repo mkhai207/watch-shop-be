@@ -1,49 +1,49 @@
 const Joi = require('@hapi/joi');
 
-const createRole = {
+const createBrand = {
 	body: Joi.object().keys({
-		code: Joi.string().required(),
 		name: Joi.string().required(),
+		logo_url: Joi.string(),
 		description: Joi.string(),
 	}),
 };
 
-const getRoles = {
+const getBrands = {
 	query: Joi.object().keys({
 		limit: Joi.number().min(1),
 		page: Joi.number().min(1),
 	}),
 };
 
-const getRole = {
+const getBrand = {
 	params: Joi.object().keys({
-		roleId: Joi.number().required(),
+		brandId: Joi.number().required(),
 	}),
 };
 
-const updateRole = {
+const updateBrand = {
 	params: Joi.object().keys({
-		roleId: Joi.number().required(),
+		brandId: Joi.number().required(),
 	}),
 	body: Joi.object()
 		.keys({
-			code: Joi.string(),
 			name: Joi.string(),
+			logo_url: Joi.string(),
 			description: Joi.string(),
 		})
 		.min(1),
 };
 
-const deleteRole = {
+const deleteBrand = {
 	params: Joi.object().keys({
-		roleId: Joi.string(),
+		brandId: Joi.string(),
 	}),
 };
 
 module.exports = {
-	createRole,
-	getRoles,
-	getRole,
-	updateRole,
-	deleteRole,
+	createBrand,
+	getBrands,
+	getBrand,
+	updateBrand,
+	deleteBrand,
 };

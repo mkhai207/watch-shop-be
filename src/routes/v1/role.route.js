@@ -28,7 +28,7 @@ router
 		validate(roleValidation.getRole),
 		roleController.getRole
 	)
-	.patch(
+	.put(
 		grantAccess('updateAny', resources.ROLE),
 		validate(roleValidation.updateUser),
 		roleController.updateRole

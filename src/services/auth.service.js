@@ -3,9 +3,9 @@ const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
 const { decryptData } = require('../utils/auth');
 
-async function loginUserWithEmailAndPassword(req) {
-	const { email, password } = req.body;
-	const user = await userService.getUserByEmail(email);
+async function loginUser(req) {
+	const { userName, password } = req.body;
+	const user = await userService.getUserByUsername(userName);
 	const isPasswordMatch = await decryptData(password, user.password);
 
 	if (!user || !isPasswordMatch) {
@@ -21,5 +21,5 @@ async function loginUserWithEmailAndPassword(req) {
 }
 
 module.exports = {
-	loginUserWithEmailAndPassword,
+	loginUser,
 };

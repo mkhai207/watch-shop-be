@@ -1,10 +1,11 @@
 const httpStatus = require('http-status');
-const { getOffset } = require('../utils/query');
+const { getOffset, buildFilters, buildOrder } = require('../utils/query');
 const ApiError = require('../utils/ApiError');
 const { encryptData } = require('../utils/auth');
-const config = require('../config/config.js');
+const config = require('../config/config');
 const db = require('../db/models');
 const roleService = require('./role.service');
+const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 
 async function getUserByEmail(email) {
 	const user = await db.user.findOne({
@@ -12,6 +13,24 @@ async function getUserByEmail(email) {
 		include: [
 			{
 				model: db.role,
+				as: 'role',
+				require: true,
+				attributes: ['id', 'name'],
+			},
+		],
+		raw: true,
+	});
+
+	return user;
+}
+
+async function getUserByUsername(userName) {
+	const user = await db.user.findOne({
+		where: { username: userName },
+		include: [
+			{
+				model: db.role,
+				as: 'role',
 				require: true,
 				attributes: ['id', 'name'],
 			},
@@ -28,6 +47,7 @@ async function getUserById(id) {
 		include: [
 			{
 				model: db.role,
+				as: 'role',
 				require: true,
 				attributes: ['id', 'name'],
 			},
@@ -39,7 +59,7 @@ async function getUserById(id) {
 }
 
 async function createUser(req) {
-	const { email, name, password, roleId } = req.body;
+	const { email, fistName, lastName, userName, password, roleId } = req.body;
 	const hashedPassword = await encryptData(password);
 	const user = await getUserByEmail(email);
 
@@ -55,10 +75,15 @@ async function createUser(req) {
 
 	const createdUser = await db.user
 		.create({
-			name,
+			first_name: fistName,
+			last_name: lastName,
+			username: userName,
 			email,
 			role_id: roleId,
 			password: hashedPassword,
+			status: '0',
+			created_at: getCurrentDateYYYYMMDDHHMMSS(),
+			del_flag: '0',
 		})
 		.then((resultEntity) => resultEntity.get({ plain: true }));
 
@@ -71,25 +96,48 @@ async function getUsers(req) {
 
 	const offset = getOffset(page, limit);
 
-	const users = await db.user.findAndCountAll({
-		order: [
-			['name', 'ASC'],
-			['created_date_time', 'DESC'],
-			['modified_date_time', 'DESC'],
-		],
-		include: [
-			{
+	const schema = {
+		root: {
+			name: { type: 'string', op: 'like' },
+			email: { type: 'string', op: 'like' },
+			status: { type: 'exact', op: 'eq' },
+			created_at: { type: 'date', op: 'range' },
+		},
+		include: {
+			role: {
 				model: db.role,
-				require: true,
+				as: 'role',
 				attributes: ['id', 'name'],
+				fields: {
+					id: { type: 'number', op: 'eq' },
+					name: { type: 'string', op: 'like' },
+				},
 			},
-		],
+		},
+	};
+
+	const { where, include } = buildFilters(req.query, schema);
+	const order = buildOrder(req.query.sort, ['name', 'created_at', 'id']);
+	const users = await db.user.findAndCountAll({
+		where,
+		order,
+		include,
 		attributes: [
 			'id',
-			'name',
+			'code',
+			'username',
 			'email',
-			'created_date_time',
-			'modified_date_time',
+			'phone_number',
+			'first_name',
+			'last_name',
+			'gender',
+			'date_of_birth',
+			'address',
+			'status',
+			'created_at',
+			'created_by',
+			'updated_at',
+			'updated_by',
 		],
 		offset,
 		limit,
@@ -100,15 +148,12 @@ async function getUsers(req) {
 }
 
 async function deleteUserById(userId) {
-	const deletedUser = await db.user.destroy({
-		where: { id: userId },
-	});
+	const updatedUser = await db.user.update(
+		{ del_flag: '1' },
+		{ where: { id: userId } }
+	);
 
-	if (!deletedUser) {
-		throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-	}
-
-	return deletedUser;
+	return updatedUser;
 }
 
 async function updateUser(req) {
@@ -140,7 +185,11 @@ async function updateUser(req) {
 
 	const updatedUser = await db.user
 		.update(
-			{ ...req.body },
+			{
+				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+				updated_by: req.user.userId,
+				...req.body,
+			},
 			{
 				where: { id: req.params.userId || req.body.id },
 				returning: true,
@@ -155,6 +204,7 @@ async function updateUser(req) {
 
 module.exports = {
 	getUserByEmail,
+	getUserByUsername,
 	getUserById,
 	createUser,
 	updateUser,

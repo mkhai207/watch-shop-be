@@ -1,49 +1,49 @@
 const Joi = require('@hapi/joi');
 
-const createRole = {
+const createCategory = {
 	body: Joi.object().keys({
-		code: Joi.string().required(),
 		name: Joi.string().required(),
+		image_url: Joi.string(),
 		description: Joi.string(),
 	}),
 };
 
-const getRoles = {
+const getCategorys = {
 	query: Joi.object().keys({
 		limit: Joi.number().min(1),
 		page: Joi.number().min(1),
 	}),
 };
 
-const getRole = {
+const getCategory = {
 	params: Joi.object().keys({
-		roleId: Joi.number().required(),
+		categoryId: Joi.number().required(),
 	}),
 };
 
-const updateRole = {
+const updateCategory = {
 	params: Joi.object().keys({
-		roleId: Joi.number().required(),
+		categoryId: Joi.number().required(),
 	}),
 	body: Joi.object()
 		.keys({
-			code: Joi.string(),
 			name: Joi.string(),
+			image_url: Joi.string(),
 			description: Joi.string(),
 		})
 		.min(1),
 };
 
-const deleteRole = {
+const deleteCategory = {
 	params: Joi.object().keys({
-		roleId: Joi.string(),
+		categoryId: Joi.string(),
 	}),
 };
 
 module.exports = {
-	createRole,
-	getRoles,
-	getRole,
-	updateRole,
-	deleteRole,
+	createCategory,
+	getCategorys,
+	getCategory,
+	updateCategory,
+	deleteCategory,
 };

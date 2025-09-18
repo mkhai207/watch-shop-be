@@ -22,7 +22,7 @@ router
 		validate(userValidation.getUser),
 		userController.getUser
 	)
-	.patch(
+	.put(
 		grantAccess('updateAny', resources.USERINFO),
 		validate(userValidation.updateUser),
 		userController.updateUser
