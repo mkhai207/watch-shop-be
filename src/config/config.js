@@ -27,6 +27,17 @@ const envVarsSchema = Joi.object()
 		SQL_HOST: Joi.string().description('sqldb host'),
 		SQL_DATABASE_NAME: Joi.string().description('sqldb database name'),
 		SQL_PASSWORD: Joi.string().description('sqldb password'),
+		SQL_PORT: Joi.number().default(5432).description('sqldb port'),
+		SQL_SSL: Joi.boolean()
+			.truthy('true')
+			.falsy('false')
+			.default(false)
+			.description('enable SSL/TLS for sqldb connection'),
+		SQL_SSL_REJECT_UNAUTHORIZED: Joi.boolean()
+			.truthy('true')
+			.falsy('false')
+			.default(false)
+			.description('reject unauthorized SSL certs'),
 		SQL_DIALECT: Joi.string()
 			.default('postgres')
 			.description('type of sqldb'),
@@ -92,7 +103,11 @@ module.exports = {
 		host: envVars.SQL_HOST,
 		database: envVars.SQL_DATABASE_NAME,
 		password: envVars.SQL_PASSWORD,
+		port: envVars.SQL_PORT,
 		dialect: envVars.SQL_DIALECT,
+		ssl: envVars.SQL_SSL
+			? { rejectUnauthorized: envVars.SQL_SSL_REJECT_UNAUTHORIZED }
+			: false,
 		pool: {
 			max: envVars.SQL_MAX_POOL,
 			min: envVars.SQL_MIN_POOL,
@@ -109,6 +124,14 @@ module.exports = {
 			// Column names will be underscored.
 			underscored: true,
 		},
+		dialectOptions: envVars.SQL_SSL
+			? {
+					ssl: {
+						require: true,
+						rejectUnauthorized: envVars.SQL_SSL_REJECT_UNAUTHORIZED,
+					},
+			  }
+			: {},
 	},
 	email: {
 		smtp: {
