@@ -12,6 +12,8 @@ const resources = {
 	ROLE: 'role',
 	BRAND: 'brand',
 	CATEGORY: 'category',
+	ADDRESS: 'address',
+	MOVEMENT_TYPE: 'movementType',
 };
 
 const grantsObject = {
@@ -40,6 +42,18 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
+		[resources.ADDRESS]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.MOVEMENT_TYPE]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
 	},
 	[roleIds.USER]: {
 		[resources.USERINFO]: {
@@ -52,6 +66,15 @@ const grantsObject = {
 			'read:any': ['*'],
 		},
 		[resources.CATEGORY]: {
+			'read:any': ['*'],
+		},
+		[resources.ADDRESS]: {
+			'create:own': ['*'],
+			'read:own': ['*'],
+			'update:own': ['*'],
+			'delete:own': ['*'],
+		},
+		[resources.MOVEMENT_TYPE]: {
 			'read:any': ['*'],
 		},
 	},
