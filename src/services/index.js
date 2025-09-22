@@ -8,3 +8,7 @@ module.exports.categoryService = require('./category.service');
 module.exports.uploadService = require('./upload.service');
 module.exports.addressService = require('./address.service');
 module.exports.movementTypeService = require('./movement.type.service');
+module.exports.colorService = require('./color.service');
+module.exports.strapMaterialService = require('./strap.material.service');
+module.exports.watchService = require('./watch.service');
+module.exports.watchVariantService = require('./watch.variant.service');

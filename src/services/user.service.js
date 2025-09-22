@@ -32,10 +32,9 @@ async function getUserByUsername(userName) {
 				model: db.role,
 				as: 'role',
 				require: true,
-				attributes: ['id', 'name'],
+				attributes: ['id', 'name', 'code'],
 			},
 		],
-		raw: true,
 	});
 
 	return user;

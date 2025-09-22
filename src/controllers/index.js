@@ -5,3 +5,6 @@ module.exports.brandController = require('./brand.controller');
 module.exports.categoryController = require('./category.controller');
 module.exports.uploadController = require('./upload.controller');
 module.exports.movementTypeController = require('./movement.type.controller');
+module.exports.colorController = require('./color.controller');
+module.exports.strapMaterialController = require('./strap.material.controller');
+module.exports.watchController = require('./watch.controller');

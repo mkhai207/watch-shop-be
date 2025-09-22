@@ -8,6 +8,9 @@ const categoryRoute = require('./category.route');
 const uploadRoute = require('./upload.route');
 const addressRoute = require('./address.route');
 const movementTypeRoute = require('./movement.type.route');
+const colorRoute = require('./color.route');
+const strapMaterialRoute = require('./strap.material.route');
+const watchRoute = require('./watch.route');
 
 const router = express.Router();
 
@@ -20,5 +23,8 @@ router.use('/categorys', categoryRoute);
 router.use('/uploads', uploadRoute);
 router.use('/addresses', addressRoute);
 router.use('/movement-type', movementTypeRoute);
+router.use('/colors', colorRoute);
+router.use('/strap-materials', strapMaterialRoute);
+router.use('/watches', watchRoute);
 
 module.exports = router;

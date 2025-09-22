@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
 				autoIncrement: true,
 			},
 			code: {
-				type: DataTypes.STRING(10),
+				type: DataTypes.STRING(50),
 				allowNull: true,
 			},
 			name: {
 				type: DataTypes.STRING(255),
-				allowNull: false,
+				allowNull: true,
 			},
 			description: {
 				type: DataTypes.TEXT,
@@ -50,12 +50,12 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			sold: {
 				type: DataTypes.INTEGER,
-				allowNull: false,
+				allowNull: true,
 				defaultValue: 0,
 			},
 			base_price: {
 				type: DataTypes.DOUBLE,
-				allowNull: false,
+				allowNull: true,
 			},
 			rating: {
 				type: DataTypes.DOUBLE,
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			status: {
 				type: DataTypes.BOOLEAN,
-				allowNull: false,
+				allowNull: true,
 				defaultValue: true,
 			},
 			thumbnail: {
@@ -75,11 +75,11 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 			},
 			created_at: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
+				type: DataTypes.STRING(14),
+				allowNull: true,
 			},
 			created_by: {
-				type: DataTypes.STRING(14),
+				type: DataTypes.BIGINT,
 				allowNull: true,
 			},
 			updated_at: {
@@ -92,20 +92,20 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 			category_id: {
 				type: DataTypes.BIGINT,
-				allowNull: false,
+				allowNull: true,
 			},
 			brand_id: {
 				type: DataTypes.BIGINT,
-				allowNull: false,
+				allowNull: true,
 			},
 			movement_type_id: {
 				type: DataTypes.BIGINT,
-				allowNull: false,
+				allowNull: true,
 			},
 		},
 		{

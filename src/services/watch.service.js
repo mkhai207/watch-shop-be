@@ -1,0 +1,216 @@
+const httpStatus = require('http-status');
+const { getOffset, buildOrder, buildFilters } = require('../utils/query');
+const ApiError = require('../utils/ApiError');
+const config = require('../config/config');
+const db = require('../db/models');
+const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
+const { getCategoryById } = require('./category.service');
+const { getBrandById } = require('./brand.service');
+const { getMovementTypeById } = require('./movement.type.service');
+
+async function getWatchById(watchId) {
+	const watch = await db.watch.findOne({
+		where: { id: watchId, del_flag: '0' },
+		include: [
+			{
+				model: db.category,
+				as: 'category',
+				attributes: ['id', 'name'],
+			},
+			{
+				model: db.brand,
+				as: 'brand',
+				attributes: ['id', 'name'],
+			},
+			{
+				model: db.movementType,
+				as: 'movementType',
+				attributes: ['id', 'name'],
+			},
+		],
+	});
+
+	return watch;
+}
+
+async function getWatchByCode(code) {
+	const watch = await db.watch.findOne({
+		where: { code, del_flag: '0' },
+	});
+
+	return watch;
+}
+
+async function getWatches(req) {
+	const { page: defaultPage, limit: defaultLimit } = config.pagination;
+	const { page = defaultPage, limit = defaultLimit } = req.query;
+
+	const offset = getOffset(page, limit);
+
+	const schema = {
+		root: {
+			name: { type: 'string', op: 'like' },
+			code: { type: 'string', op: 'like' },
+			model: { type: 'string', op: 'like' },
+			case_material: {
+				type: 'string',
+				op: 'like',
+			},
+			case_size: { type: 'string', op: 'like' },
+			strap_size: { type: 'string', op: 'like' },
+			gender: { type: 'string', op: 'like' },
+			sold: { type: 'number', op: 'range' },
+			rating: { type: 'number', op: 'range' },
+			category_id: { type: 'number', op: 'eq' },
+			brand_id: { type: 'number', op: 'eq' },
+			movement_type_id: { type: 'number', op: 'eq' },
+			created_at: { type: 'date', op: 'range' },
+			del_flag: { type: 'string', op: 'eq', default: '0' },
+		},
+	};
+
+	const { where } = buildFilters(req.query, schema);
+	const order = buildOrder(req.query.sort, ['name', 'id']);
+
+	const watches = await db.watch.findAndCountAll({
+		where,
+		order,
+		limit,
+		offset,
+		raw: true,
+	});
+
+	return watches;
+}
+
+async function createWatch(req) {
+	const { code, variants, category_id, brand_id, movement_type_id } =
+		req.body;
+	const existedWatch = await getWatchByCode(code);
+
+	if (existedWatch) {
+		throw new ApiError(httpStatus.CONFLICT, 'This watch already exits');
+	}
+
+	const existedCategory = await getCategoryById(category_id);
+	if (!existedCategory) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'This category not found');
+	}
+
+	const existedBrand = await getBrandById(brand_id);
+	if (!existedBrand) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'This brand not found');
+	}
+
+	const existedMovement = await getMovementTypeById(movement_type_id);
+	if (!existedMovement) {
+		throw new ApiError(
+			httpStatus.NOT_FOUND,
+			'This movement type not found'
+		);
+	}
+
+	const createdWatch = await db.watch
+		.create({
+			...req.body,
+			created_at: getCurrentDateYYYYMMDDHHMMSS(),
+			created_by: req.user.userId,
+			del_flag: '0',
+		})
+		.then((resultEntity) => resultEntity.get({ plain: true }));
+
+	if (!createdWatch)
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			'Failed to create watch'
+		);
+
+	const variantsData = variants.map((data) => ({
+		watch_id: createdWatch.id,
+		color_id: data.color_id,
+		strap_material_id: data.strap_material_id,
+		stock_quantity: data.stock_quantity,
+		price: data.price,
+		created_at: getCurrentDateYYYYMMDDHHMMSS(),
+		created_by: req.user.userId,
+		del_flag: '0',
+	}));
+
+	const createdVariants = await db.watchVariant.bulkCreate(variantsData);
+
+	return {
+		watch: createdWatch,
+		variants: createdVariants,
+	};
+}
+
+async function updateWatch(req) {
+	const { code, category_id, brand_id, movement_type_id } = req.body;
+	const existedWatch = await getWatchByCode(code);
+	if (existedWatch.id != req.params.watchId) {
+		throw new ApiError(httpStatus.CONFLICT, 'This watch code existed');
+	}
+
+	const existedCategory = await getCategoryById(category_id);
+	if (!existedCategory) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'This category not found');
+	}
+
+	const existedBrand = await getBrandById(brand_id);
+	if (!existedBrand) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'This brand not found');
+	}
+
+	const existedMovement = await getMovementTypeById(movement_type_id);
+	if (!existedMovement) {
+		throw new ApiError(
+			httpStatus.NOT_FOUND,
+			'This movement type not found'
+		);
+	}
+
+	const updatedWatch = await db.watch
+		.update(
+			{
+				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+				updated_by: req.user.userId,
+				...req.body,
+			},
+			{
+				where: { id: req.params.watchId },
+				returning: true,
+				plain: true,
+				raw: true,
+			}
+		)
+		.then((data) => data[1]);
+
+	return updatedWatch;
+}
+
+async function deleteWatchById(req) {
+	const deletedWatch = await db.watch
+		.update(
+			{
+				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+				updated_by: req.user.userId,
+				del_flag: '1',
+			},
+			{
+				where: { id: req.params.watchId },
+				returning: true,
+				plain: true,
+				raw: true,
+			}
+		)
+		.then((data) => data[1]);
+
+	return deletedWatch;
+}
+module.exports = {
+	createWatch,
+	getWatchById,
+	getWatches,
+	updateWatch,
+	deleteWatchById,
+};
