@@ -12,6 +12,11 @@ const resources = {
 	ROLE: 'role',
 	BRAND: 'brand',
 	CATEGORY: 'category',
+	ADDRESS: 'address',
+	MOVEMENT_TYPE: 'movementType',
+	COLOR: 'color',
+	STRAP_MATERIAL: 'strapMaterial',
+	WATCH: 'watch',
 };
 
 const grantsObject = {
@@ -40,6 +45,36 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
+		[resources.ADDRESS]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.MOVEMENT_TYPE]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.COLOR]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.STRAP_MATERIAL]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.WATCH]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
 	},
 	[roleIds.USER]: {
 		[resources.USERINFO]: {
@@ -52,6 +87,24 @@ const grantsObject = {
 			'read:any': ['*'],
 		},
 		[resources.CATEGORY]: {
+			'read:any': ['*'],
+		},
+		[resources.ADDRESS]: {
+			'create:own': ['*'],
+			'read:own': ['*'],
+			'update:own': ['*'],
+			'delete:own': ['*'],
+		},
+		[resources.MOVEMENT_TYPE]: {
+			'read:any': ['*'],
+		},
+		[resources.COLOR]: {
+			'read:any': ['*'],
+		},
+		[resources.STRAP_MATERIAL]: {
+			'read:any': ['*'],
+		},
+		[resources.WATCH]: {
 			'read:any': ['*'],
 		},
 	},

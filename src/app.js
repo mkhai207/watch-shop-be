@@ -12,6 +12,7 @@ const jwt = require('./config/jwt');
 const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
+const sessionAnchor = require('./middlewares/sessionAnchor');
 const ApiError = require('./utils/ApiError');
 
 const app = express();
@@ -30,6 +31,9 @@ app.use(express.json());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
+// session
+app.use(sessionAnchor());
+
 // sanitize request data
 app.use(xss());
 
@@ -37,8 +41,12 @@ app.use(xss());
 app.use(compression());
 
 // enable cors
-app.use(cors());
-app.options('*', cors());
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	credentials: true,
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(cookieParser());
 
