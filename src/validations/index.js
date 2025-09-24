@@ -8,3 +8,4 @@ module.exports.movementTypeValidation = require('./movement.type.validation');
 module.exports.colorValidation = require('./color.validation');
 module.exports.strapMaterialValidation = require('./strap.material.validation');
 module.exports.watchValidation = require('./watch.validation');
+module.exports.watchVariantValidation = require('./watch.variant.validation');

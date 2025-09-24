@@ -11,6 +11,8 @@ const movementTypeRoute = require('./movement.type.route');
 const colorRoute = require('./color.route');
 const strapMaterialRoute = require('./strap.material.route');
 const watchRoute = require('./watch.route');
+const watchVariantRoute = require('./watch.variant.route');
+const cartRoute = require('./cart.route');
 
 const router = express.Router();
 
@@ -26,5 +28,7 @@ router.use('/movement-type', movementTypeRoute);
 router.use('/colors', colorRoute);
 router.use('/strap-materials', strapMaterialRoute);
 router.use('/watches', watchRoute);
+router.use('/watch-variants', watchVariantRoute);
+router.use('/carts', cartRoute);
 
 module.exports = router;

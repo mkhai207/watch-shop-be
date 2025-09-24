@@ -17,6 +17,8 @@ const resources = {
 	COLOR: 'color',
 	STRAP_MATERIAL: 'strapMaterial',
 	WATCH: 'watch',
+	WATCH_VARIANT: 'watchVariant',
+	CART: 'cart',
 };
 
 const grantsObject = {
@@ -75,6 +77,18 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
+		[resources.WATCH_VARIANT]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.CART]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
 	},
 	[roleIds.USER]: {
 		[resources.USERINFO]: {
@@ -106,6 +120,15 @@ const grantsObject = {
 		},
 		[resources.WATCH]: {
 			'read:any': ['*'],
+		},
+		[resources.WATCH_VARIANT]: {
+			'read:any': ['*'],
+		},
+		[resources.CART]: {
+			'create:own': ['*'],
+			'read:own': ['*'],
+			'update:own': ['*'],
+			'delete:own': ['*'],
 		},
 	},
 };

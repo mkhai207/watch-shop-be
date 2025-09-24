@@ -18,12 +18,16 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			status: {
 				type: DataTypes.STRING(20), // active, checked_out, abandoned
-				allowNull: false,
+				allowNull: true,
 				defaultValue: 'active',
+			},
+			total_money: {
+				type: DataTypes.DOUBLE,
+				allowNull: true,
 			},
 			created_at: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			created_by: {
 				type: DataTypes.BIGINT,
@@ -39,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 		},

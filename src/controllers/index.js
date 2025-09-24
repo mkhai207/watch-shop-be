@@ -8,3 +8,5 @@ module.exports.movementTypeController = require('./movement.type.controller');
 module.exports.colorController = require('./color.controller');
 module.exports.strapMaterialController = require('./strap.material.controller');
 module.exports.watchController = require('./watch.controller');
+module.exports.watchVariantController = require('./watch.variant.controller');
+module.exports.cartController = require('./cart.controller');
