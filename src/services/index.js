@@ -12,3 +12,5 @@ module.exports.colorService = require('./color.service');
 module.exports.strapMaterialService = require('./strap.material.service');
 module.exports.watchService = require('./watch.service');
 module.exports.watchVariantService = require('./watch.variant.service');
+module.exports.cartService = require('./cart.service');
+module.exports.cartItemService = require('./cart.item.service');
