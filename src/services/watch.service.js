@@ -139,7 +139,7 @@ async function createWatch(req) {
 				color_id: data.color_id,
 				strap_material_id: data.strap_material_id,
 				stock_quantity: data.stock_quantity,
-				price: createdWatch.base_price + strapMaterial.price,
+				price: createdWatch.base_price + strapMaterial.extra_money,
 				created_at: getCurrentDateYYYYMMDDHHMMSS(),
 				created_by: req.user.userId,
 				del_flag: '0',
