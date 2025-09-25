@@ -36,7 +36,7 @@ async function createCart(req) {
 		return { success: false };
 	}
 
-	req.body.cart_id = createdCart.id;
+	req.body.cart_id = Number(createdCart.id);
 	const createdCartItem = await cartItemService.createCartItem(req);
 
 	if (createdCartItem) {

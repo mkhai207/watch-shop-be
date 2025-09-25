@@ -28,7 +28,6 @@ const createWatch = {
 					color_id: Joi.number().integer().required(),
 					strap_material_id: Joi.number().integer().required(),
 					stock_quantity: Joi.number().integer().min(0).default(0),
-					price: Joi.number().min(0).required(),
 				})
 			)
 			.required(),
@@ -83,7 +82,6 @@ const updateWatch = {
 							.integer()
 							.min(0)
 							.default(0),
-						price: Joi.number().min(0).required(),
 					})
 				),
 		})
