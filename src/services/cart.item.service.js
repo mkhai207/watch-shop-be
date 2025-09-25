@@ -36,7 +36,7 @@ async function getCartItems(req) {
 }
 
 async function updateCartItem(req) {
-	const { quantity, total_price } = req.body;
+	const { quantity } = req.body;
 	const existedCartItem = await db.cartItem.findOne({
 		where: { id: req.params.cartItemId, del_flag: '0' },
 	});
@@ -86,12 +86,10 @@ async function createCartItem(req) {
 	});
 	if (existedCartItem) {
 		const newQuantity = existedCartItem.quantity + quantity;
-		await updateCartItem({
-			quantity: newQuantity,
-			total_price: existedCartItem.unit_price * newQuantity,
-			updated_at: getCurrentDateYYYYMMDDHHMMSS(),
-			updated_by: req.user ? req.user.userId : null,
-		});
+		req.body.quantity = newQuantity;
+		req.body.total_price = existedCartItem.unit_price * newQuantity;
+
+		await updateCartItem(req);
 		const cartItem = await getCartItem(existedCartItem.id);
 		return cartItem;
 	}

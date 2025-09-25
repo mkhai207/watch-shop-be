@@ -9,10 +9,10 @@ async function uploadImage(file) {
 	};
 }
 
-const uploadMultiple = async (files) => {
-	if (!files || files.length === 0)
+const uploadMultiple = async (images) => {
+	if (!images || images.length === 0)
 		throw new ApiError(httpStatus.NOT_FOUND, 'No image be found');
-	return files.map((f) => ({
+	return images.map((f) => ({
 		url: f.path,
 		filename: f.filename,
 	}));

@@ -7,6 +7,7 @@ const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 const { getCategoryById } = require('./category.service');
 const { getBrandById } = require('./brand.service');
 const { getMovementTypeById } = require('./movement.type.service');
+const strapMaterialService = require('./strap.material.service');
 
 async function getWatchById(watchId) {
 	const watch = await db.watch.findOne({
@@ -119,22 +120,32 @@ async function createWatch(req) {
 		})
 		.then((resultEntity) => resultEntity.get({ plain: true }));
 
-	if (!createdWatch)
+	if (!createdWatch) {
 		throw new ApiError(
 			httpStatus.INTERNAL_SERVER_ERROR,
 			'Failed to create watch'
 		);
+	}
 
-	const variantsData = variants.map((data) => ({
-		watch_id: createdWatch.id,
-		color_id: data.color_id,
-		strap_material_id: data.strap_material_id,
-		stock_quantity: data.stock_quantity,
-		price: data.price,
-		created_at: getCurrentDateYYYYMMDDHHMMSS(),
-		created_by: req.user.userId,
-		del_flag: '0',
-	}));
+	const variantsData = await Promise.all(
+		variants.map(async (data) => {
+			const strapMaterial =
+				await strapMaterialService.getStrapMaterialById(
+					data.strap_material_id
+				);
+
+			return {
+				watch_id: createdWatch.id,
+				color_id: data.color_id,
+				strap_material_id: data.strap_material_id,
+				stock_quantity: data.stock_quantity,
+				price: createdWatch.base_price + strapMaterial.price,
+				created_at: getCurrentDateYYYYMMDDHHMMSS(),
+				created_by: req.user.userId,
+				del_flag: '0',
+			};
+		})
+	);
 
 	const createdVariants = await db.watchVariant.bulkCreate(variantsData);
 
