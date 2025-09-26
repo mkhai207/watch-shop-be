@@ -27,6 +27,7 @@ let client;
 		return client;
 	} catch (error) {
 		logger.error('Connect to postgress error');
+		logger.error(error);
 		process.exit(1);
 	}
 })();
