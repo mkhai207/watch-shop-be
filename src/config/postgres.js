@@ -1,5 +1,6 @@
 const { Client } = require('pg');
 const dns = require('dns');
+const { parse } = require('pg-connection-string');
 const config = require('./config');
 const logger = require('./logger');
 
@@ -18,11 +19,13 @@ let client;
 // })();
 
 (async function name() {
+	const configObj = parse(config.sqlDB.connectionString);
+
 	client = new Client({
-		connectionString: config.sqlDB.connectionString,
+		...configObj,
 		ssl: { rejectUnauthorized: false },
 		lookup: (hostname, opts, cb) => {
-			dns.lookup(hostname, { ...opts, family: 4 }, cb);
+			dns.lookup(hostname, { family: 4 }, cb);
 		},
 	});
 	try {
