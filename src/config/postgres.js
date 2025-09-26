@@ -19,6 +19,7 @@ let client;
 (async function name() {
 	client = new Client({
 		connectionString: config.sqlDB.connectionString,
+		host: 'db.nbxxekehadwdsxjxrqlk.supabase.co',
 		ssl: { rejectUnauthorized: false },
 	});
 	try {
