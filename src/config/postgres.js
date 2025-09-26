@@ -1,25 +1,29 @@
 const { Client } = require('pg');
 const dns = require('dns');
-
 const config = require('./config');
 const logger = require('./logger');
 
 let client;
 
-const forceIPv4Lookup = (hostname, options, callback) => {
-	const lookupOptions = {
-		...(options || {}),
-		family: 4,
-		all: false,
+const toSafeConfig = () => {
+	const { connectionString, host, port, database, user } = config.sqlDB;
+
+	return {
+		host,
+		port,
+		database,
+		user,
+		hasConnectionString: Boolean(connectionString),
 	};
-	dns.lookup(hostname, lookupOptions, callback);
 };
 
 (async function initPostgresClient() {
 	const { connectionString, user, password, host, port, database } =
 		config.sqlDB;
 
-	const baseConfig = connectionString
+	const useConnectionString = Boolean(connectionString);
+
+	const baseConfig = useConnectionString
 		? { connectionString }
 		: {
 				user,
@@ -31,20 +35,21 @@ const forceIPv4Lookup = (hostname, options, callback) => {
 
 	client = new Client({
 		...baseConfig,
-		// Supabase (v� h?u h?t managed Postgres) y�u c?u SSL trong production.
 		ssl:
 			config.env === 'production'
 				? { require: true, rejectUnauthorized: false }
 				: undefined,
-		lookup: forceIPv4Lookup,
+		lookup: (hostname, options, callback) => {
+			dns.lookup(hostname, { ...(options || {}), family: 4 }, callback);
+		},
 	});
 
 	try {
 		await client.connect();
 		logger.info('Connect to postgress sucessfully');
-		return client;
 	} catch (error) {
 		logger.error('Connect to postgress error');
+		logger.error(`pg config snapshot: ${JSON.stringify(toSafeConfig())}`);
 		logger.error(error.stack || error);
 		process.exit(1);
 	}
