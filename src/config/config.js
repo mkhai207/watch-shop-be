@@ -24,7 +24,7 @@ const envVarsSchema = Joi.object()
 			.description('hours after which httpOnly cookie expire'),
 
 		DATABASE_URL: Joi.string()
-			.uri()
+			.uri({ scheme: ['postgres', 'postgresql'] })
 			.required()
 			.description('Full Postgres connection string'),
 
