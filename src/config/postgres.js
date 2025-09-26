@@ -1,5 +1,7 @@
 const { Client } = require('pg');
 const dns = require('dns');
+
+dns.setDefaultResultOrder('ipv4first');
 const { parse } = require('pg-connection-string');
 const config = require('./config');
 const logger = require('./logger');
