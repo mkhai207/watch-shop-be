@@ -9,7 +9,7 @@ models.sequelize.sync({ alter: true });
 
 const server = http.Server(app);
 
-const port = config.port || 3000;
+const port = process.env.PORT || config.port || 3000;
 server.listen(port, () => {
 	logger.info(`App is listening on port ${config.port}`);
 });
