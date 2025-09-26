@@ -1,8 +1,8 @@
 const { Client } = require('pg');
 const dns = require('dns');
 
-dns.setDefaultResultOrder('ipv4first');
-const { parse } = require('pg-connection-string');
+// dns.setDefaultResultOrder('ipv4first');
+// const { parse } = require('pg-connection-string');
 const config = require('./config');
 const logger = require('./logger');
 
@@ -21,19 +21,25 @@ let client;
 // })();
 
 (async function name() {
-	const configObj = parse(config.sqlDB.connectionString);
+	// const configObj = parse(config.sqlDB.connectionString);
 
+	// client = new Client({
+	// 	user: configObj.user,
+	// 	password: configObj.password,
+	// 	host: configObj.host,
+	// 	port: parseInt(configObj.port, 10),
+	// 	database: configObj.database,
+	// 	ssl: { rejectUnauthorized: false },
+	// 	lookup: (hostname, opts, cb) => {
+	// 		dns.lookup(hostname, { family: 4 }, cb);
+	// 	},
+	// });
 	client = new Client({
-		user: configObj.user,
-		password: configObj.password,
-		host: configObj.host,
-		port: parseInt(configObj.port, 10),
-		database: configObj.database,
+		connectionString: config.sqlDB.connectionString,
 		ssl: { rejectUnauthorized: false },
-		lookup: (hostname, opts, cb) => {
-			dns.lookup(hostname, { family: 4 }, cb);
-		},
+		lookup: (hostname, opts, cb) => dns.lookup(hostname, { family: 4 }, cb),
 	});
+
 	try {
 		await client.connect();
 		logger.info('Connect to postgress sucessfully');
