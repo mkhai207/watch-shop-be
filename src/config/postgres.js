@@ -1,43 +1,42 @@
 const { Client } = require('pg');
 const dns = require('dns');
 
-// dns.setDefaultResultOrder('ipv4first');
-// const { parse } = require('pg-connection-string');
 const config = require('./config');
 const logger = require('./logger');
 
 let client;
 
-// (async function name() {
-// 	client = new Client(config.sqlDB);
-// 	try {
-// 		await client.connect();
-// 		logger.info('Connect to postgress sucessfully');
-// 		return client;
-// 	} catch (error) {
-// 		logger.error('Connect to postgress error');
-// 		process.exit(1);
-// 	}
-// })();
+const forceIPv4Lookup = (hostname, options, callback) => {
+	const lookupOptions = {
+		...(options || {}),
+		family: 4,
+		all: false,
+	};
+	dns.lookup(hostname, lookupOptions, callback);
+};
 
-(async function name() {
-	// const configObj = parse(config.sqlDB.connectionString);
+(async function initPostgresClient() {
+	const { connectionString, user, password, host, port, database } =
+		config.sqlDB;
 
-	// client = new Client({
-	// 	user: configObj.user,
-	// 	password: configObj.password,
-	// 	host: configObj.host,
-	// 	port: parseInt(configObj.port, 10),
-	// 	database: configObj.database,
-	// 	ssl: { rejectUnauthorized: false },
-	// 	lookup: (hostname, opts, cb) => {
-	// 		dns.lookup(hostname, { family: 4 }, cb);
-	// 	},
-	// });
+	const baseConfig = connectionString
+		? { connectionString }
+		: {
+				user,
+				password,
+				host,
+				port,
+				database,
+		  };
+
 	client = new Client({
-		connectionString: config.sqlDB.connectionString,
-		ssl: { rejectUnauthorized: false },
-		lookup: (hostname, opts, cb) => dns.lookup(hostname, { family: 4 }, cb),
+		...baseConfig,
+		// Supabase (v� h?u h?t managed Postgres) y�u c?u SSL trong production.
+		ssl:
+			config.env === 'production'
+				? { require: true, rejectUnauthorized: false }
+				: undefined,
+		lookup: forceIPv4Lookup,
 	});
 
 	try {
@@ -46,11 +45,11 @@ let client;
 		return client;
 	} catch (error) {
 		logger.error('Connect to postgress error');
-		logger.error(error);
+		logger.error(error.stack || error);
 		process.exit(1);
 	}
 })();
 
 module.exports = {
-	postgres: client,
+	postgres: () => client,
 };
