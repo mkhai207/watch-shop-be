@@ -23,6 +23,11 @@ const envVarsSchema = Joi.object()
 			.default(24)
 			.description('hours after which httpOnly cookie expire'),
 
+		DATABASE_URL: Joi.string()
+			.uri()
+			.required()
+			.description('Full Postgres connection string'),
+
 		SQL_USERNAME: Joi.string().description('sqldb username'),
 		SQL_HOST: Joi.string().description('sqldb host'),
 		SQL_DATABASE_NAME: Joi.string().description('sqldb database name'),
@@ -88,6 +93,7 @@ module.exports = {
 		cookieExpirationHours: envVars.COOKIE_EXPIRATION_HOURS,
 	},
 	sqlDB: {
+		connectionString: envVars.DATABASE_URL, // connection string dùng cho supabase db
 		user: envVars.SQL_USERNAME,
 		host: envVars.SQL_HOST,
 		database: envVars.SQL_DATABASE_NAME,

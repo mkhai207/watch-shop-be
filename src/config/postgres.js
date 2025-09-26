@@ -4,8 +4,23 @@ const logger = require('./logger');
 
 let client;
 
+// (async function name() {
+// 	client = new Client(config.sqlDB);
+// 	try {
+// 		await client.connect();
+// 		logger.info('Connect to postgress sucessfully');
+// 		return client;
+// 	} catch (error) {
+// 		logger.error('Connect to postgress error');
+// 		process.exit(1);
+// 	}
+// })();
+
 (async function name() {
-	client = new Client(config.sqlDB);
+	client = new Client({
+		connectionString: config.sqlDB.connectionString,
+		ssl: { rejectUnauthorized: false },
+	});
 	try {
 		await client.connect();
 		logger.info('Connect to postgress sucessfully');
