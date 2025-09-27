@@ -35,38 +35,47 @@ async function getCartItems(req) {
 	return cartItems;
 }
 
-async function updateCartItem(req) {
-	const { quantity } = req.body;
-	const existedCartItem = await db.cartItem.findOne({
-		where: { id: req.params.cartItemId, del_flag: '0' },
+async function getCartItemsByCartId(req, cartId) {
+	const { page: defaultPage, limit: defaultLimit } = config.pagination;
+	const { page = defaultPage, limit = defaultLimit } = req.query;
+
+	const offset = getOffset(page, limit);
+
+	const order = buildOrder(req.query.sort, ['id', 'created_at']);
+
+	const cartItems = await db.cartItem.findAndCountAll({
+		where: { cart_id: cartId },
+		order,
+		limit,
+		offset,
+		raw: true,
 	});
 
-	const newQuantity = existedCartItem
-		? existedCartItem.quantity + quantity
-		: 0;
-	const updatedCartItem = await db.cartItem
-		.update(
-			{
-				quantity: newQuantity,
-				total_price: newQuantity * existedCartItem.unit_price,
-				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
-				updated_by: req.user.userId,
-			},
-			{
-				where: { id: req.params.cartItemId },
-				returning: true,
-				plain: true,
-				raw: true,
-			}
-		)
-		.then((data) => data[1]);
+	return cartItems;
+}
 
-	return updatedCartItem;
+async function updateCartItem(cartItemId, updates, userId) {
+	const existedCartItem = await db.cartItem.findOne({
+		where: { id: cartItemId, del_flag: '0' },
+	});
+
+	if (!existedCartItem) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Cart item not found');
+	}
+
+	const updatedCartItem = await existedCartItem.update({
+		...updates,
+		total_price: updates.quantity * existedCartItem.unit_price,
+		updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+		updated_by: userId,
+	});
+
+	return updatedCartItem.get({ plain: true });
 }
 
 async function getCartItem(cartItemId) {
 	const cartItem = await db.cartItem.findOne({
-		where: { id: cartItemId },
+		where: { id: cartItemId, del_flag: '0' },
 	});
 	return cartItem;
 }
@@ -82,16 +91,20 @@ async function createCartItem(req) {
 	}
 
 	const existedCartItem = await db.cartItem.findOne({
-		where: { cart_id, variant_id },
+		where: { cart_id, variant_id, del_flag: '0' },
 	});
+
 	if (existedCartItem) {
 		const newQuantity = existedCartItem.quantity + quantity;
-		req.body.quantity = newQuantity;
-		req.body.total_price = existedCartItem.unit_price * newQuantity;
 
-		await updateCartItem(req);
-		const cartItem = await getCartItem(existedCartItem.id);
-		return cartItem;
+		return updateCartItem(
+			existedCartItem.id,
+			{
+				quantity: newQuantity,
+				total_price: existedCartItem.unit_price * newQuantity,
+			},
+			req.user ? req.user.userId : null
+		);
 	}
 
 	const createdCartItem = await db.cartItem
@@ -107,9 +120,18 @@ async function createCartItem(req) {
 	return createdCartItem;
 }
 
+async function deleteCartItem(req) {
+	const deletedRow = await db.cartItem.destroy({
+		where: { id: req.params.cartItemId },
+	});
+	return deletedRow;
+}
+
 module.exports = {
 	getCartItems,
 	updateCartItem,
 	getCartItem,
 	createCartItem,
+	deleteCartItem,
+	getCartItemsByCartId,
 };

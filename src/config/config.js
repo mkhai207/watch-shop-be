@@ -25,7 +25,7 @@ const envVarsSchema = Joi.object()
 
 		DATABASE_URL: Joi.string()
 			.uri({ scheme: ['postgres', 'postgresql'] })
-			.required()
+			// .required()
 			.description('Full Postgres connection string'),
 
 		SQL_USERNAME: Joi.string().description('sqldb username'),

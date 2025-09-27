@@ -12,7 +12,7 @@ async function getCart(req) {
 	if (req.user.userId) {
 		conditions.push({ user_id: req.user.userId });
 	}
-	if (req.sessionId) {
+	if (req.sessionId && !req.user.userId) {
 		conditions.push({ session_id: req.sessionId });
 	}
 	const cart = await db.cart.findOne({
@@ -31,11 +31,9 @@ async function createCart(req) {
 			created_at: getCurrentDateYYYYMMDDHHMMSS(),
 			updated_by: req.user.userId,
 		});
-
 	if (!createdCart) {
 		return { success: false };
 	}
-
 	req.body.cart_id = Number(createdCart.id);
 	const createdCartItem = await cartItemService.createCartItem(req);
 
@@ -71,7 +69,7 @@ async function getCartMe(req) {
 		cart = await createCart(req);
 	}
 
-	const cartItems = await cartItemService.getCartItems(req);
+	const cartItems = await cartItemService.getCartItemsByCartId(req, cart.id);
 
 	return { cart, cartItems };
 }
@@ -81,7 +79,7 @@ async function updateCart(req) {
 	if (req.user.userId) {
 		conditions.push({ user_id: req.user.userId });
 	}
-	if (req.sessionId) {
+	if (req.sessionId && !req.user) {
 		conditions.push({ session_id: req.sessionId });
 	}
 	const updatedCart = await db.cart
