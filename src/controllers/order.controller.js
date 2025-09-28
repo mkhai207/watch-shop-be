@@ -1,50 +1,45 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { brandService } = require('../services');
+const { orderService } = require('../services');
 
-const createBrand = catchAsync(async (req, res) => {
-	const brand = await brandService.createBrand(req);
-	res.send({ brand });
+const createOrder = catchAsync(async (req, res) => {
+	const order = await orderService.createOrder(req);
+	res.send({ order });
 });
 
-const getBrands = catchAsync(async (req, res) => {
-	const brands = await brandService.getBrands(req);
-	res.send({ brands });
+const getOrders = catchAsync(async (req, res) => {
+	const orders = await orderService.getOrders(req);
+	res.send({ orders });
 });
 
-const getBrand = catchAsync(async (req, res) => {
-	const brand = await brandService.getBrandById(req.params.brandId);
+const getOrder = catchAsync(async (req, res) => {
+	const order = await orderService.getOrderById(req.params.orderId);
 
-	if (!brand) {
-		throw new ApiError(httpStatus.NOT_FOUND, 'Brand not found');
-	}
+	if (!order)
+		throw new ApiError(httpStatus.NOT_FOUND, 'This order not found');
 
-	res.send({ brand });
+	res.send({ order });
 });
 
-const updateBrand = catchAsync(async (req, res) => {
-	const brand = await brandService.updateBrand(req);
-
-	if (!brand) {
-		throw new ApiError(httpStatus.NOT_FOUND, 'Brand not found');
-	}
-
-	res.send({ brand });
+const changeOrderStatus = catchAsync(async (req, res) => {
+	const order = await orderService.changeOrderStatus(req);
+	res.send({ success: order });
 });
 
-const deleteBrand = catchAsync(async (req, res) => {
-	const brand = await brandService.getBrandById(req.params.brandId);
-	if (!brand || brand.del_flag == '1') {
-		throw new ApiError(httpStatus.NOT_FOUND, 'Brand not found');
-	}
-	await brandService.deleteBrandById(req);
-	res.send({ success: true });
+const deleteOrder = catchAsync(async (req, res) => {
+	const order = await orderService.getOrderById(req.params.orderId);
+	if (!order)
+		throw new ApiError(httpStatus.NOT_FOUND, 'This order not found');
+
+	const deletedOrder = await orderService.deleteOrder(req);
+	res.send({ success: Boolean(deletedOrder) });
 });
+
 module.exports = {
-	createBrand,
-	getBrands,
-	getBrand,
-	updateBrand,
-	deleteBrand,
+	createOrder,
+	getOrders,
+	getOrder,
+	changeOrderStatus,
+	deleteOrder,
 };

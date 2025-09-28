@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			order_id: {
 				type: DataTypes.BIGINT,
-				allowNull: false,
+				allowNull: true,
 			},
 			carrier: {
 				type: DataTypes.STRING(100),
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING(50),
 				allowNull: true,
 			},
-			status: {
-				type: DataTypes.STRING(50),
-				allowNull: true,
-			},
+			// status: {
+			// 	type: DataTypes.STRING(50),
+			// 	allowNull: true,
+			// },
 			estimated_delivery: {
 				type: DataTypes.STRING(14),
 				allowNull: true,
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 		},

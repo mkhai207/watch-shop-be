@@ -7,18 +7,37 @@ const { resources } = require('../../config/roles');
 
 const router = express.Router();
 
-router.route('/');
-// .get(
-// 	grantAccess('readAny', resources.BRAND),
-// 	validate(brandValidation.getBrands),
-// 	brandController.getBrands
-// )
-// .post(
-// 	grantAccess('createAny', resources.ORDER),
-// 	validate(orderValidation.createOrder),
-// 	orderController.createOrder
-// );
+router
+	.route('/')
+	.get(
+		grantAccess('readAny', resources.ORDER),
+		validate(orderValidation.getOrders),
+		orderController.getOrders
+	)
+	.post(
+		grantAccess('createAny', resources.ORDER),
+		validate(orderValidation.createOrder),
+		orderController.createOrder
+	);
 
-router.route('/:brandId');
+router
+	.route('/:orderId')
+	.get(
+		grantAccess('readAny', resources.ORDER),
+		validate(orderValidation.getOrder),
+		orderController.getOrder
+	)
+	.delete(
+		grantAccess('deleteAny', resources.ORDER),
+		validate(orderValidation.deleteOrder),
+		orderController.deleteOrder
+	);
+router
+	.route('/:orderId/change-status')
+	.put(
+		grantAccess('updateAny', resources.ORDER),
+		validate(orderValidation.changeOrderStatus),
+		orderController.changeOrderStatus
+	);
 
 module.exports = router;

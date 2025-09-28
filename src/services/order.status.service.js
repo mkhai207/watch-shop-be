@@ -1,9 +1,26 @@
 const httpStatus = require('http-status');
+const { Op } = require('sequelize');
 const { getOffset, buildOrder, buildFilters } = require('../utils/query');
 const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
 const db = require('../db/models');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
+
+async function getOrderStatusBySortOrder(sortOrder) {
+	const orderStatus = await db.configOrderStatus.findOne({
+		where: { sort_order: sortOrder, del_flag: '0' },
+	});
+
+	return orderStatus;
+}
+
+async function getOrderStatusFirst() {
+	const orderStatus = await db.configOrderStatus.findOne({
+		where: { sort_order: 1, del_flag: '0' },
+	});
+
+	return orderStatus;
+}
 
 async function getOrderStatusById(orderStatusId) {
 	const orderStatus = await db.configOrderStatus.findOne({
@@ -13,9 +30,9 @@ async function getOrderStatusById(orderStatusId) {
 	return orderStatus;
 }
 
-async function getOrderStatusByCode(code) {
+async function getOrderStatusByCode(code, sort_order) {
 	const orderStatus = await db.configOrderStatus.findOne({
-		where: { code, del_flag: '0' },
+		where: { [Op.or]: [{ code }, { sort_order }], del_flag: '0' },
 	});
 
 	return orderStatus;
@@ -52,8 +69,8 @@ async function getOrderStatuses(req) {
 }
 
 async function createOrderStatus(req) {
-	const { code } = req.body;
-	const existedOrderStatus = await getOrderStatusByCode(code);
+	const { code, sort_order } = req.body;
+	const existedOrderStatus = await getOrderStatusByCode(code, sort_order);
 
 	if (existedOrderStatus) {
 		throw new ApiError(
@@ -118,4 +135,6 @@ module.exports = {
 	getOrderStatusById,
 	updateOrderStatus,
 	deleteOrderStatusById,
+	getOrderStatusFirst,
+	getOrderStatusBySortOrder,
 };

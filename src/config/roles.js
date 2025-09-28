@@ -22,6 +22,7 @@ const resources = {
 	CART_ITEM: 'cartItem',
 	ORDER: 'order',
 	ORDER_STATUS: 'configOrderStatus',
+	PAYMENT: 'payment',
 };
 
 const grantsObject = {
@@ -99,6 +100,12 @@ const grantsObject = {
 			'delete:any': ['*'],
 		},
 		[resources.ORDER]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.ORDER_STATUS]: {
 			'create:any': ['*'],
 			'read:any': ['*'],
 			'update:any': ['*'],
