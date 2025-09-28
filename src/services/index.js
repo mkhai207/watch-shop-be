@@ -14,3 +14,5 @@ module.exports.watchService = require('./watch.service');
 module.exports.watchVariantService = require('./watch.variant.service');
 module.exports.cartService = require('./cart.service');
 module.exports.cartItemService = require('./cart.item.service');
+module.exports.orderService = require('./order.service');
+module.exports.orderStatusService = require('./order.status.service');

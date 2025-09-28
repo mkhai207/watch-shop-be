@@ -20,6 +20,8 @@ const resources = {
 	WATCH_VARIANT: 'watchVariant',
 	CART: 'cart',
 	CART_ITEM: 'cartItem',
+	ORDER: 'order',
+	ORDER_STATUS: 'configOrderStatus',
 };
 
 const grantsObject = {
@@ -96,6 +98,18 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
+		[resources.ORDER]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.ORDER_STATUS]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
 	},
 	[roleIds.USER]: {
 		[resources.USERINFO]: {
@@ -142,6 +156,15 @@ const grantsObject = {
 			'read:own': ['*'],
 			'update:own': ['*'],
 			'delete:own': ['*'],
+		},
+		[resources.ORDER]: {
+			'create:own': ['*'],
+			'read:own': ['*'],
+			'update:own': ['*'],
+			'delete:own': ['*'],
+		},
+		[resources.ORDER_STATUS]: {
+			'create:any': ['*'],
 		},
 	},
 };

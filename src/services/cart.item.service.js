@@ -46,9 +46,20 @@ async function getCartItemsByCartId(req, cartId) {
 	const cartItems = await db.cartItem.findAndCountAll({
 		where: { cart_id: cartId },
 		order,
+		include: [
+			{
+				model: db.watchVariant,
+				as: 'variant',
+				include: [
+					{
+						model: db.watch,
+						as: 'watch',
+					},
+				],
+			},
+		],
 		limit,
 		offset,
-		raw: true,
 	});
 
 	return cartItems;
@@ -87,7 +98,7 @@ async function createCartItem(req) {
 	const unitPrice = watch.base_price + variant.price;
 
 	if (variant && variant.stock_quantity < quantity) {
-		return { success: false };
+		return { success: false, message: 'Sản phẩm không đủ số lượng' };
 	}
 
 	const existedCartItem = await db.cartItem.findOne({
@@ -124,6 +135,7 @@ async function deleteCartItem(req) {
 	const deletedRow = await db.cartItem.destroy({
 		where: { id: req.params.cartItemId },
 	});
+
 	return deletedRow;
 }
 

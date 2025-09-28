@@ -154,6 +154,7 @@ function buildFilters(query, schema) {
 		includeMap[alias].where[fieldKey] = cond;
 		includeMap[alias].required = true;
 	});
+	rootWhere.del_flag = '0'; // filter mặc định không lấy các đồng hồ có trường del_flag = '1': đã xóa
 
 	const resultIncludes = Object.values(includeMap);
 
