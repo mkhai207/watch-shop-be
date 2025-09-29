@@ -6,7 +6,6 @@ const createVariant = {
 		color_id: Joi.number().required(),
 		strap_material_id: Joi.number().required(),
 		stock_quantity: Joi.number().required(),
-		price: Joi.number().required(),
 	}),
 };
 
