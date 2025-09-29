@@ -21,6 +21,14 @@ router
 	);
 
 router
+	.route('/:watchId')
+	.get(
+		grantAccess('readAny', resources.WATCH_VARIANT),
+		validate(variantValidation.getVariantsByWatchId),
+		variantController.getVariantsByWatchId
+	);
+
+router
 	.route('/:variantId')
 	.get(
 		grantAccess('readAny', resources.WATCH_VARIANT),

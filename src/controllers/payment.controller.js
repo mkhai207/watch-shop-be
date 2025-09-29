@@ -31,7 +31,8 @@ const handleVNPayReturn = catchAsync(async (req, res) => {
 
 	const orderId = vnp_Params['vnp_TxnRef'].split('_')[1];
 	const vnp_ResponseCode = vnp_Params['vnp_ResponseCode'];
-	const transactionId = vnp_Params['vnp_TransactionNo'];
+	const transactionNo = vnp_Params['vnp_TransactionNo'];
+	const payDate = vnp_Params['vnp_PayDate'];
 
 	const t = await db.sequelize.transaction();
 	try {
@@ -49,7 +50,7 @@ const handleVNPayReturn = catchAsync(async (req, res) => {
 			await order.update(
 				{
 					current_status_id: paidStatus.id,
-					transaction_id: transactionId,
+					// transaction_id: transactionId,
 				},
 				{ transaction: t }
 			);
@@ -67,11 +68,14 @@ const handleVNPayReturn = catchAsync(async (req, res) => {
 					order_id: order.id,
 					transaction_code: req.query.vnp_TxnRef,
 					amount: order.final_amount,
+					gateway_trans_no: transactionNo,
+					trans_date: payDate,
 					method: 'vnpay',
 					status,
 					type: '0',
-					note: null,
+					note: vnp_Params['vnp_OrderInfo'],
 					userId: order.user_id || 0,
+					del_flag: '0',
 				},
 				{ transaction: t }
 			);
