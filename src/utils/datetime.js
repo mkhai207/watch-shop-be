@@ -42,11 +42,18 @@ function getCurrentDateYYYYMMDDHHMMSS() {
 	);
 }
 
-module.exports = {
-	getCurrentDateYYYYMMDDHHMMSS,
-};
+function parseChar14ToDDMMYYYY(str) {
+	if (!str || str.length < 8) return null;
+
+	const year = str.substring(0, 4);
+	const month = str.substring(4, 6);
+	const day = str.substring(6, 8);
+
+	return `${day}/${month}/${year}`;
+}
 
 module.exports = {
+	parseChar14ToDDMMYYYY,
 	unixToYYYYMMDDHHMMSS,
 	yyyymmddhhmmssToUnix,
 	getCurrentDateYYYYMMDDHHMMSS,

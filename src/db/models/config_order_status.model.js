@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			code: {
 				type: DataTypes.STRING(20),
-				allowNull: false,
+				allowNull: true,
 			},
 			name: {
 				type: DataTypes.STRING(255),
-				allowNull: false,
+				allowNull: true,
 			},
 			description: {
 				type: DataTypes.STRING(255),
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			created_at: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			created_by: {
 				type: DataTypes.BIGINT,
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 		},

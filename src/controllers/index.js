@@ -10,3 +10,6 @@ module.exports.strapMaterialController = require('./strap.material.controller');
 module.exports.watchController = require('./watch.controller');
 module.exports.watchVariantController = require('./watch.variant.controller');
 module.exports.cartController = require('./cart.controller');
+module.exports.cartItemController = require('./cart.item.controller');
+module.exports.orderController = require('./order.controller');
+module.exports.orderStatusController = require('./order.status.controller');

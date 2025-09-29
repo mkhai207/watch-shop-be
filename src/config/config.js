@@ -23,6 +23,11 @@ const envVarsSchema = Joi.object()
 			.default(24)
 			.description('hours after which httpOnly cookie expire'),
 
+		DATABASE_URL: Joi.string()
+			.uri({ scheme: ['postgres', 'postgresql'] })
+			// .required()
+			.description('Full Postgres connection string'),
+
 		SQL_USERNAME: Joi.string().description('sqldb username'),
 		SQL_HOST: Joi.string().description('sqldb host'),
 		SQL_DATABASE_NAME: Joi.string().description('sqldb database name'),
@@ -71,6 +76,19 @@ const envVarsSchema = Joi.object()
 		CLOUDINARY_API_SECRET: Joi.string()
 			.required()
 			.description('Cloudinary API secret'),
+
+		VNPAY_TMNCODE: Joi.string().required().description('VNPAY TmnCode'),
+		VNPAY_HASH_SECRET: Joi.string()
+			.required()
+			.description('VNPAY Hash Secret'),
+		VNPAY_URL: Joi.string()
+			.uri()
+			.required()
+			.description('VNPAY Payment URL'),
+		VNPAY_RETURN_URL: Joi.string()
+			.uri()
+			.required()
+			.description('VNPAY Return URL'),
 	})
 	.unknown();
 
@@ -99,6 +117,7 @@ module.exports = {
 		cookieExpirationHours: envVars.COOKIE_EXPIRATION_HOURS,
 	},
 	sqlDB: {
+		connectionString: envVars.DATABASE_URL, // connection string dùng cho supabase db
 		user: envVars.SQL_USERNAME,
 		host: envVars.SQL_HOST,
 		database: envVars.SQL_DATABASE_NAME,
@@ -148,5 +167,11 @@ module.exports = {
 		cloudName: envVars.CLOUDINARY_CLOUD_NAME,
 		apiKey: envVars.CLOUDINARY_API_KEY,
 		apiSecret: envVars.CLOUDINARY_API_SECRET,
+	},
+	vnpay: {
+		tmnCode: envVars.VNPAY_TMNCODE,
+		hashSecret: envVars.VNPAY_HASH_SECRET,
+		url: envVars.VNPAY_URL,
+		returnUrl: envVars.VNPAY_RETURN_URL,
 	},
 };

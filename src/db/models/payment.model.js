@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			order_id: {
 				type: DataTypes.BIGINT,
-				allowNull: false,
+				allowNull: true,
 			},
 			transaction_code: {
 				type: DataTypes.STRING(50),
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			amount: {
 				type: DataTypes.DOUBLE,
-				allowNull: false,
+				allowNull: true,
 			},
 			method: {
 				type: DataTypes.STRING(50),
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			type: {
 				type: DataTypes.STRING(1), // 0: Thanh toán, 1: Hoàn tiền
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 			note: {
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			created_at: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			created_by: {
 				type: DataTypes.BIGINT,
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 		},

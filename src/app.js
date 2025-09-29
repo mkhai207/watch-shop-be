@@ -55,7 +55,7 @@ app.use(jwt());
 
 // connect to postgres database
 app.use((req, _, next) => {
-	req.postgres = postgres;
+	req.postgres = postgres();
 	next();
 });
 

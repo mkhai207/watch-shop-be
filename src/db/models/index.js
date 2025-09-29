@@ -10,15 +10,38 @@ const basename = path.basename(module.filename);
 
 const db = {};
 
-const sequelize = new Sequelize(
-	config.sqlDB.database,
-	config.sqlDB.user,
-	config.sqlDB.password,
-	{
-		...config.sqlDB,
-		logging: false,
-	}
-);
+const {
+	connectionString,
+	database,
+	user,
+	password,
+	host,
+	dialect,
+	pool,
+	define,
+} = config.sqlDB;
+
+const baseOptions = {
+	dialect,
+	pool,
+	define,
+	logging: false,
+};
+
+let sequelize;
+
+if (connectionString) {
+	baseOptions.dialectOptions = {
+		...baseOptions.dialectOptions,
+		ssl: { require: true, rejectUnauthorized: false },
+	};
+	sequelize = new Sequelize(connectionString, baseOptions);
+} else {
+	sequelize = new Sequelize(database, user, password, {
+		...baseOptions,
+		host,
+	});
+}
 
 fs.readdirSync(__dirname)
 	.filter(

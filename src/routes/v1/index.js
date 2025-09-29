@@ -13,6 +13,10 @@ const strapMaterialRoute = require('./strap.material.route');
 const watchRoute = require('./watch.route');
 const watchVariantRoute = require('./watch.variant.route');
 const cartRoute = require('./cart.route');
+const cartItemRoute = require('./cart.item.route');
+const orderRoute = require('./order.route');
+const orderStatusRoute = require('./order.status.route');
+const paymentRoute = require('./payment.route');
 
 const router = express.Router();
 
@@ -30,5 +34,9 @@ router.use('/strap-materials', strapMaterialRoute);
 router.use('/watches', watchRoute);
 router.use('/watch-variants', watchVariantRoute);
 router.use('/carts', cartRoute);
+router.use('/cart-items', cartItemRoute);
+router.use('/orders', orderRoute);
+router.use('/order-status', orderStatusRoute);
+router.use('/payments', paymentRoute);
 
 module.exports = router;

@@ -9,16 +9,16 @@ module.exports = (sequelize, DataTypes) => {
 				autoIncrement: true,
 			},
 			code: {
-				type: DataTypes.STRING(20),
-				allowNull: false,
+				type: DataTypes.STRING(50),
+				allowNull: true,
 			},
 			user_id: {
 				type: DataTypes.BIGINT,
-				allowNull: false,
+				allowNull: true,
 			},
 			total_amount: {
 				type: DataTypes.DOUBLE, // tổng số tiền sau giảm giá
-				allowNull: false,
+				allowNull: true,
 			},
 			discount_code: {
 				type: DataTypes.STRING(20),
@@ -30,24 +30,24 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			final_amount: {
 				type: DataTypes.DOUBLE,
-				allowNull: false,
-			},
-			status_id: {
-				type: DataTypes.BIGINT,
-				allowNull: false,
-			},
-			payment_status: {
-				type: DataTypes.STRING(1), // 0: chưa thanh toán, 1: đã thanh toán, 2: hoàn tiền
-				allowNull: false,
-				defaultValue: '0',
-			},
-			payment_method: {
-				type: DataTypes.STRING(50),
 				allowNull: true,
 			},
+			current_status_id: {
+				type: DataTypes.BIGINT,
+				allowNull: true,
+			},
+			// payment_status: {
+			// 	type: DataTypes.STRING(1), // 0: chưa thanh toán, 1: đã thanh toán, 2: hoàn tiền
+			// 	allowNull: true,
+			// 	defaultValue: '0',
+			// },
+			// payment_method: {
+			// 	type: DataTypes.STRING(50),
+			// 	allowNull: true,
+			// },
 			shipping_address: {
 				type: DataTypes.TEXT,
-				allowNull: false,
+				allowNull: true,
 			},
 			shipping_fee: {
 				type: DataTypes.DOUBLE,
@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			created_at: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			created_by: {
 				type: DataTypes.BIGINT,
@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 		},
@@ -103,8 +103,8 @@ module.exports = (sequelize, DataTypes) => {
 		});
 
 		order.belongsTo(models.configOrderStatus, {
-			foreignKey: 'status_id',
-			as: 'status',
+			foreignKey: 'current_status_id',
+			as: 'currentStatus',
 		});
 
 		order.hasMany(models.orderDetail, {
