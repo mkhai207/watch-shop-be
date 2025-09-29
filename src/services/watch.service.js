@@ -28,6 +28,10 @@ async function getWatchById(watchId) {
 				as: 'movementType',
 				attributes: ['id', 'name'],
 			},
+			{
+				model: db.watchVariant,
+				as: 'variants',
+			},
 		],
 	});
 

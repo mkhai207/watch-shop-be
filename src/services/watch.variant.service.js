@@ -13,18 +13,23 @@ async function getVariantById(variantId) {
 	return variant;
 }
 
-// async function checkExistedVariant(data) {
-// 	if (!data) return null;
-// 	const variant = await db.watchVariant.findOne({
-// 		where: {
-// 			color_id: data.color_id,
-// 			strap_material_id: data.strap_material_id,
-// 			watch_id: data.watch_id,
-// 		},
-// 	});
+async function getVariantsByWatchId(watchId) {
+	const variants = await db.watchVariant.findAll({
+		where: { watch_id: watchId, del_flag: '0' },
+		include: [
+			{
+				model: db.color,
+				as: 'color',
+			},
+			{
+				model: db.strapMaterial,
+				as: 'strapMaterial',
+			},
+		],
+	});
 
-// 	return data ? data : null;
-// }
+	return variants;
+}
 
 async function getVariants(req) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
@@ -132,4 +137,5 @@ module.exports = {
 	createVariant,
 	updateVariant,
 	deleteVariantById,
+	getVariantsByWatchId,
 };

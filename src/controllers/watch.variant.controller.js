@@ -3,6 +3,14 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { watchVariantService } = require('../services');
 
+const getVariantsByWatchId = catchAsync(async (req, res) => {
+	const variants = await watchVariantService.getVariantsByWatchId(
+		req.params.watchId
+	);
+
+	res.send({ variants });
+});
+
 const createVariant = catchAsync(async (req, res) => {
 	const variant = await watchVariantService.createVariant(req);
 	res.send({ variant });
@@ -51,4 +59,5 @@ module.exports = {
 	getVariant,
 	updateVariant,
 	deleteVariant,
+	getVariantsByWatchId,
 };

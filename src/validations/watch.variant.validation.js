@@ -44,10 +44,17 @@ const deleteVariant = {
 	}),
 };
 
+const getVariantsByWatchId = {
+	params: Joi.object().keys({
+		watchId: Joi.number().required(),
+	}),
+};
+
 module.exports = {
 	createVariant,
 	getVariants,
 	getVariant,
 	updateVariant,
 	deleteVariant,
+	getVariantsByWatchId,
 };
