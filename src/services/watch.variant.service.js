@@ -4,6 +4,8 @@ const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
 const db = require('../db/models');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
+const watchService = require('./watch.service');
+const strapMaterialService = require('./strap.material.service');
 
 async function getVariantById(variantId) {
 	const variant = await db.watchVariant.findOne({
@@ -82,8 +84,7 @@ async function updateVariant(req) {
 }
 
 async function createVariant(req) {
-	const { watch_id, strap_material_id, color_id, stock_quantity, price } =
-		req.body;
+	const { watch_id, strap_material_id, color_id, stock_quantity } = req.body;
 	const existedVariant = await db.watchVariant.findOne({
 		where: {
 			color_id,
@@ -100,9 +101,15 @@ async function createVariant(req) {
 		return res;
 	}
 
+	const watch = await watchService.getWatchById(watch_id);
+	const strapMaterial = await strapMaterialService.getStrapMaterialById(
+		strap_material_id
+	);
+
 	const createdVariant = await db.watchVariant
 		.create({
 			...req.body,
+			price: watch.base_price + strapMaterial.extra_money,
 			created_at: getCurrentDateYYYYMMDDHHMMSS(),
 			created_by: req.user.userId,
 			del_flag: '0',
