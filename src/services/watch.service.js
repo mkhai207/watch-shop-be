@@ -31,6 +31,16 @@ async function getWatchById(watchId) {
 			{
 				model: db.watchVariant,
 				as: 'variants',
+				include: [
+					{
+						model: db.color,
+						as: 'color',
+					},
+					{
+						model: db.strapMaterial,
+						as: 'strapMaterial',
+					},
+				],
 			},
 		],
 	});
@@ -61,6 +71,7 @@ async function getWatches(req) {
 				type: 'string',
 				op: 'like',
 			},
+			base_price: { type: 'number', op: 'range' },
 			case_size: { type: 'string', op: 'like' },
 			strap_size: { type: 'string', op: 'like' },
 			gender: { type: 'string', op: 'like' },
@@ -77,7 +88,7 @@ async function getWatches(req) {
 	const { where } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['name', 'id']);
 
-	const watches = await db.watch.findAndCountAll({
+	const { count, rows } = await db.watch.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -85,7 +96,13 @@ async function getWatches(req) {
 		raw: true,
 	});
 
-	return watches;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function createWatch(req) {
