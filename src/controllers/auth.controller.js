@@ -8,6 +8,7 @@ const {
 } = require('../services');
 const { verifyToken } = require('../utils/auth');
 const { getClientIp, getDeviceInfo } = require('../utils/requestInfo');
+const ApiError = require('../utils/ApiError');
 
 const register = catchAsync(async (req, res) => {
 	const user = await userService.createUser(req);
@@ -91,9 +92,24 @@ const resetPassword = catchAsync(async (req, res) => {
 	res.send({ success: true });
 });
 
+const refresh = catchAsync(async (req, res) => {
+	const accessToken = await authService.refresh(req);
+	res.send({ accessToken });
+});
+
+const getMe = catchAsync(async (req, res) => {
+	const user = await userService.getMe(req);
+
+	if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+
+	res.send({ user });
+});
+
 module.exports = {
 	register,
 	login,
 	forgotPassword,
 	resetPassword,
+	refresh,
+	getMe,
 };

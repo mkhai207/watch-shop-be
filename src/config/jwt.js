@@ -21,7 +21,12 @@ function jwt() {
 	}).unless({
 		path: [
 			// public routes that don't require authentication
-			/\/v[1-9](\d)*\/(auth|docs|payments)\/.*/,
+			// /\/v[1-9](\d)*\/(auth|docs|payments)\/.*/,
+			/\/v[1-9]\d*\/auth\/(login|register|refresh|forgot-password|reset-password)/,
+
+			// Các route public khác (docs, payments)
+			/\/v[1-9]\d*\/docs\/.*/,
+			/\/v[1-9]\d*\/payments\/.*/,
 		],
 	});
 }

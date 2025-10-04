@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	configOrderStatus.associate = (models) => {
 		configOrderStatus.hasMany(models.order, {
-			foreignKey: 'status_id',
+			foreignKey: 'current_status_id',
 			as: 'orders',
 		});
 	};
