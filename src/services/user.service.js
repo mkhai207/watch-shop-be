@@ -7,6 +7,22 @@ const db = require('../db/models');
 const roleService = require('./role.service');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 
+async function getMe(req) {
+	const user = await db.user.findOne({
+		where: { id: req.user.userId, del_flag: '0' },
+		include: [
+			{
+				model: db.role,
+				as: 'role',
+				require: true,
+				attributes: ['id', 'name', 'code'],
+			},
+		],
+	});
+
+	return user;
+}
+
 async function getUserByEmail(email) {
 	const user = await db.user.findOne({
 		where: { email },
@@ -26,7 +42,7 @@ async function getUserByEmail(email) {
 
 async function getUserByUsername(userName) {
 	const user = await db.user.findOne({
-		where: { username: userName },
+		where: { username: userName, del_flag: '0' },
 		include: [
 			{
 				model: db.role,
@@ -209,4 +225,5 @@ module.exports = {
 	updateUser,
 	getUsers,
 	deleteUserById,
+	getMe,
 };

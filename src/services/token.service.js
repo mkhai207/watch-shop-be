@@ -53,6 +53,15 @@ async function generateAuthTokens({ userId, roleId }) {
 	};
 }
 
+async function generateAccessToken({ userId, roleId }) {
+	const accessTokenExpires = generateExpires(
+		config.jwt.accessExpirationMinutes / 60
+	);
+	const accessToken = generateToken({ userId, roleId }, accessTokenExpires);
+
+	return accessToken;
+}
+
 async function insertToken(tokenData, id) {
 	const {
 		ownerType,
@@ -115,4 +124,5 @@ module.exports = {
 	generateResetPasswordToken,
 	generateAuthTokens,
 	insertToken,
+	generateAccessToken,
 };
