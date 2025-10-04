@@ -345,6 +345,60 @@ async function deleteOrder(req) {
 	return updatedOrder;
 }
 
+async function cancelOrder(req) {
+	const order = await getOrderById(req.params.orderId);
+	if (!order)
+		throw new ApiError(
+			httpStatus.NOT_FOUND,
+			'Đơn hàng này không tồn tại. Vui lòng kiểm tra lại.'
+		);
+
+	const cancelStatus = await orderStatusService.getOrderStatusByCode(
+		'CANCEL',
+		''
+	);
+	if (!cancelStatus)
+		throw new ApiError(
+			httpStatus.NOT_FOUND,
+			'Không tìm thấy trạng thái đơn hàng. Vui lòng kiểm tra lại.'
+		);
+
+	const currStatus = await orderStatusService.getOrderStatusById(
+		order.current_status_id
+	);
+
+	if (newStatus.sort_order < currStatus.sort_order)
+		throw new ApiError(
+			400,
+			'Trạng thái đơn hàng không hợp lệ. Vui lòng kiểm tra lại'
+		);
+
+	const t = await db.sequelize.transaction();
+	try {
+		const updatedStatus =
+			await orderStatusHistoryService.createOrderStatusHistory(
+				{
+					orderId: order.id,
+					statusId: newStatus.id,
+					userId: req.user.userId || 0,
+				},
+				{ transaction: t }
+			);
+
+		const updatedOrder = await order.update(
+			{ current_status_id: newStatus.id },
+			{ transaction: t }
+		);
+
+		await t.commit();
+		if (updatedStatus && updatedOrder) return true;
+		return false;
+	} catch (error) {
+		await t.rollback();
+		throw error;
+	}
+}
+
 module.exports = {
 	createOrder,
 	getOrders,
@@ -352,4 +406,5 @@ module.exports = {
 	changeOrderStatus,
 	deleteOrder,
 	sendOrderConfirmationEmail,
+	cancelOrder,
 };

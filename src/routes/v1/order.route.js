@@ -40,4 +40,12 @@ router
 		orderController.changeOrderStatus
 	);
 
+router
+	.route('/:orderId/cancel')
+	.put(
+		grantAccess('updateAny', resources.ORDER),
+		validate(orderValidation.cancelOrder),
+		orderController.cancelOrder
+	);
+
 module.exports = router;
