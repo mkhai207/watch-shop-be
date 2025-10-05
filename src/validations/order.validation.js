@@ -56,6 +56,9 @@ const cancelOrder = {
 	params: Joi.object().keys({
 		orderId: Joi.number().required(),
 	}),
+	body: Joi.object().keys({
+		reason: Joi.string().required(),
+	}),
 };
 
 module.exports = {

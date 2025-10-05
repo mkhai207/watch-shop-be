@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const { Op } = require('sequelize');
 const { getOffset, buildOrder, buildFilters } = require('../utils/query');
 const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
@@ -139,6 +140,25 @@ async function deleteCartItem(req) {
 	return deletedRow;
 }
 
+async function deleteCartItems(req) {
+	const conditions = [];
+	if (req.user.userId) {
+		conditions.push({ user_id: req.user.userId });
+	}
+	if (req.sessionId && !req.user.userId) {
+		conditions.push({ session_id: req.sessionId });
+	}
+	const cart = await db.cart.findOne({
+		where: { [Op.or]: conditions, del_flag: '0' },
+	});
+
+	const deletedCartItem = await db.cartItem.destroy({
+		where: { id: req.body.cartItemIds, cart_id: cart.id },
+	});
+
+	return deletedCartItem;
+}
+
 module.exports = {
 	getCartItems,
 	updateCartItem,
@@ -146,4 +166,5 @@ module.exports = {
 	createCartItem,
 	deleteCartItem,
 	getCartItemsByCartId,
+	deleteCartItems,
 };

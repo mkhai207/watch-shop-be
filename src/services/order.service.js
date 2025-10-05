@@ -45,7 +45,7 @@ async function getOrderById(orderId) {
 			{
 				model: db.orderDetail,
 				as: 'details',
-				attributes: ['id'],
+				attributes: ['id', 'quantity'],
 				include: [
 					{
 						model: db.watchVariant,
@@ -355,7 +355,7 @@ async function cancelOrder(req) {
 
 	const cancelStatus = await orderStatusService.getOrderStatusByCode(
 		'CANCEL',
-		''
+		0
 	);
 	if (!cancelStatus)
 		throw new ApiError(
@@ -367,35 +367,83 @@ async function cancelOrder(req) {
 		order.current_status_id
 	);
 
-	if (newStatus.sort_order < currStatus.sort_order)
-		throw new ApiError(
-			400,
-			'Trạng thái đơn hàng không hợp lệ. Vui lòng kiểm tra lại'
-		);
+	if (currStatus.sort_order > 4)
+		throw new ApiError(400, 'Không thể hủy đơn hàng.');
 
 	const t = await db.sequelize.transaction();
 	try {
-		const updatedStatus =
+		let refund_flag = false;
+		const payment = await paymentService.getPaymentByOrderId(
+			req.params.orderId
+		);
+
+		if (payment) {
+			const refundData = await paymentService.refundVNPay({
+				payment,
+				reason: req.body.reason || '',
+				userId: req.user.userId,
+			});
+
+			const refundSuccess = refundData.vnp_ResponseCode === '00';
+			refund_flag = refundSuccess;
+
+			if (!refundSuccess) {
+				throw new ApiError(
+					400,
+					`Hoàn tiền VNPay thất bại: ${
+						refundData.vnp_Message || 'Không xác định'
+					}`
+				);
+			}
+			console.log(refundData);
+
+			const paymentRefund = {
+				order_id: payment.order_id,
+				transaction_code: `REFUND_${payment.order_id}_${Date.now()}`,
+				amount: payment.amount,
+				method: 'vnpay',
+				status: refundSuccess ? 'REFUNDED' : 'FAILED',
+				type: '1', // hoàn tiền
+				note:
+					refundData.vnp_Message ||
+					`Hoàn tiền đơn hàng #${payment.order_id}`,
+				gateway_trans_no: refundData.vnp_TransactionNo || null,
+				trans_date: refundData.vnp_TransDate || null,
+				created_by: req.user.userId || 0,
+				del_flag: '0',
+			};
+
+			await paymentService.createPayment(paymentRefund, {
+				transaction: t,
+			});
+		} else {
+			refund_flag = true;
+		}
+
+		if (!payment || refund_flag) {
 			await orderStatusHistoryService.createOrderStatusHistory(
 				{
 					orderId: order.id,
-					statusId: newStatus.id,
+					statusId: cancelStatus.id,
 					userId: req.user.userId || 0,
 				},
 				{ transaction: t }
 			);
 
-		const updatedOrder = await order.update(
-			{ current_status_id: newStatus.id },
-			{ transaction: t }
-		);
+			await order.update(
+				{ current_status_id: cancelStatus.id },
+				{ transaction: t }
+			);
+		}
 
 		await t.commit();
-		if (updatedStatus && updatedOrder) return true;
+		if (updatedStatus && updatedOrder && refund_flag) return true;
 		return false;
 	} catch (error) {
-		await t.rollback();
-		throw error;
+		if (!t.finished) {
+			await t.rollback();
+		}
+		throw new ApiError(500, `Hủy đơn hàng thất bại: ${error}`);
 	}
 }
 

@@ -34,9 +34,19 @@ const deleteCart = {
 	}),
 };
 
+const deleteCarts = {
+	body: Joi.object().keys({
+		cartItemIds: Joi.array()
+			.items(Joi.number().integer().required())
+			.min(1)
+			.required(),
+	}),
+};
+
 module.exports = {
 	createCart,
 	getCartMe,
 	updateCart,
 	deleteCart,
+	deleteCarts,
 };
