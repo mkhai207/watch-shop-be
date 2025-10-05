@@ -25,6 +25,7 @@ const resources = {
 	PAYMENT: 'payment',
 	ORDER_STATUS_HISTORY: 'orderStatusHistory',
 	REVIEW: 'review',
+	DISCOUNT: 'discount',
 };
 
 const grantsObject = {
@@ -125,6 +126,12 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
+		[resources.DISCOUNT]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
 	},
 	[roleIds.USER]: {
 		[resources.USERINFO]: {
@@ -182,14 +189,16 @@ const grantsObject = {
 			'create:any': ['*'],
 		},
 		[resources.ORDER_STATUS_HISTORY]: {
-			'read:own': ['*'],
-			'delete:own': ['*'],
+			'read:any': ['*'],
 		},
-		[resources.ORDER]: {
+		[resources.REVIEW]: {
 			'create:own': ['*'],
-			'read:own': ['*'],
+			'read:any': ['*'],
 			'update:own': ['*'],
 			'delete:own': ['*'],
+		},
+		[resources.DISCOUNT]: {
+			'read:any': ['*'],
 		},
 	},
 };

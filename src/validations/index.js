@@ -13,3 +13,5 @@ module.exports.cartItemValidation = require('./cart.item.validation');
 module.exports.orderValidation = require('./order.validation');
 module.exports.orderStatusValidation = require('./order.status.validation');
 module.exports.orderStatusHistoryValidation = require('./order.status.history.validation');
+module.exports.reviewValidation = require('./review.validation');
+module.exports.discountValidation = require('./discount.validation');
