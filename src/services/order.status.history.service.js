@@ -20,6 +20,22 @@ async function createOrderStatusHistory(data, options = {}) {
 	return orderStatusHistory;
 }
 
+async function getOrderStatusHistorys(orderId) {
+	const orderStatuses = await db.orderStatusHistory.findAll({
+		where: { order_id: orderId, del_flag: '0' },
+		include: [
+			{
+				model: db.configOrderStatus,
+				as: 'status',
+				attributes: ['id', 'name', 'code', 'description'],
+			},
+		],
+	});
+
+	return orderStatuses;
+}
+
 module.exports = {
 	createOrderStatusHistory,
+	getOrderStatusHistorys,
 };

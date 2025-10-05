@@ -13,3 +13,5 @@ module.exports.cartController = require('./cart.controller');
 module.exports.cartItemController = require('./cart.item.controller');
 module.exports.orderController = require('./order.controller');
 module.exports.orderStatusController = require('./order.status.controller');
+module.exports.orderStatusHistoryController = require('./order.status.history.controller');
+module.exports.paymentController = require('./payment.controller');

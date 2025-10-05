@@ -17,6 +17,7 @@ const cartItemRoute = require('./cart.item.route');
 const orderRoute = require('./order.route');
 const orderStatusRoute = require('./order.status.route');
 const paymentRoute = require('./payment.route');
+const orderStatusHistoryRoute = require('./order.status.history.route');
 
 const router = express.Router();
 
@@ -38,5 +39,6 @@ router.use('/cart-items', cartItemRoute);
 router.use('/orders', orderRoute);
 router.use('/order-status', orderStatusRoute);
 router.use('/payments', paymentRoute);
+router.use('/order-status-histories', orderStatusHistoryRoute);
 
 module.exports = router;

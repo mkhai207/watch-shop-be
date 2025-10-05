@@ -23,6 +23,7 @@ const resources = {
 	ORDER: 'order',
 	ORDER_STATUS: 'configOrderStatus',
 	PAYMENT: 'payment',
+	ORDER_STATUS_HISTORY: 'orderStatusHistory',
 };
 
 const grantsObject = {
@@ -111,7 +112,7 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
-		[resources.ORDER_STATUS]: {
+		[resources.ORDER_STATUS_HISTORY]: {
 			'create:any': ['*'],
 			'read:any': ['*'],
 			'update:any': ['*'],
@@ -172,6 +173,10 @@ const grantsObject = {
 		},
 		[resources.ORDER_STATUS]: {
 			'create:any': ['*'],
+		},
+		[resources.ORDER_STATUS_HISTORY]: {
+			'read:own': ['*'],
+			'delete:own': ['*'],
 		},
 	},
 };

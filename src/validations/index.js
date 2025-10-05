@@ -12,3 +12,4 @@ module.exports.watchVariantValidation = require('./watch.variant.validation');
 module.exports.cartItemValidation = require('./cart.item.validation');
 module.exports.orderValidation = require('./order.validation');
 module.exports.orderStatusValidation = require('./order.status.validation');
+module.exports.orderStatusHistoryValidation = require('./order.status.history.validation');
