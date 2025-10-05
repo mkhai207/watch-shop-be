@@ -13,6 +13,7 @@ const config = require('../config/config');
 const { getOffset, buildFilters, buildOrder } = require('../utils/query');
 const orderStatusHistoryService = require('./order.status.history.service');
 const emailService = require('./email.service');
+const watchService = require('./watch.service');
 
 async function sendOrderConfirmationEmail(to, order) {
 	const subject = `Xác nhận đơn hàng #${order.code} thành công`;
@@ -294,6 +295,12 @@ async function changeOrderStatus(req) {
 		order.current_status_id
 	);
 
+	if (currStatus.code.toLowerCase() === 'completed')
+		throw new ApiError(
+			400,
+			'Đơn hàng đã hoàn thành, không thể thay đổi trạng thái.'
+		);
+
 	if (newStatus.sort_order < currStatus.sort_order)
 		throw new ApiError(
 			400,
@@ -316,6 +323,15 @@ async function changeOrderStatus(req) {
 			{ current_status_id: newStatus.id },
 			{ transaction: t }
 		);
+
+		if (updatedStatus && newStatus.code.toLowerCase() === 'completed') {
+			const watch_ids = [
+				...new Set(order.details.map((item) => item.variant.watch.id)),
+			];
+			watch_ids.forEach(async (watch_id) => {
+				await watchService.incrementWatchSoldCount(watch_id);
+			});
+		}
 
 		await t.commit();
 		if (updatedStatus && updatedOrder) return true;

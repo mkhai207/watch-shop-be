@@ -19,3 +19,4 @@ module.exports.orderStatusService = require('./order.status.service');
 module.exports.orderStatusHistoryService = require('./order.status.history.service');
 module.exports.orderDetailService = require('./order.detail.service');
 module.exports.paymentService = require('./payment.service');
+module.exports.reviewService = require('./review.service');

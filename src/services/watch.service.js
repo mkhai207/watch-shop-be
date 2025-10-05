@@ -239,10 +239,20 @@ async function deleteWatchById(req) {
 
 	return deletedWatch;
 }
+
+async function incrementWatchSoldCount(watchId, quantity = 1) {
+	const watch = await getWatchById(watchId);
+	if (!watch) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Watch not found');
+	}
+	await watch.increment({ sold: quantity });
+}
+
 module.exports = {
 	createWatch,
 	getWatchById,
 	getWatches,
 	updateWatch,
 	deleteWatchById,
+	incrementWatchSoldCount,
 };
