@@ -187,6 +187,7 @@ async function createOrder(req) {
 				created_at: nowStr,
 				created_by: userId,
 				del_flag: '0',
+				review_flag: '0',
 			},
 			{ transaction: t }
 		);

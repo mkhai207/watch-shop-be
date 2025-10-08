@@ -69,6 +69,11 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING(15),
 				allowNull: true,
 			},
+			review_flag: {
+				type: DataTypes.STRING(1), // 0: chưa đánh giá, 1: đã đánh giá
+				allowNull: true,
+				defaultValue: '0',
+			},
 			created_at: {
 				type: DataTypes.STRING(14),
 				allowNull: true,

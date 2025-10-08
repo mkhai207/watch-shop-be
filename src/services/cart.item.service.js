@@ -95,6 +95,9 @@ async function getCartItem(cartItemId) {
 async function createCartItem(req) {
 	const { cart_id, variant_id, quantity } = req.body;
 	const variant = await watchVariantService.getVariantById(variant_id);
+	if (!variant) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Variant not found');
+	}
 	const watch = await watchService.getWatchById(variant.watch_id);
 	const unitPrice = watch.base_price + variant.price;
 

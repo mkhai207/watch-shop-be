@@ -30,23 +30,23 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			discount_type: {
 				type: DataTypes.STRING(1), // 0: fixed, 1: percentage
-				allowNull: false,
+				allowNull: true,
 			},
 			discount_value: {
 				type: DataTypes.DOUBLE,
-				allowNull: false,
+				allowNull: true,
 			},
 			effective_date: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			valid_until: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			created_at: {
 				type: DataTypes.STRING(14),
-				allowNull: false,
+				allowNull: true,
 			},
 			created_by: {
 				type: DataTypes.BIGINT,
@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			del_flag: {
 				type: DataTypes.STRING(1),
-				allowNull: false,
+				allowNull: true,
 				defaultValue: '0',
 			},
 		},

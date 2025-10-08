@@ -47,10 +47,25 @@ const getDiscountsValid = {
 	}),
 };
 
+const checkApplyDiscount = {
+	body: Joi.object().keys({
+		discount_code: Joi.string().required(),
+		order_value: Joi.number().required(),
+	}),
+};
+
+const getDiscount = {
+	params: Joi.object().keys({
+		discountId: Joi.number().required(),
+	}),
+};
+
 module.exports = {
 	createDiscount,
 	updateDiscount,
 	getDiscounts,
 	deleteDiscount,
 	getDiscountsValid,
+	checkApplyDiscount,
+	getDiscount,
 };

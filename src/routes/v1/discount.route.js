@@ -26,6 +26,14 @@ router
 	);
 
 router
+	.route('/check-apply')
+	.post(
+		grantAccess('readAny', resources.DISCOUNT),
+		validate(discountValidation.checkApplyDiscount),
+		discountController.checkApplyDiscount
+	);
+
+router
 	.route('/:discountId')
 	.put(
 		grantAccess('updateAny', resources.DISCOUNT),
@@ -36,6 +44,11 @@ router
 		grantAccess('deleteAny', resources.DISCOUNT),
 		validate(discountValidation.deleteDiscount),
 		discountController.deleteDiscount
+	)
+	.get(
+		grantAccess('readAny', resources.DISCOUNT),
+		validate(discountValidation.getDiscount),
+		discountController.getDiscount
 	);
 
 module.exports = router;

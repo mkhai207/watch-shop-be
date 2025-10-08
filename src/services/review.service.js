@@ -57,6 +57,12 @@ async function createReview(req) {
 		);
 	}
 
+	await order.update({
+		review_flag: '1',
+		updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+		updated_by: req.user.userId || 0,
+	});
+
 	watch_ids.forEach(async (watch_id) => {
 		const reviews = await db.review.findAll({
 			where: { watch_id, del_flag: '0' },

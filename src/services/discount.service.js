@@ -10,6 +10,16 @@ const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 
 dayjs.extend(customParseFormat);
 
+async function getDiscountById(discountId) {
+	const discount = await db.discount.findOne({
+		where: {
+			id: discountId,
+			del_flag: '0',
+		},
+	});
+	return discount;
+}
+
 async function getDiscountByCode(code) {
 	const discount = await db.discount.findOne({
 		where: {
@@ -208,11 +218,80 @@ async function deleteDiscount(req) {
 	});
 	return deletedDiscount;
 }
+
+async function checkApplyDiscount(req) {
+	const discount = await getDiscountByCode(req.body.discount_code);
+	if (!discount) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Discount code not found');
+	}
+	const currentDate = new Date();
+	const effectiveDate = dayjs(
+		discount.effective_date,
+		'YYYYMMDDHHmmss'
+	).toDate();
+	if (currentDate < effectiveDate) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'Discount code is not yet effective'
+		);
+	}
+	if (discount.valid_until) {
+		const validUntil = dayjs(
+			discount.valid_until,
+			'YYYYMMDDHHmmss'
+		).toDate();
+		if (currentDate > validUntil) {
+			throw new ApiError(
+				httpStatus.BAD_REQUEST,
+				'Discount code has expired'
+			);
+		}
+	}
+	if (
+		discount.min_order_value &&
+		req.body.order_value < discount.min_order_value
+	) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			`Order value must be at least ${discount.min_order_value} to apply this discount`
+		);
+	}
+
+	let discountAmount = 0;
+	if (discount.discount_type === '0') {
+		// fixed
+		if (discount.discount_value) {
+			discountAmount = Math.min(
+				discount.discount_value,
+				discount.max_discount_amount || discount.discount_value
+			);
+		}
+	}
+	// percentage
+	if (discount.discount_value) {
+		discountAmount = Math.floor(
+			(req.body.order_value * discount.discount_value) / 100
+		);
+		if (discount.max_discount_amount) {
+			discountAmount = Math.min(
+				discountAmount,
+				discount.max_discount_amount
+			);
+		}
+	}
+
+	return {
+		success: true,
+		discount_value: discountAmount,
+	};
+}
 module.exports = {
 	createDiscount,
 	getDiscounts,
 	getDiscountByCode,
+	checkApplyDiscount,
 	updateDiscount,
 	deleteDiscount,
 	getDiscountsValid,
+	getDiscountById,
 };
