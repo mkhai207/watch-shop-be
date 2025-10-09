@@ -41,10 +41,10 @@ module.exports = (sequelize, DataTypes) => {
 			// 	allowNull: true,
 			// 	defaultValue: '0',
 			// },
-			// payment_method: {
-			// 	type: DataTypes.STRING(50),
-			// 	allowNull: true,
-			// },
+			payment_method: {
+				type: DataTypes.STRING(1),
+				allowNull: true,
+			},
 			shipping_address: {
 				type: DataTypes.TEXT,
 				allowNull: true,

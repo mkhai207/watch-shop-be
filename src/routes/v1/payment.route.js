@@ -1,7 +1,5 @@
 const express = require('express');
 const paymentController = require('../../controllers/payment.controller');
-const { grantAccess } = require('../../middlewares/validateAccessControl');
-const { resources } = require('../../config/roles');
 
 const router = express.Router();
 

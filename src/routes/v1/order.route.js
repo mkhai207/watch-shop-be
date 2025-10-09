@@ -33,6 +33,13 @@ router
 		orderController.deleteOrder
 	);
 router
+	.route('/:orderId/retry-payment')
+	.get(
+		grantAccess('updateAny', resources.ORDER),
+		validate(orderValidation.retryPayment),
+		orderController.retryPayment
+	);
+router
 	.route('/:orderId/change-status')
 	.put(
 		grantAccess('updateAny', resources.ORDER),

@@ -61,6 +61,12 @@ const cancelOrder = {
 	}),
 };
 
+const retryPayment = {
+	params: Joi.object().keys({
+		orderId: Joi.number().required(),
+	}),
+};
+
 module.exports = {
 	createOrder,
 	getOrders,
@@ -68,4 +74,5 @@ module.exports = {
 	deleteOrder,
 	changeOrderStatus,
 	cancelOrder,
+	retryPayment,
 };

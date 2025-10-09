@@ -464,6 +464,34 @@ async function cancelOrder(req) {
 	}
 }
 
+async function retryPayment(req) {
+	const order = await getOrderById(req.params.orderId);
+
+	if (order.payment_method !== '1')
+		throw new ApiError(
+			400,
+			'Đơn hàng này không phải thanh toán online. Vui lòng kiểm tra lại.'
+		);
+
+	if (order.current_status_id > 2)
+		throw new ApiError(
+			400,
+			'Đơn hàng đã được xử lý, không thể thanh toán lại.'
+		);
+
+	const payment = await paymentService.getPaymentByOrderId(order.id);
+	if (payment && payment.status.toLowerCase() === 'success')
+		throw new ApiError(400, 'Đơn hàng đã được thanh toán thành công.');
+
+	const ipAddr = '127.0.0.1';
+	const rePaymentUrl = paymentService.createVNPayUrl(
+		order,
+		order.final_amount,
+		ipAddr
+	);
+	return rePaymentUrl;
+}
+
 module.exports = {
 	createOrder,
 	getOrders,
@@ -472,4 +500,5 @@ module.exports = {
 	deleteOrder,
 	sendOrderConfirmationEmail,
 	cancelOrder,
+	retryPayment,
 };
