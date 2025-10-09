@@ -56,6 +56,16 @@ async function getCartItemsByCartId(req, cartId) {
 						model: db.watch,
 						as: 'watch',
 					},
+					{
+						model: db.color,
+						as: 'color',
+						attributes: ['id', 'name'],
+					},
+					{
+						model: db.strapMaterial,
+						as: 'strapMaterial',
+						attributes: ['id', 'name'],
+					},
 				],
 			},
 		],

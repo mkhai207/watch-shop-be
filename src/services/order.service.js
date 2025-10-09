@@ -52,7 +52,22 @@ async function getOrderById(orderId) {
 						model: db.watchVariant,
 						as: 'variant',
 						attributes: ['id'],
-						include: [{ model: db.watch, as: 'watch' }],
+						include: [
+							{
+								model: db.watch,
+								as: 'watch',
+							},
+							{
+								model: db.color,
+								as: 'color',
+								attributes: ['id', 'name'],
+							},
+							{
+								model: db.strapMaterial,
+								as: 'strapMaterial',
+								attributes: ['id', 'name'],
+							},
+						],
 					},
 				],
 			},
