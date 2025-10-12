@@ -273,6 +273,41 @@ async function getOrders(req) {
 	};
 
 	const { where } = buildFilters(req.query, schema);
+	where.user_id = req.user.userId;
+
+	const order = buildOrder(req.query.sort, [
+		'total_amount',
+		'id',
+		'final_amount',
+		'guess_name',
+	]);
+
+	const orders = await db.order.findAndCountAll({
+		where,
+		order,
+		limit,
+		offset,
+		raw: true,
+	});
+
+	return orders;
+}
+
+async function getAllOrders(req) {
+	const { page: defaultPage, limit: defaultLimit } = config.pagination;
+	const { page = defaultPage, limit = defaultLimit } = req.query;
+
+	const offset = getOffset(page, limit);
+
+	const schema = {
+		root: {
+			code: { type: 'string', op: 'like' },
+			created_at: { type: 'date', op: 'range' },
+		},
+	};
+
+	const { where } = buildFilters(req.query, schema);
+
 	const order = buildOrder(req.query.sort, [
 		'total_amount',
 		'id',
@@ -547,4 +582,5 @@ module.exports = {
 	sendOrderConfirmationEmail,
 	cancelOrder,
 	retryPayment,
+	getAllOrders,
 };

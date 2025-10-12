@@ -21,6 +21,14 @@ router
 	);
 
 router
+	.route('/all')
+	.get(
+		grantAccess('readAny', resources.ORDER),
+		validate(orderValidation.getOrders),
+		orderController.getAllOrders
+	);
+
+router
 	.route('/:orderId')
 	.get(
 		grantAccess('readAny', resources.ORDER),

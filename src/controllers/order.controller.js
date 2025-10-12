@@ -17,6 +17,12 @@ const getOrders = catchAsync(async (req, res) => {
 	res.send({ orders });
 });
 
+const getAllOrders = catchAsync(async (req, res) => {
+	const orders = await orderService.getAllOrders(req);
+
+	res.send({ orders });
+});
+
 const getOrder = catchAsync(async (req, res) => {
 	const order = await orderService.getOrderById(req.params.orderId);
 
@@ -65,4 +71,5 @@ module.exports = {
 	deleteOrder,
 	cancelOrder,
 	retryPayment,
+	getAllOrders,
 };
