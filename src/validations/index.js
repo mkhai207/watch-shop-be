@@ -16,3 +16,4 @@ module.exports.orderStatusHistoryValidation = require('./order.status.history.va
 module.exports.reviewValidation = require('./review.validation');
 module.exports.discountValidation = require('./discount.validation');
 module.exports.searchValidation = require('./search.validation');
+module.exports.paymentValidation = require('./payment.validation');

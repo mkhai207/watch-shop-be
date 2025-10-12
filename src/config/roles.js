@@ -132,6 +132,12 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
+		[resources.PAYMENT]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
 	},
 	[roleIds.USER]: {
 		[resources.USERINFO]: {
@@ -198,6 +204,10 @@ const grantsObject = {
 			'delete:own': ['*'],
 		},
 		[resources.DISCOUNT]: {
+			'read:any': ['*'],
+		},
+		[resources.PAYMENT]: {
+			'create:own': ['*'],
 			'read:any': ['*'],
 		},
 	},

@@ -260,10 +260,22 @@ async function getPaymentByOrderId(orderId) {
 	return payment;
 }
 
+async function getPaymentsByOrder(orderId) {
+	const payments = await db.payment.findAll({
+		where: {
+			order_id: orderId,
+			del_flag: '0',
+		},
+	});
+
+	return payments;
+}
+
 module.exports = {
 	createVNPayUrl,
 	createPayment,
 	refundVNPay,
 	getPaymentByOrderCode,
 	getPaymentByOrderId,
+	getPaymentsByOrder,
 };
