@@ -9,6 +9,18 @@ const { getBrandById } = require('./brand.service');
 const { getMovementTypeById } = require('./movement.type.service');
 const strapMaterialService = require('./strap.material.service');
 
+async function getWatchByVariantId(variantId) {
+	const watch = await db.watch.findOne({
+		where: { id: variantId, del_flag: '0' },
+	});
+
+	if (!watch) {
+		throw new ApiError(500, 'Watch not be found');
+	}
+
+	return watch;
+}
+
 async function getWatchById(watchId) {
 	const watch = await db.watch.findOne({
 		where: { id: watchId, del_flag: '0' },
@@ -179,7 +191,7 @@ async function createWatch(req) {
 async function updateWatch(req) {
 	const { code, category_id, brand_id, movement_type_id } = req.body;
 	const existedWatch = await getWatchByCode(code);
-	if (existedWatch.id != req.params.watchId) {
+	if (existedWatch.id !== req.params.watchId) {
 		throw new ApiError(httpStatus.CONFLICT, 'This watch code existed');
 	}
 
@@ -255,4 +267,5 @@ module.exports = {
 	updateWatch,
 	deleteWatchById,
 	incrementWatchSoldCount,
+	getWatchByVariantId,
 };

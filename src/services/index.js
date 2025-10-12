@@ -21,3 +21,6 @@ module.exports.orderDetailService = require('./order.detail.service');
 module.exports.paymentService = require('./payment.service');
 module.exports.reviewService = require('./review.service');
 module.exports.discountService = require('./discount.service');
+module.exports.watchIndexService = require('./watch.index.service');
+module.exports.watchSyncService = require('./watch.sync.service');
+module.exports.watchSearchService = require('./watch.search.service');

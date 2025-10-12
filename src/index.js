@@ -3,9 +3,13 @@ const app = require('./app');
 const models = require('./db/models');
 const config = require('./config/config');
 const logger = require('./config/logger');
+const createWatchIndex = require('./services/watch.index.service');
 
 // sync database
 models.sequelize.sync({ alter: true });
+
+// init index for elasticsearch
+createWatchIndex();
 
 const server = http.Server(app);
 

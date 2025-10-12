@@ -15,3 +15,4 @@ module.exports.orderStatusValidation = require('./order.status.validation');
 module.exports.orderStatusHistoryValidation = require('./order.status.history.validation');
 module.exports.reviewValidation = require('./review.validation');
 module.exports.discountValidation = require('./discount.validation');
+module.exports.searchValidation = require('./search.validation');

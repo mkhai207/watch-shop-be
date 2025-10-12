@@ -5,6 +5,10 @@ const { orderService } = require('../services');
 
 const createOrder = catchAsync(async (req, res) => {
 	const order = await orderService.createOrder(req);
+
+	if (!order)
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Create order failed');
+
 	res.send({ order });
 });
 

@@ -6,6 +6,7 @@ const db = require('../db/models');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 const orderService = require('./order.service');
 const orderStatusService = require('./order.status.service');
+const watchSyncService = require('./watch.sync.service');
 
 async function createReview(req) {
 	const { rating, comment, image_url, user_id, order_id } = req.body;
@@ -78,6 +79,8 @@ async function createReview(req) {
 			},
 			{ where: { id: watch_id } }
 		);
+
+		await watchSyncService.syncOneWatch(watch_id);
 	});
 
 	return createdReviews;

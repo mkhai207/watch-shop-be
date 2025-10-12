@@ -14,6 +14,7 @@ const { getOffset, buildFilters, buildOrder } = require('../utils/query');
 const orderStatusHistoryService = require('./order.status.history.service');
 const emailService = require('./email.service');
 const watchService = require('./watch.service');
+const watchSyncService = require('./watch.sync.service');
 
 async function sendOrderConfirmationEmail(to, order) {
 	const subject = `Xác nhận đơn hàng #${order.code} thành công`;
@@ -346,6 +347,7 @@ async function changeOrderStatus(req) {
 			];
 			watch_ids.forEach(async (watch_id) => {
 				await watchService.incrementWatchSoldCount(watch_id);
+				await watchSyncService.syncOneWatch(watch_id);
 			});
 		}
 
@@ -452,7 +454,36 @@ async function cancelOrder(req) {
 			refund_flag = true;
 		}
 
-		if (!payment || refund_flag) {
+		// if (!payment || refund_flag) {
+		// 	await orderStatusHistoryService.createOrderStatusHistory(
+		// 		{
+		// 			orderId: order.id,
+		// 			statusId: cancelStatus.id,
+		// 			userId: req.user.userId || 0,
+		// 		},
+		// 		{ transaction: t }
+		// 	);
+
+		// 	await order.update(
+		// 		{ current_status_id: cancelStatus.id },
+		// 		{ transaction: t }
+		// 	);
+		// }
+
+		if (refund_flag) {
+			const orderDetails = await db.orderDetail.findAll({
+				where: { order_id: order.id },
+				transaction: t,
+			});
+
+			for (const item of orderDetails) {
+				await db.watchVariant.increment('stock', {
+					by: item.quantity,
+					where: { id: item.variant_id },
+					transaction: t,
+				});
+			}
+
 			await orderStatusHistoryService.createOrderStatusHistory(
 				{
 					orderId: order.id,
