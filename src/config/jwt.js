@@ -27,6 +27,8 @@ function jwt() {
 			// Các route public khác (docs, payments)
 			/\/v[1-9]\d*\/docs\/.*/,
 			/\/v[1-9]\d*\/payments\/vnpay-payment-return/,
+			'/v1/search',
+			/^\/v[1-9]\d*\/search($|\/.*)/,
 			// /\/v[1-9]\d*\/payments\/.*/,
 		],
 	});
