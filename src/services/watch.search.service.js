@@ -33,7 +33,6 @@ async function search(req) {
 
 	const query = buildElasticQuery(filters, schema);
 
-	// Debug logging
 	logger.info('Search filters received:', filters);
 	logger.info('Elasticsearch query built:', JSON.stringify(query, null, 2));
 

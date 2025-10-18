@@ -11,7 +11,7 @@ const createWatch = catchAsync(async (req, res) => {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'Create watch failed');
 	}
 
-	await watchSyncService.syncOneWatch(watch.id);
+	await watchSyncService.syncOneWatch(watch.watch.id);
 
 	res.send({ watch });
 });
