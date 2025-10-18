@@ -1,6 +1,8 @@
 const client = require('../config/elastic.search');
 const { getOffset } = require('../utils/query');
 const config = require('../config/config');
+const ApiError = require('../utils/ApiError');
+const logger = require('../config/logger');
 const {
 	buildElasticQuery,
 	buildElasticSort,
@@ -21,11 +23,19 @@ async function search(req) {
 	const schema = {
 		root: {
 			base_price: { op: 'range', type: 'number' },
-			rating: { op: 'range', type: 'number' },
+			rating: { op: 'gte', type: 'number' },
+			brand_id: { op: 'eq', type: 'number' },
+			category_id: { op: 'eq', type: 'number' },
+			movement_type_id: { op: 'eq', type: 'number' },
+			gender: { op: 'eq', type: 'string' },
 		},
 	};
 
 	const query = buildElasticQuery(filters, schema);
+
+	// Debug logging
+	logger.info('Search filters received:', filters);
+	logger.info('Elasticsearch query built:', JSON.stringify(query, null, 2));
 
 	if (q) {
 		query.bool.must.push({
@@ -59,10 +69,10 @@ async function search(req) {
 		query,
 	});
 
-	if (!response.hits?.hits)
+	if (!response.hits || !response.hits.hits)
 		throw new ApiError(500, 'Không nhận được dữ liệu từ Elasticsearch');
 
-	const totalItems = response.hits.total?.value || 0;
+	const totalItems = (response.hits.total && response.hits.total.value) || 0;
 	const totalPages = Math.ceil(totalItems / limit);
 	const items = response.hits.hits.map((h) => h._source);
 

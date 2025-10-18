@@ -5,6 +5,16 @@ const ApiError = require('../utils/ApiError');
 function grantAccess(action, resource) {
 	return async (req, _res, next) => {
 		try {
+			// if (!req.user) {
+			// 	if (action === 'readAny') {
+			// 		return next();
+			// 	}
+			// 	throw new ApiError(
+			// 		httpStatus.UNAUTHORIZED,
+			// 		'Authentication required for this action'
+			// 	);
+			// }
+
 			// eslint-disable-next-line eqeqeq
 			const isOwnedUser = req.user.userId == req.params.userId;
 			const modifiedAction = isOwnedUser

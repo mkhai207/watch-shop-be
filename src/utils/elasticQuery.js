@@ -34,7 +34,8 @@ function buildElasticQuery(queryParams, schema = {}) {
 		const type = allowed.type || 'string';
 
 		let value = rawVal;
-		if (type === 'number') value = Number(value);
+		if (type === 'number' && !['range', 'between'].includes(op))
+			value = Number(value);
 		if (type === 'boolean')
 			value = ['true', '1', 'yes'].includes(String(value).toLowerCase());
 
@@ -60,8 +61,10 @@ function buildElasticQuery(queryParams, schema = {}) {
 					.split(':')
 					.map((v) => Number(v));
 				const range = {};
-				if (from) range.gte = from;
-				if (to) range.lte = to;
+				if (from !== undefined && from !== null && !Number.isNaN(from))
+					range.gte = from;
+				if (to !== undefined && to !== null && !Number.isNaN(to))
+					range.lte = to;
 				bool.filter.push({ range: { [field]: range } });
 				break;
 			}

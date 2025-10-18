@@ -10,7 +10,7 @@ const filterValue = Joi.alternatives().try(
 const search = {
 	query: Joi.object()
 		.keys({
-			q: Joi.string().required().min(2).max(100),
+			q: Joi.string().min(2).max(100),
 			limit: Joi.number().min(1),
 			page: Joi.number().min(1),
 		})
