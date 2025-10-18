@@ -53,7 +53,7 @@ async function syncOneWatch(watchId) {
 		updated_at: watch.updated_at,
 	};
 
-	await client.index({
+	const response = await client.index({
 		index: 'watchshop_watches',
 		id: String(watch.id),
 		document,
