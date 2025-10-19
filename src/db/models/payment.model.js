@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING(50),
 				allowNull: true,
 			},
+			gateway_trans_no: {
+				type: DataTypes.STRING(50),
+				allowNull: true,
+			},
+			trans_date: {
+				type: DataTypes.STRING(50),
+				allowNull: true,
+			},
 			amount: {
 				type: DataTypes.DOUBLE,
 				allowNull: true,

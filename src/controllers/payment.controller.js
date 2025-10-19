@@ -104,4 +104,14 @@ const handleVNPayReturn = catchAsync(async (req, res) => {
 	}
 });
 
-module.exports = { handleVNPayReturn };
+const getPaymentsByOrder = catchAsync(async (req, res) => {
+	const payments = await paymentService.getPaymentsByOrder(
+		req.params.orderId
+	);
+	res.send({ payments });
+});
+
+module.exports = {
+	handleVNPayReturn,
+	getPaymentsByOrder,
+};

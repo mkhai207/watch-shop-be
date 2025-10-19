@@ -23,6 +23,9 @@ const resources = {
 	ORDER: 'order',
 	ORDER_STATUS: 'configOrderStatus',
 	PAYMENT: 'payment',
+	ORDER_STATUS_HISTORY: 'orderStatusHistory',
+	REVIEW: 'review',
+	DISCOUNT: 'discount',
 };
 
 const grantsObject = {
@@ -111,7 +114,25 @@ const grantsObject = {
 			'update:any': ['*'],
 			'delete:any': ['*'],
 		},
-		[resources.ORDER_STATUS]: {
+		[resources.ORDER_STATUS_HISTORY]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.REVIEW]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.DISCOUNT]: {
+			'create:any': ['*'],
+			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
+		},
+		[resources.PAYMENT]: {
 			'create:any': ['*'],
 			'read:any': ['*'],
 			'update:any': ['*'],
@@ -172,6 +193,22 @@ const grantsObject = {
 		},
 		[resources.ORDER_STATUS]: {
 			'create:any': ['*'],
+		},
+		[resources.ORDER_STATUS_HISTORY]: {
+			'read:any': ['*'],
+		},
+		[resources.REVIEW]: {
+			'create:own': ['*'],
+			'read:any': ['*'],
+			'update:own': ['*'],
+			'delete:own': ['*'],
+		},
+		[resources.DISCOUNT]: {
+			'read:any': ['*'],
+		},
+		[resources.PAYMENT]: {
+			'create:own': ['*'],
+			'read:any': ['*'],
 		},
 	},
 };

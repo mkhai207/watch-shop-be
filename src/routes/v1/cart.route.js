@@ -26,8 +26,8 @@ router
 	)
 	.delete(
 		grantAccess('deleteAny', resources.CART),
-		validate(cartValidation.deleteCart),
-		cartController.deleteCart
+		validate(cartValidation.deleteCarts),
+		cartController.deleteCarts
 	);
 
 router.route('/:cartId');

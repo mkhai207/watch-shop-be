@@ -52,10 +52,27 @@ const changeOrderStatus = {
 	}),
 };
 
+const cancelOrder = {
+	params: Joi.object().keys({
+		orderId: Joi.number().required(),
+	}),
+	body: Joi.object().keys({
+		reason: Joi.string().required(),
+	}),
+};
+
+const retryPayment = {
+	params: Joi.object().keys({
+		orderId: Joi.number().required(),
+	}),
+};
+
 module.exports = {
 	createOrder,
 	getOrders,
 	getOrder,
 	deleteOrder,
 	changeOrderStatus,
+	cancelOrder,
+	retryPayment,
 };

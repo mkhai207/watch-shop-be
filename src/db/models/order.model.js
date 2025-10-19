@@ -41,10 +41,10 @@ module.exports = (sequelize, DataTypes) => {
 			// 	allowNull: true,
 			// 	defaultValue: '0',
 			// },
-			// payment_method: {
-			// 	type: DataTypes.STRING(50),
-			// 	allowNull: true,
-			// },
+			payment_method: {
+				type: DataTypes.STRING(1),
+				allowNull: true,
+			},
 			shipping_address: {
 				type: DataTypes.TEXT,
 				allowNull: true,
@@ -68,6 +68,11 @@ module.exports = (sequelize, DataTypes) => {
 			guess_phone: {
 				type: DataTypes.STRING(15),
 				allowNull: true,
+			},
+			review_flag: {
+				type: DataTypes.STRING(1), // 0: chưa đánh giá, 1: đã đánh giá
+				allowNull: true,
+				defaultValue: '0',
 			},
 			created_at: {
 				type: DataTypes.STRING(14),

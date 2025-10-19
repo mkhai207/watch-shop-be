@@ -2,9 +2,17 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { watchService } = require('../services');
+const watchSyncService = require('../services/watch.sync.service');
 
 const createWatch = catchAsync(async (req, res) => {
 	const watch = await watchService.createWatch(req);
+
+	if (!watch) {
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Create watch failed');
+	}
+
+	await watchSyncService.syncOneWatch(watch.watch.id);
+
 	res.send({ watch });
 });
 
@@ -30,6 +38,8 @@ const updateWatch = catchAsync(async (req, res) => {
 		throw new ApiError(httpStatus.NOT_FOUND, 'Watch not found');
 	}
 
+	await watchSyncService.syncOneWatch(watch.id);
+
 	res.send({ watch });
 });
 
@@ -38,7 +48,8 @@ const deleteWatch = catchAsync(async (req, res) => {
 	if (!watch) {
 		throw new ApiError(httpStatus.NOT_FOUND, 'Watch not found');
 	}
-	await watchService.deleteWatchById(req);
+	const deletedWatch = await watchService.deleteWatchById(req);
+	if (deletedWatch) await watchSyncService.syncDeleteOneWatch(watch.id);
 	res.send({ success: true });
 });
 module.exports = {

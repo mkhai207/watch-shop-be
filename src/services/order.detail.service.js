@@ -5,6 +5,26 @@ const config = require('../config/config');
 const db = require('../db/models');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 
+async function getOrderDetailsByOrderId(orderId) {
+	const orderDetails = await db.orderDetail.findAll({
+		where: { order_id: orderId, del_flag: '0' },
+		include: [
+			{
+				model: db.watchVariant,
+				as: 'variant',
+				include: [
+					{
+						model: db.watch,
+						as: 'watch',
+					},
+				],
+			},
+		],
+	});
+
+	return orderDetails;
+}
+
 async function createOrderDetail(data) {
 	const orderDetail = await db.orderDetail.create({
 		...data,
@@ -34,4 +54,5 @@ async function createOrderDetails(listData, userId) {
 module.exports = {
 	createOrderDetail,
 	createOrderDetails,
+	getOrderDetailsByOrderId,
 };

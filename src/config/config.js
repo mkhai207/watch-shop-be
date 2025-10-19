@@ -174,4 +174,9 @@ module.exports = {
 		url: envVars.VNPAY_URL,
 		returnUrl: envVars.VNPAY_RETURN_URL,
 	},
+	elasticSearch: {
+		node: process.env.ELASTICSEARCH_NODE ?? 'http://localhost:9200',
+		username: process.env.ELASTICSEARCH_USERNAME,
+		password: process.env.ELASTICSEARCH_PASSWORD,
+	},
 };

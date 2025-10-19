@@ -5,11 +5,21 @@ const { orderService } = require('../services');
 
 const createOrder = catchAsync(async (req, res) => {
 	const order = await orderService.createOrder(req);
+
+	if (!order)
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Create order failed');
+
 	res.send({ order });
 });
 
 const getOrders = catchAsync(async (req, res) => {
 	const orders = await orderService.getOrders(req);
+	res.send({ orders });
+});
+
+const getAllOrders = catchAsync(async (req, res) => {
+	const orders = await orderService.getAllOrders(req);
+
 	res.send({ orders });
 });
 
@@ -36,10 +46,30 @@ const deleteOrder = catchAsync(async (req, res) => {
 	res.send({ success: Boolean(deletedOrder) });
 });
 
+const cancelOrder = catchAsync(async (req, res) => {
+	const order = await orderService.getOrderById(req.params.orderId);
+	if (!order)
+		throw new ApiError(httpStatus.NOT_FOUND, 'This order not found');
+
+	const canceledOrder = await orderService.cancelOrder(req);
+	res.send({ success: Boolean(canceledOrder) });
+});
+
+const retryPayment = catchAsync(async (req, res) => {
+	const order = await orderService.getOrderById(req.params.orderId);
+	if (!order)
+		throw new ApiError(httpStatus.NOT_FOUND, 'This order not found');
+	const rePaymentUrl = await orderService.retryPayment(req);
+	res.send({ rePaymentUrl });
+});
+
 module.exports = {
 	createOrder,
 	getOrders,
 	getOrder,
 	changeOrderStatus,
 	deleteOrder,
+	cancelOrder,
+	retryPayment,
+	getAllOrders,
 };

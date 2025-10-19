@@ -137,4 +137,5 @@ module.exports = {
 	deleteOrderStatusById,
 	getOrderStatusFirst,
 	getOrderStatusBySortOrder,
+	getOrderStatusByCode,
 };
