@@ -10,7 +10,6 @@ const router = express.Router();
 router
 	.route('/')
 	.get(
-		grantAccess('readAny', resources.CATEGORY),
 		validate(categoryValidation.getCategorys),
 		categoryController.getCategorys
 	)
@@ -23,7 +22,6 @@ router
 router
 	.route('/:categoryId')
 	.get(
-		grantAccess('readAny', resources.CATEGORY),
 		validate(categoryValidation.getCategory),
 		categoryController.getCategory
 	)

@@ -19,18 +19,34 @@ function jwt() {
 		algorithms: ['HS256'],
 		isRevoked,
 	}).unless({
-		path: [
-			// public routes that don't require authentication
-			// /\/v[1-9](\d)*\/(auth|docs|payments)\/.*/,
-			/\/v[1-9]\d*\/auth\/(login|register|refresh|forgot-password|reset-password)/,
+		custom: (req) => {
+			const publicGetModules = [
+				'watches',
+				'brands',
+				'categorys',
+				'watch-variants',
+				'reviews',
+				'colors',
+				'trap-materials',
+				'movement-type',
+			];
 
-			// Các route public khác (docs, payments)
-			/\/v[1-9]\d*\/docs\/.*/,
-			/\/v[1-9]\d*\/payments\/vnpay-payment-return/,
-			'/v1/search',
-			/^\/v[1-9]\d*\/search($|\/.*)/,
-			// /\/v[1-9]\d*\/payments\/.*/,
-		],
+			if (req.method === 'GET') {
+				const isPublicGet = publicGetModules.some((module) =>
+					new RegExp(`^/v[1-9]\\d*/${module}(/.*)?$`).test(req.path)
+				);
+				if (isPublicGet) return true;
+			}
+
+			return (
+				/\/v[1-9]\d*\/auth\/(login|register|refresh|forgot-password|reset-password)/.test(
+					req.path
+				) ||
+				/\/v[1-9]\d*\/docs\/.*/.test(req.path) ||
+				/\/v[1-9]\d*\/payments\/vnpay-payment-return/.test(req.path) ||
+				/^\/v[1-9]\d*\/search($|\/.*)/.test(req.path)
+			);
+		},
 	});
 }
 

@@ -18,3 +18,4 @@ module.exports.paymentController = require('./payment.controller');
 module.exports.reviewController = require('./review.controller');
 module.exports.discountController = require('./discount.controller');
 module.exports.searchController = require('./search.controller');
+module.exports.reportController = require('./report.controller');

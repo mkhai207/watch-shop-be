@@ -9,11 +9,7 @@ const router = express.Router();
 
 router
 	.route('/')
-	.get(
-		grantAccess('readAny', resources.WATCH_VARIANT),
-		validate(variantValidation.getVariants),
-		variantController.getVariants
-	)
+	.get(validate(variantValidation.getVariants), variantController.getVariants)
 	.post(
 		grantAccess('createAny', resources.WATCH_VARIANT),
 		validate(variantValidation.createVariant),
@@ -23,18 +19,13 @@ router
 router
 	.route('/:watchId')
 	.get(
-		grantAccess('readAny', resources.WATCH_VARIANT),
 		validate(variantValidation.getVariantsByWatchId),
 		variantController.getVariantsByWatchId
 	);
 
 router
 	.route('/:variantId')
-	.get(
-		grantAccess('readAny', resources.WATCH_VARIANT),
-		validate(variantValidation.getVariant),
-		variantController.getVariant
-	)
+	.get(validate(variantValidation.getVariant), variantController.getVariant)
 	.put(
 		grantAccess('updateAny', resources.WATCH_VARIANT),
 		validate(variantValidation.updateVariant),

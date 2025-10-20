@@ -103,6 +103,8 @@ async function createWatchIndex() {
 						},
 						created_at: { type: 'date', format: 'yyyyMMddHHmmss' },
 						updated_at: { type: 'date', format: 'yyyyMMddHHmmss' },
+						// color
+						// strap_material
 					},
 				},
 			},

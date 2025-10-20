@@ -21,6 +21,7 @@ const orderStatusHistoryRoute = require('./order.status.history.route');
 const reviewRoute = require('./review.route');
 const discountRoute = require('./discount.route');
 const searchRoute = require('./search.route');
+const reportRoute = require('./report.route');
 
 const router = express.Router();
 
@@ -46,5 +47,6 @@ router.use('/order-status-histories', orderStatusHistoryRoute);
 router.use('/reviews', reviewRoute);
 router.use('/discounts', discountRoute);
 router.use('/search', searchRoute);
+router.use('/reports', reportRoute);
 
 module.exports = router;

@@ -10,7 +10,6 @@ const router = express.Router();
 router
 	.route('/')
 	.get(
-		grantAccess('readAny', resources.STRAP_MATERIAL),
 		validate(strapMaterialValidation.getStrapMaterials),
 		strapMaterialController.getStrapMaterials
 	)
@@ -23,7 +22,6 @@ router
 router
 	.route('/:strapMaterialId')
 	.get(
-		grantAccess('readAny', resources.STRAP_MATERIAL),
 		validate(strapMaterialValidation.getStrapMaterial),
 		strapMaterialController.getStrapMaterial
 	)
