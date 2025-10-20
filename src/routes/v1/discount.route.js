@@ -15,12 +15,10 @@ router
 		discountController.createDiscount
 	)
 	.get(
-		grantAccess('readAny', resources.DISCOUNT),
 		validate(discountValidation.getDiscounts),
 		discountController.getDiscounts
 	)
 	.get(
-		grantAccess('readAny', resources.DISCOUNT),
 		validate(discountValidation.getDiscountsValid),
 		discountController.getDiscountsValid
 	);
@@ -46,7 +44,6 @@ router
 		discountController.deleteDiscount
 	)
 	.get(
-		grantAccess('readAny', resources.DISCOUNT),
 		validate(discountValidation.getDiscount),
 		discountController.getDiscount
 	);
