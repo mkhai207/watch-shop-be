@@ -7,7 +7,8 @@ async function createWatchIndex() {
 	try {
 		const exists = await client.indices.exists({ index: indexName });
 		if (exists) {
-			throw new ApiError(400, `Index '${indexName}' đã tồn tại.`);
+			console.log(`Index '${indexName}' đã tồn tại, bỏ qua tạo mới.`);
+			return;
 		}
 
 		await client.indices.create({
