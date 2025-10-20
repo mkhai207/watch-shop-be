@@ -10,7 +10,6 @@ const router = express.Router();
 router
 	.route('/')
 	.get(
-		grantAccess('readAny', resources.MOVEMENT_TYPE),
 		validate(movementValidation.getMovementTypes),
 		movementController.getMovementTypes
 	)
@@ -23,7 +22,6 @@ router
 router
 	.route('/:movementTypeId')
 	.get(
-		grantAccess('readAny', resources.MOVEMENT_TYPE),
 		validate(movementValidation.getMovementType),
 		movementController.getMovementType
 	)

@@ -17,11 +17,7 @@ router
 
 router
 	.route('/:watchId')
-	.get(
-		grantAccess('readAny', resources.REVIEW),
-		validate(reviewValidation.getReviews),
-		reviewController.getReviews
-	);
+	.get(validate(reviewValidation.getReviews), reviewController.getReviews);
 
 router
 	.route('/:reviewId')

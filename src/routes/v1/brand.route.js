@@ -9,11 +9,7 @@ const router = express.Router();
 
 router
 	.route('/')
-	.get(
-		grantAccess('readAny', resources.BRAND),
-		validate(brandValidation.getBrands),
-		brandController.getBrands
-	)
+	.get(validate(brandValidation.getBrands), brandController.getBrands)
 	.post(
 		grantAccess('createAny', resources.BRAND),
 		validate(brandValidation.createBrand),
@@ -22,11 +18,7 @@ router
 
 router
 	.route('/:brandId')
-	.get(
-		grantAccess('readAny', resources.BRAND),
-		validate(brandValidation.getBrand),
-		brandController.getBrand
-	)
+	.get(validate(brandValidation.getBrand), brandController.getBrand)
 	.put(
 		grantAccess('updateAny', resources.BRAND),
 		validate(brandValidation.updateBrand),

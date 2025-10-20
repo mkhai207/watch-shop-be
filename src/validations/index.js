@@ -17,3 +17,4 @@ module.exports.reviewValidation = require('./review.validation');
 module.exports.discountValidation = require('./discount.validation');
 module.exports.searchValidation = require('./search.validation');
 module.exports.paymentValidation = require('./payment.validation');
+module.exports.reportValidation = require('./report.validation');

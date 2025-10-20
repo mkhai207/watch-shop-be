@@ -9,11 +9,7 @@ const router = express.Router();
 
 router
 	.route('/')
-	.get(
-		grantAccess('readAny', resources.WATCH),
-		validate(watchValidation.getWatches),
-		watchController.getWatches
-	)
+	.get(validate(watchValidation.getWatches), watchController.getWatches)
 	.post(
 		grantAccess('createAny', resources.WATCH),
 		validate(watchValidation.createWatch),
@@ -22,11 +18,7 @@ router
 
 router
 	.route('/:watchId')
-	.get(
-		grantAccess('readAny', resources.WATCH),
-		validate(watchValidation.getWatch),
-		watchController.getWatch
-	)
+	.get(validate(watchValidation.getWatch), watchController.getWatch)
 	.put(
 		grantAccess('updateAny', resources.WATCH),
 		validate(watchValidation.updateWatch),

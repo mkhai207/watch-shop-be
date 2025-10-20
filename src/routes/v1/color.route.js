@@ -9,11 +9,7 @@ const router = express.Router();
 
 router
 	.route('/')
-	.get(
-		grantAccess('readAny', resources.COLOR),
-		validate(colorValidation.getColors),
-		colorController.getColors
-	)
+	.get(validate(colorValidation.getColors), colorController.getColors)
 	.post(
 		grantAccess('createAny', resources.COLOR),
 		validate(colorValidation.createColor),
@@ -22,11 +18,7 @@ router
 
 router
 	.route('/:colorId')
-	.get(
-		grantAccess('readAny', resources.COLOR),
-		validate(colorValidation.getColor),
-		colorController.getColor
-	)
+	.get(validate(colorValidation.getColor), colorController.getColor)
 	.put(
 		grantAccess('updateAny', resources.COLOR),
 		validate(colorValidation.updateColor),

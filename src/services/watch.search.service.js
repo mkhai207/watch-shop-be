@@ -33,9 +33,6 @@ async function search(req) {
 
 	const query = buildElasticQuery(filters, schema);
 
-	logger.info('Search filters received:', filters);
-	logger.info('Elasticsearch query built:', JSON.stringify(query, null, 2));
-
 	if (q) {
 		query.bool.must.push({
 			multi_match: {

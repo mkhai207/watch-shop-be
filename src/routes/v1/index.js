@@ -22,6 +22,7 @@ const reviewRoute = require('./review.route');
 const discountRoute = require('./discount.route');
 const searchRoute = require('./search.route');
 const recommendationRoute = require('./recommendation.route');
+const reportRoute = require('./report.route');
 
 const router = express.Router();
 
@@ -48,5 +49,6 @@ router.use('/reviews', reviewRoute);
 router.use('/discounts', discountRoute);
 router.use('/search', searchRoute);
 router.use('/recommendations', recommendationRoute);
+router.use('/reports', reportRoute);
 
 module.exports = router;

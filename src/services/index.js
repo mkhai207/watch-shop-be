@@ -24,3 +24,4 @@ module.exports.discountService = require('./discount.service');
 module.exports.watchIndexService = require('./watch.index.service');
 module.exports.watchSyncService = require('./watch.sync.service');
 module.exports.watchSearchService = require('./watch.search.service');
+module.exports.reportService = require('./report.service');

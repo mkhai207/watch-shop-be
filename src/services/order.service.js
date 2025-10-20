@@ -267,6 +267,7 @@ async function getOrders(req) {
 
 	const schema = {
 		root: {
+			current_status_id: { type: 'string', op: 'eq' },
 			code: { type: 'string', op: 'like' },
 			created_at: { type: 'date', op: 'range' },
 		},
@@ -282,7 +283,7 @@ async function getOrders(req) {
 		'guess_name',
 	]);
 
-	const orders = await db.order.findAndCountAll({
+	const { count, rows } = await db.order.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -290,7 +291,13 @@ async function getOrders(req) {
 		raw: true,
 	});
 
-	return orders;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function getAllOrders(req) {
@@ -301,8 +308,9 @@ async function getAllOrders(req) {
 
 	const schema = {
 		root: {
+			current_status_id: { type: 'string', op: 'eq' },
 			code: { type: 'string', op: 'like' },
-			created_at: { type: 'date', op: 'range' },
+			created_at: { type: 'string', op: 'range' },
 		},
 	};
 

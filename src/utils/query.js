@@ -57,6 +57,9 @@ function parseValueByType(raw, type) {
 		if (['false', '0', 'no', 'n'].includes(s)) return false;
 		return undefined;
 	}
+	if (type === 'date') {
+		return String(raw);
+	}
 	return raw;
 }
 
@@ -88,11 +91,15 @@ function buildOpCondition(op, value, type) {
 	if (op === 'range') {
 		const [from, to] = String(value)
 			.split(':')
-			.map((s) => parseValueByType(s.trim(), type));
+			.map((s) => s.trim())
+			.map((s) => (s === '' ? undefined : parseValueByType(s, type)));
 		const obj = {};
-		if (from !== undefined) obj[Op.gte] = from;
-		if (to !== undefined) obj[Op.lte] = to;
-		return Object.keys(obj).length ? obj : undefined;
+		if (from !== undefined && from !== '') obj[Op.gte] = from;
+		if (to !== undefined && to !== '') obj[Op.lte] = to;
+		return Object.getOwnPropertySymbols(obj).length > 0 ||
+			Object.keys(obj).length > 0
+			? obj
+			: undefined;
 	}
 
 	return ops[op] || undefined;
