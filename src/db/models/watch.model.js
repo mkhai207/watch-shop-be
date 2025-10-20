@@ -40,6 +40,42 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING(1),
 				allowNull: true,
 			},
+			// ML feature fields
+			price_tier: {
+				type: DataTypes.STRING(20),
+				allowNull: true,
+				comment: 'budget, mid, premium, luxury',
+			},
+			gender_target: {
+				type: DataTypes.STRING(1),
+				allowNull: true,
+				comment: 'M, F, U',
+			},
+			size_category: {
+				type: DataTypes.STRING(20),
+				allowNull: true,
+				comment: 'small, medium, large',
+			},
+			style_tags: {
+				type: DataTypes.JSONB,
+				allowNull: true,
+				comment: 'JSON array of style tags',
+			},
+			material_tags: {
+				type: DataTypes.JSONB,
+				allowNull: true,
+				comment: 'JSON array of material tags',
+			},
+			color_tags: {
+				type: DataTypes.JSONB,
+				allowNull: true,
+				comment: 'JSON array of color tags',
+			},
+			movement_type_tags: {
+				type: DataTypes.JSONB,
+				allowNull: true,
+				comment: 'JSON array of movement type tags',
+			},
 			water_resistance: {
 				type: DataTypes.STRING(255),
 				allowNull: true,
