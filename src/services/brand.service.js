@@ -38,7 +38,7 @@ async function getBrands(req) {
 	const { where } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['name', 'id']);
 
-	const brands = await db.brand.findAndCountAll({
+	const { count, rows } = await db.brand.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -46,7 +46,13 @@ async function getBrands(req) {
 		raw: true,
 	});
 
-	return brands;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function createBrand(req) {

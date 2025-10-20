@@ -38,7 +38,7 @@ async function getCategorys(req) {
 	const { where } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['name', 'id']);
 
-	const categorys = await db.category.findAndCountAll({
+	const { count, rows } = await db.category.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -46,7 +46,13 @@ async function getCategorys(req) {
 		raw: true,
 	});
 
-	return categorys;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function createCategory(req) {

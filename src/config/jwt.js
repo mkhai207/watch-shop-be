@@ -27,8 +27,9 @@ function jwt() {
 				'watch-variants',
 				'reviews',
 				'colors',
-				'trap-materials',
+				'strap-materials',
 				'movement-type',
+				'discounts',
 			];
 
 			if (req.method === 'GET') {

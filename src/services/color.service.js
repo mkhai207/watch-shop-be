@@ -46,7 +46,7 @@ async function getColors(req) {
 	const { where } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['name', 'id']);
 
-	const colors = await db.color.findAndCountAll({
+	const { count, rows } = await db.color.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -54,7 +54,13 @@ async function getColors(req) {
 		raw: true,
 	});
 
-	return colors;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function createColor(req) {
