@@ -50,4 +50,10 @@ router.put(
 // Get recommendation statistics
 router.get('/stats', recommendationController.getRecommendationStats);
 
+// AI server health check
+router.get('/ai/health', recommendationController.getAIHealth);
+
+// AI server statistics
+router.get('/ai/stats', recommendationController.getAIStats);
+
 module.exports = router;

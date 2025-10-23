@@ -1,4 +1,4 @@
-const { userInteraction, recommendation } = require('../db/models');
+const { userInteraction } = require('../db/models');
 const { Op } = require('sequelize');
 
 class RecommendationService {
@@ -69,63 +69,18 @@ class RecommendationService {
 	}
 
 	/**
-	 * Get recommendations for a user
+	 * Get recommendations for a user (DEPRECATED - Use AI service instead)
 	 * @param {number} userId - User ID
 	 * @param {number} limit - Number of recommendations
 	 * @param {string} type - Recommendation type (collaborative, content_based, hybrid)
 	 * @returns {Promise<Array>} Recommendations
 	 */
 	async getRecommendations(userId, limit = 10, type = 'hybrid') {
-		try {
-			// expires_at is stored as YYYYMMDDHHMMSS string
-			const nowStr = new Date()
-				.toISOString()
-				.replace(/[-:]/g, '')
-				.replace('T', '')
-				.substring(0, 14);
-			// Get cached recommendations
-			const recommendations = await recommendation.findAll({
-				where: {
-					user_id: userId,
-					recommendation_type: type,
-					expires_at: {
-						[Op.gt]: nowStr,
-					},
-				},
-				include: [
-					{
-						model: require('../db/models').watch,
-						as: 'watch',
-						include: [
-							{
-								model: require('../db/models').brand,
-								as: 'brand',
-							},
-							{
-								model: require('../db/models').category,
-								as: 'category',
-							},
-						],
-					},
-				],
-				order: [['recommendation_score', 'DESC']],
-				limit: limit,
-			});
-
-			if (recommendations.length > 0) {
-				return recommendations.map((rec) => ({
-					watch_id: rec.watch_id,
-					score: rec.recommendation_score,
-					watch: rec.watch,
-				}));
-			}
-
-			// If no cached recommendations, return popular items
-			return await this.getPopularItems(limit);
-		} catch (error) {
-			console.error('Error getting recommendations:', error);
-			return await this.getPopularItems(limit);
-		}
+		// This method is deprecated - use AI service for real-time recommendations
+		console.warn(
+			'getRecommendations is deprecated. Use AI service for real-time recommendations.'
+		);
+		return await this.getPopularItems(limit);
 	}
 
 	/**
@@ -346,25 +301,12 @@ class RecommendationService {
 	}
 
 	/**
-	 * Get recommendation statistics
+	 * Get recommendation statistics (Updated for AI server)
 	 * @returns {Promise<Object>} Statistics
 	 */
 	async getRecommendationStats() {
-		const nowStr = new Date()
-			.toISOString()
-			.replace(/[-:]/g, '')
-			.replace('T', '')
-			.substring(0, 14);
 		const totalInteractions = await userInteraction.count({
 			where: { del_flag: '0' },
-		});
-
-		const totalRecommendations = await recommendation.count({
-			where: {
-				expires_at: {
-					[Op.gt]: nowStr,
-				},
-			},
 		});
 
 		const uniqueUsers = await userInteraction.count({
@@ -381,9 +323,9 @@ class RecommendationService {
 
 		return {
 			totalInteractions,
-			totalRecommendations,
 			uniqueUsers,
 			uniqueItems,
+			note: 'Recommendations now served by AI server in real-time',
 		};
 	}
 }

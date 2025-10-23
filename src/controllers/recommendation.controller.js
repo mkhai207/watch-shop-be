@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const recommendationService = require('../services/recommendation.service');
+const aiRecommendationService = require('../services/ai-recommendation.service');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -31,16 +32,17 @@ const recordInteraction = catchAsync(async (req, res) => {
 
 const getRecommendations = catchAsync(async (req, res) => {
 	const { userId } = req.params;
-	const { limit = 10, type = 'hybrid' } = req.query;
+	const { limit = 10, exclude_interactions = 'false' } = req.query;
 
 	if (!userId) {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'User ID is required');
 	}
 
-	const recommendations = await recommendationService.getRecommendations(
+	// Use AI service for real-time recommendations
+	const recommendations = await aiRecommendationService.getRecommendations(
 		parseInt(userId),
 		parseInt(limit),
-		type
+		exclude_interactions === 'true'
 	);
 
 	res.status(httpStatus.OK).json({
@@ -78,7 +80,8 @@ const getSimilarItems = catchAsync(async (req, res) => {
 		throw new ApiError(httpStatus.BAD_REQUEST, 'Watch ID is required');
 	}
 
-	const similarItems = await recommendationService.getSimilarItems(
+	// Use AI service for real-time similar items
+	const similarItems = await aiRecommendationService.getSimilarItems(
 		parseInt(watchId),
 		parseInt(limit)
 	);
@@ -140,6 +143,26 @@ const getRecommendationStats = catchAsync(async (req, res) => {
 	});
 });
 
+const getAIHealth = catchAsync(async (req, res) => {
+	const health = await aiRecommendationService.checkHealth();
+
+	res.status(httpStatus.OK).json({
+		success: true,
+		message: 'AI server health retrieved successfully',
+		data: health,
+	});
+});
+
+const getAIStats = catchAsync(async (req, res) => {
+	const stats = await aiRecommendationService.getStats();
+
+	res.status(httpStatus.OK).json({
+		success: true,
+		message: 'AI server statistics retrieved successfully',
+		data: stats,
+	});
+});
+
 module.exports = {
 	recordInteraction,
 	getRecommendations,
@@ -148,4 +171,6 @@ module.exports = {
 	updateUserFeatures,
 	updateItemFeatures,
 	getRecommendationStats,
+	getAIHealth,
+	getAIStats,
 };

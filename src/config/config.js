@@ -179,4 +179,5 @@ module.exports = {
 		username: process.env.ELASTICSEARCH_USERNAME,
 		password: process.env.ELASTICSEARCH_PASSWORD,
 	},
+	aiServerUrl: process.env.AI_SERVER_URL || 'http://localhost:5001',
 };
