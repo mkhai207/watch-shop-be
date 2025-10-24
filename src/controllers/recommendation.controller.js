@@ -52,6 +52,43 @@ const getRecommendations = catchAsync(async (req, res) => {
 	});
 });
 
+const getSmartRecommendations = catchAsync(async (req, res) => {
+	const { limit = 10, exclude_interactions = 'false' } = req.query;
+
+	// User is authenticated - get personalized recommendations
+	const userId = req.user.userId;
+	const recommendations = await aiRecommendationService.getRecommendations(
+		parseInt(userId),
+		parseInt(limit),
+		exclude_interactions === 'true'
+	);
+
+	res.status(httpStatus.OK).json({
+		success: true,
+		message: 'Personalized recommendations retrieved successfully',
+		data: recommendations,
+		user_type: 'authenticated',
+	});
+});
+
+const getPublicRecommendations = catchAsync(async (req, res) => {
+	const { limit = 10, profile = 'general' } = req.query;
+
+	// Get anonymous recommendations using model
+	const recommendations =
+		await aiRecommendationService.getAnonymousRecommendations(
+			parseInt(limit),
+			profile
+		);
+
+	res.status(httpStatus.OK).json({
+		success: true,
+		message: 'Anonymous recommendations retrieved successfully',
+		data: recommendations,
+		user_type: 'anonymous',
+	});
+});
+
 const getUserInteractions = catchAsync(async (req, res) => {
 	const { userId } = req.params;
 	const { limit = 20 } = req.query;
@@ -166,6 +203,8 @@ const getAIStats = catchAsync(async (req, res) => {
 module.exports = {
 	recordInteraction,
 	getRecommendations,
+	getSmartRecommendations,
+	getPublicRecommendations,
 	getUserInteractions,
 	getSimilarItems,
 	updateUserFeatures,

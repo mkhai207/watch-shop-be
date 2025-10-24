@@ -12,12 +12,14 @@ router.post(
 	recommendationController.recordInteraction
 );
 
-// Get recommendations for a user
-router.get(
-	'/recommendations/:userId',
-	validate(recommendationValidation.getRecommendations),
-	recommendationController.getRecommendations
-);
+// Get recommendation statistics
+router.get('/stats', recommendationController.getRecommendationStats);
+
+// AI server health check
+router.get('/ai/health', recommendationController.getAIHealth);
+
+// AI server statistics
+router.get('/ai/stats', recommendationController.getAIStats);
 
 // Get user interaction history
 router.get(
@@ -47,13 +49,25 @@ router.put(
 	recommendationController.updateItemFeatures
 );
 
-// Get recommendation statistics
-router.get('/stats', recommendationController.getRecommendationStats);
+// Get public recommendations (no token required)
+router.get(
+	'/public',
+	validate(recommendationValidation.getSmartRecommendations),
+	recommendationController.getPublicRecommendations
+);
 
-// AI server health check
-router.get('/ai/health', recommendationController.getAIHealth);
+// Get recommendations for current user (requires token)
+router.get(
+	'/',
+	validate(recommendationValidation.getSmartRecommendations),
+	recommendationController.getSmartRecommendations
+);
 
-// AI server statistics
-router.get('/ai/stats', recommendationController.getAIStats);
+// Get recommendations for a specific user (should be after all other GET routes)
+router.get(
+	'/:userId',
+	validate(recommendationValidation.getRecommendations),
+	recommendationController.getRecommendations
+);
 
 module.exports = router;

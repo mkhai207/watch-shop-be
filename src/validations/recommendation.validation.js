@@ -23,6 +23,23 @@ const getRecommendations = {
 	}),
 };
 
+const getSmartRecommendations = {
+	query: Joi.object().keys({
+		limit: Joi.number().integer().min(1).max(50).optional(),
+		exclude_interactions: Joi.boolean().optional(),
+		profile: Joi.string()
+			.valid(
+				'general',
+				'young_male',
+				'young_female',
+				'mature_male',
+				'mature_female',
+				'luxury'
+			)
+			.optional(),
+	}),
+};
+
 const getUserInteractions = {
 	params: Joi.object().keys({
 		userId: Joi.number().integer().required(),
@@ -95,6 +112,7 @@ const updateItemFeatures = {
 module.exports = {
 	recordInteraction,
 	getRecommendations,
+	getSmartRecommendations,
 	getUserInteractions,
 	getSimilarItems,
 	updateUserFeatures,

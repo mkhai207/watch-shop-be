@@ -99,6 +99,37 @@ class AIRecommendationService {
 	}
 
 	/**
+	 * Get anonymous recommendations using AI model with default profiles
+	 * @param {number} limit - Number of recommendations
+	 * @param {string} profile - Profile type (general, young_male, young_female, etc.)
+	 * @returns {Promise<Array>} Anonymous recommendations
+	 */
+	async getAnonymousRecommendations(limit = 10, profile = 'general') {
+		try {
+			const response = await axios.get(
+				`${this.aiServerUrl}/recommendations/anonymous`,
+				{
+					params: {
+						limit,
+						profile,
+					},
+					timeout: this.timeout,
+				}
+			);
+
+			return response.data;
+		} catch (error) {
+			console.error(
+				'AI Anonymous Recommendation Service Error:',
+				error.message
+			);
+
+			// Fallback to popular items if AI server is down
+			return await this.getFallbackRecommendations(limit);
+		}
+	}
+
+	/**
 	 * Fallback recommendations when AI server is down
 	 * @param {number} limit - Number of recommendations
 	 * @returns {Promise<Array>} Fallback recommendations

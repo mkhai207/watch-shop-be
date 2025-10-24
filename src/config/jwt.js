@@ -32,6 +32,14 @@ function jwt() {
 				'discounts',
 			];
 
+			// Allow public access to recommendations/public endpoint
+			if (
+				req.method === 'GET' &&
+				req.path.includes('/recommendations/public')
+			) {
+				return true;
+			}
+
 			if (req.method === 'GET') {
 				const isPublicGet = publicGetModules.some((module) =>
 					new RegExp(`^/v[1-9]\\d*/${module}(/.*)?$`).test(req.path)
