@@ -38,7 +38,7 @@ const updateWatch = catchAsync(async (req, res) => {
 		throw new ApiError(httpStatus.NOT_FOUND, 'Watch not found');
 	}
 
-	await watchSyncService.syncOneWatch(watch.watch.id);
+	await watchSyncService.syncOneWatch(watch.id);
 
 	res.send({ watch });
 });

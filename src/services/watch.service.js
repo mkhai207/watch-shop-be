@@ -191,7 +191,10 @@ async function createWatch(req) {
 async function updateWatch(req) {
 	const { code, category_id, brand_id, movement_type_id } = req.body;
 	const existedWatch = await getWatchByCode(code);
-	if (existedWatch.id !== req.params.watchId) {
+	if (
+		existedWatch &&
+		String(existedWatch.id) !== String(req.params.watchId)
+	) {
 		throw new ApiError(httpStatus.CONFLICT, 'This watch code existed');
 	}
 
