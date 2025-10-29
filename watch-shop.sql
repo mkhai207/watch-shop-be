@@ -5,7 +5,7 @@
 -- Dumped from database version 16.8
 -- Dumped by pg_dump version 16.8
 
--- Started on 2025-10-12 16:30:14
+-- Started on 2025-10-28 19:19:31
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -63,7 +63,7 @@ CREATE SEQUENCE public.addresses_id_seq
 ALTER SEQUENCE public.addresses_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5073 (class 0 OID 0)
+-- TOC entry 5025 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -107,7 +107,7 @@ CREATE SEQUENCE public.brands_id_seq
 ALTER SEQUENCE public.brands_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5074 (class 0 OID 0)
+-- TOC entry 5026 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: brands_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -153,7 +153,7 @@ CREATE SEQUENCE public.cart_items_id_seq
 ALTER SEQUENCE public.cart_items_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5075 (class 0 OID 0)
+-- TOC entry 5027 (class 0 OID 0)
 -- Dependencies: 237
 -- Name: cart_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -198,7 +198,7 @@ CREATE SEQUENCE public.carts_id_seq
 ALTER SEQUENCE public.carts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5076 (class 0 OID 0)
+-- TOC entry 5028 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: carts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -242,7 +242,7 @@ CREATE SEQUENCE public.categorys_id_seq
 ALTER SEQUENCE public.categorys_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5077 (class 0 OID 0)
+-- TOC entry 5029 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: categorys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -285,7 +285,7 @@ CREATE SEQUENCE public.colors_id_seq
 ALTER SEQUENCE public.colors_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5078 (class 0 OID 0)
+-- TOC entry 5030 (class 0 OID 0)
 -- Dependencies: 231
 -- Name: colors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -332,7 +332,7 @@ CREATE SEQUENCE public.config_order_status_id_seq
 ALTER SEQUENCE public.config_order_status_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5079 (class 0 OID 0)
+-- TOC entry 5031 (class 0 OID 0)
 -- Dependencies: 239
 -- Name: config_order_status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -382,7 +382,7 @@ CREATE SEQUENCE public.discounts_id_seq
 ALTER SEQUENCE public.discounts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5080 (class 0 OID 0)
+-- TOC entry 5032 (class 0 OID 0)
 -- Dependencies: 241
 -- Name: discounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -426,7 +426,7 @@ CREATE SEQUENCE public.movement_types_id_seq
 ALTER SEQUENCE public.movement_types_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5081 (class 0 OID 0)
+-- TOC entry 5033 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: movement_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -473,7 +473,7 @@ CREATE SEQUENCE public.order_details_id_seq
 ALTER SEQUENCE public.order_details_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5082 (class 0 OID 0)
+-- TOC entry 5034 (class 0 OID 0)
 -- Dependencies: 245
 -- Name: order_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -517,7 +517,7 @@ CREATE SEQUENCE public.order_status_history_id_seq
 ALTER SEQUENCE public.order_status_history_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5083 (class 0 OID 0)
+-- TOC entry 5035 (class 0 OID 0)
 -- Dependencies: 247
 -- Name: order_status_history_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -573,7 +573,7 @@ CREATE SEQUENCE public.orders_id_seq
 ALTER SEQUENCE public.orders_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5084 (class 0 OID 0)
+-- TOC entry 5036 (class 0 OID 0)
 -- Dependencies: 243
 -- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -623,7 +623,7 @@ CREATE SEQUENCE public.payments_id_seq
 ALTER SEQUENCE public.payments_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5085 (class 0 OID 0)
+-- TOC entry 5037 (class 0 OID 0)
 -- Dependencies: 249
 -- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -666,7 +666,7 @@ CREATE SEQUENCE public.permission_role_id_seq
 ALTER SEQUENCE public.permission_role_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5086 (class 0 OID 0)
+-- TOC entry 5038 (class 0 OID 0)
 -- Dependencies: 253
 -- Name: permission_role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -711,7 +711,7 @@ CREATE SEQUENCE public.permissions_id_seq
 ALTER SEQUENCE public.permissions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5087 (class 0 OID 0)
+-- TOC entry 5039 (class 0 OID 0)
 -- Dependencies: 251
 -- Name: permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -758,7 +758,7 @@ CREATE SEQUENCE public.reviews_id_seq
 ALTER SEQUENCE public.reviews_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5088 (class 0 OID 0)
+-- TOC entry 5040 (class 0 OID 0)
 -- Dependencies: 255
 -- Name: reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -802,7 +802,7 @@ CREATE SEQUENCE public.roles_id_seq
 ALTER SEQUENCE public.roles_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5089 (class 0 OID 0)
+-- TOC entry 5041 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -848,7 +848,7 @@ CREATE SEQUENCE public.shipments_id_seq
 ALTER SEQUENCE public.shipments_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5090 (class 0 OID 0)
+-- TOC entry 5042 (class 0 OID 0)
 -- Dependencies: 257
 -- Name: shipments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -893,7 +893,7 @@ CREATE SEQUENCE public.strap_materials_id_seq
 ALTER SEQUENCE public.strap_materials_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5091 (class 0 OID 0)
+-- TOC entry 5043 (class 0 OID 0)
 -- Dependencies: 233
 -- Name: strap_materials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -934,7 +934,7 @@ CREATE SEQUENCE public.tb_dictionarys_id_seq
 ALTER SEQUENCE public.tb_dictionarys_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5092 (class 0 OID 0)
+-- TOC entry 5044 (class 0 OID 0)
 -- Dependencies: 259
 -- Name: tb_dictionarys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -983,7 +983,7 @@ CREATE SEQUENCE public.tokens_id_seq
 ALTER SEQUENCE public.tokens_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5093 (class 0 OID 0)
+-- TOC entry 5045 (class 0 OID 0)
 -- Dependencies: 261
 -- Name: tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1036,7 +1036,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5094 (class 0 OID 0)
+-- TOC entry 5046 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1082,7 +1082,7 @@ CREATE SEQUENCE public.watch_variants_id_seq
 ALTER SEQUENCE public.watch_variants_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5095 (class 0 OID 0)
+-- TOC entry 5047 (class 0 OID 0)
 -- Dependencies: 235
 -- Name: watch_variants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1142,7 +1142,7 @@ CREATE SEQUENCE public.watches_id_seq
 ALTER SEQUENCE public.watches_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5096 (class 0 OID 0)
+-- TOC entry 5048 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: watches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1340,564 +1340,6 @@ ALTER TABLE ONLY public.watch_variants ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.watches ALTER COLUMN id SET DEFAULT nextval('public.watches_id_seq'::regclass);
-
-
---
--- TOC entry 5025 (class 0 OID 26858)
--- Dependencies: 220
--- Data for Name: addresses; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.addresses (id, city, district, is_default, phone_number, recipient_name, street, ward, created_at, created_by, updated_at, updated_by, del_flag, user_id) FROM stdin;
-2	Hà Nội	Quận Hoàng Kiếm	1	0123456789	Lê MInh Khải	Hoàng diệu 2	Phường Linh Trung	20250919214900	10	20250919215843	10	0	10
-1	Hà Nội	Quận Hoàng Kiếm	0	0123456789	Lê MInh Khải	Hoàng diệu 2	Phường Linh Trung	20250919214827	10	20250919220149	10	1	10
-3	Hà Nội	Quận Hoàng Kiếm	0	0123456789	Lê MInh Khải	Hoàng diệu 2	Phường Linh Trung	20251002224425	10	\N	\N	0	10
-\.
-
-
---
--- TOC entry 5027 (class 0 OID 26874)
--- Dependencies: 222
--- Data for Name: brands; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.brands (id, name, logo_url, description, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	Olympia12	Olympia.png		20250918131636	10	20250918135944	10	0
-\.
-
-
---
--- TOC entry 5043 (class 0 OID 26984)
--- Dependencies: 238
--- Data for Name: cart_items; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.cart_items (id, cart_id, variant_id, quantity, unit_price, total_price, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-12	15	29	1	18000000	18000000	20251008212311	10	\N	\N	0
-\.
-
-
---
--- TOC entry 5029 (class 0 OID 26884)
--- Dependencies: 224
--- Data for Name: carts; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.carts (id, user_id, session_id, status, created_at, created_by, updated_at, updated_by, del_flag, total_money) FROM stdin;
-15	10	c1ad51e8-89f6-4b94-99c5-b62a3dddeb79	active	20250927150108	\N	\N	10	0	129202199.89
-\.
-
-
---
--- TOC entry 5031 (class 0 OID 26898)
--- Dependencies: 226
--- Data for Name: categorys; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.categorys (id, name, image_url, description, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	Olympia12	Olympia.png		20250918190433	10	20250918200410	10	0
-\.
-
-
---
--- TOC entry 5037 (class 0 OID 26945)
--- Dependencies: 232
--- Data for Name: colors; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.colors (id, name, hex_code, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	Màu trắng	#FFFFFF	20250920171956	10	20250920172943	10	1
-2	Màu đen	#000000	20250929225046	10	\N	\N	0
-\.
-
-
---
--- TOC entry 5045 (class 0 OID 27002)
--- Dependencies: 240
--- Data for Name: config_order_status; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.config_order_status (id, code, name, description, hex_code, color, sort_order, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	PENDING	Chờ xác nhận	Đơn hàng của bạn đang ở hàng đợi xác nhận	#FFC107	Màu vàng	1	20250928090333	10	20250928091040	10	0
-2	PENDINGPAYMENT	Chờ thanh toán	Đơn hàng của bạn đang ở hàng đợi thanh toán. Vui lòng thanh toán	#FD7E14	Orange	2	20250928115729	10	\N	\N	0
-3	PAID	Đã thanh toán	Đơn hàng của bạn đã được thanh toán thành công.	#00FF00	Green	3	20250928123754	10	\N	\N	0
-4	PREPARING	Đang chuẩn bị hàng	Đơn hàng của bạn đang được chuẩn bị và đóng gói	#2196F3	Blue	4	20250928145840	10	\N	\N	0
-5	CANCEL	Đơn hàng đã bị hủy	Đơn hàng của bạn đã hủy	#F44336	Red	5	20251004222540	10	20251004222643	10	0
-6	COMPLETED	Đã hoàn thành	Đơn hàng của bạn đã được giao thành công	#008000	Green	6	20251005173526	10	\N	\N	0
-\.
-
-
---
--- TOC entry 5047 (class 0 OID 27012)
--- Dependencies: 242
--- Data for Name: discounts; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.discounts (id, code, name, description, min_order_value, max_discount_amount, discount_type, discount_value, effective_date, valid_until, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	GIAMGIA20K	Giám giá bạn mới 20k	Giảm giá 20k cho đơn hàng đầu tiên	100000	\N	1	20	20251005000000	20251010000000	20251005190627	10	20251005191201	10	0
-\.
-
-
---
--- TOC entry 5033 (class 0 OID 26908)
--- Dependencies: 228
--- Data for Name: movement_types; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.movement_types (id, code, name, description, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	CODE	Đồng hồ cơ	Đồng hồ cơ là đồng hồ không cần pin	20250919230241	10	\N	\N	0
-2	PIN	Đồng hồ PIN	Đồng hồ cơ là đồng hồ không cần pin	20250919230252	10	20250919230756	10	0
-\.
-
-
---
--- TOC entry 5051 (class 0 OID 27041)
--- Dependencies: 246
--- Data for Name: order_details; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.order_details (id, order_id, variant_id, quantity, unit_price, total_price, created_at, created_by, updated_at, updated_by, del_flag, watch_id) FROM stdin;
-31	16	26	1	9200000	9200000	20251001212709	10	\N	\N	0	\N
-32	16	25	1	9500000	9500000	20251001212709	10	\N	\N	0	\N
-33	17	26	1	9200000	9200000	20251004205438	10	\N	\N	0	\N
-34	17	25	1	9500000	9500000	20251004205438	10	\N	\N	0	\N
-35	18	26	1	9200000	9200000	20251009181138	10	\N	\N	0	\N
-36	18	25	1	9500000	9500000	20251009181138	10	\N	\N	0	\N
-\.
-
-
---
--- TOC entry 5053 (class 0 OID 27064)
--- Dependencies: 248
--- Data for Name: order_status_history; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.order_status_history (id, order_id, status_id, note, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-22	16	2	\N	20251001212709	10	\N	\N	0
-23	17	2	\N	20251004205438	10	\N	\N	0
-24	17	3		20251004205529	10	\N	\N	0
-38	17	6		20251005180849	10	\N	\N	0
-39	18	2	\N	20251009181138	10	\N	\N	0
-\.
-
-
---
--- TOC entry 5049 (class 0 OID 27020)
--- Dependencies: 244
--- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.orders (id, user_id, total_amount, discount_code, discount_amount, final_amount, shipping_address, shipping_fee, note, guess_name, guess_email, guess_phone, created_at, created_by, updated_at, updated_by, del_flag, current_status_id, code, review_flag, payment_method) FROM stdin;
-16	10	18700000	\N	0	18750000	123 Đường ABC, Quận 1, TP.HCM	50000	\N	Nguyen Van A	lkhai4617@gmail.com	0912345678	20251001212709	10	\N	\N	0	2	ORD20251001212709-1838	0	1
-17	10	18700000	\N	0	18750000	123 Đường ABC, Quận 1, TP.HCM	50000	\N	Nguyen Van A	lkhai4617@gmail.com	0912345678	20251004205438	10	20251008220059	10	0	6	ORD20251004205438-4248	1	1
-18	10	18700000	\N	0	18750000	123 Đường ABC, Quận 1, TP.HCM	50000	\N	Nguyen Van A	lkhai4617@gmail.com	0912345678	20251009181138	10	\N	\N	0	2	ORD20251009181138-3100	0	1
-\.
-
-
---
--- TOC entry 5055 (class 0 OID 27082)
--- Dependencies: 250
--- Data for Name: payments; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.payments (id, order_id, transaction_code, amount, method, status, type, note, created_at, created_by, updated_at, updated_by, del_flag, gateway_trans_no, trans_date) FROM stdin;
-3	17	ORDER_17_1759586078914	18750000	vnpay	success	0	Thanh toan don hang 17	20251004205529	10	\N	\N	0	15191163	20251004205658
-\.
-
-
---
--- TOC entry 5059 (class 0 OID 27106)
--- Dependencies: 254
--- Data for Name: permission_role; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.permission_role (id, role_id, permission_id, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-\.
-
-
---
--- TOC entry 5057 (class 0 OID 27096)
--- Dependencies: 252
--- Data for Name: permissions; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.permissions (id, api_path, method, module, name, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-\.
-
-
---
--- TOC entry 5061 (class 0 OID 27124)
--- Dependencies: 256
--- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.reviews (id, rating, comment, image_url, user_id, order_id, watch_id, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-6	4.5	Đơn hàng khá tốt	order.png	10	17	16	20251008220059	10	\N	\N	0
-\.
-
-
---
--- TOC entry 5021 (class 0 OID 26834)
--- Dependencies: 216
--- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.roles (id, code, name, description, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-1	ADMIN	Quản trị viên	Người quản trị hệ thống	20250917244327	0	20250917244327	0	0
-2	CUSTOMER	Khách hàng	Khách hàng	20250918110017	10	20250918112131	10	0
-3	CUSTOMER23	Khách hàng23		20250918112448	10	20250918135839	10	1
-\.
-
-
---
--- TOC entry 5063 (class 0 OID 27149)
--- Dependencies: 258
--- Data for Name: shipments; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.shipments (id, order_id, carrier, tracking_code, estimated_delivery, delivered_at, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-\.
-
-
---
--- TOC entry 5039 (class 0 OID 26953)
--- Dependencies: 234
--- Data for Name: strap_materials; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.strap_materials (id, code, name, description, extra_money, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-2	THEPCAOCAP	Thép cao cấp	\N	1000000	20250922224729	10	\N	\N	0
-1	DABO	Da bò	\N	700000	20250921150413	10	20250921150609	10	0
-\.
-
-
---
--- TOC entry 5065 (class 0 OID 27162)
--- Dependencies: 260
--- Data for Name: tb_dictionarys; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.tb_dictionarys (id, col_nm, col_val, content, lang, note) FROM stdin;
-1	token_type	0	Refresh Token	vi	Dùng để get access token
-2	token_type	1	Reset password token	vi	Dùng để reset password
-3	discount_type	0	Giảm cố định	vi	Bảng discount
-4	discount_type	1	Giảm theo phần trăm	vi	Bảng discount
-\.
-
-
---
--- TOC entry 5067 (class 0 OID 27172)
--- Dependencies: 262
--- Data for Name: tokens; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.tokens (id, owner_type, user_id, token_type, token_value, device_info, ip_address, is_active, expires_at, revoked_at, created_at, created_by, updated_at, updated_by) FROM stdin;
-5	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NTI5MTEsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTYwOTExfQ.KVk0BQBjCDg4tvWBBS0K1c2nvIVQ9Mv8nPqN5HHS_c0	PostmanRuntime/7.46.1	::1	0	20251018090151	\N	20251018090151	10	\N	\N
-6	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NTY1MjQsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTY0NTI0fQ.pW0kKlH1S0xlMtpPJ9WsH6KcoQ5D5Tw6Nl6o6QKkoP8	PostmanRuntime/7.46.1	::1	0	20251018100204	\N	20251018100204	10	\N	\N
-7	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NTg4MjgsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTY2ODI4fQ.L8CVfSw7cZEaslJ8NLdZ09o8rVqDZ1sUkN2TwWmjsFU	PostmanRuntime/7.46.1	::1	0	20251018104028	\N	20251018104028	10	\N	\N
-8	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NTk4MDQsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTY3ODA0fQ.WynKZGeW2zhvqdXHybhSwnZNS7YTiJn7Q9bsi39Wy-0	PostmanRuntime/7.46.1	::1	0	20251018105644	\N	20251018105644	10	\N	\N
-9	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NjM4ODIsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTcxODgyfQ.F91MlzxPgDV_54YVNyQUbG2n6UC84EKc_tAsQIom7Mk	PostmanRuntime/7.46.1	::1	0	20251018120442	\N	20251018120442	10	\N	\N
-10	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NjgxNzcsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTc2MTc3fQ.jWX8RjvY0Y5WJoTqEeDx7quJ5FqIvSzdXMZVNu5tJqU	PostmanRuntime/7.46.1	::1	0	20251018131617	\N	20251018131617	10	\N	\N
-11	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA3NzA0MTgsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MTc4NDE4fQ.NSA-fLJ8ztwDY7gBaSrd7Irn8FPAnaUeUn8XqkI9WzU	PostmanRuntime/7.46.1	::1	0	20251018135338	\N	20251018135338	10	\N	\N
-12	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA4ODQ3MjIsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4MjkyNzIyfQ.HuEMivFnS27HjCt7w9ABWL_HTp1FdGLbipxDkuvAcGs	PostmanRuntime/7.46.1	::1	0	20251019213842	\N	20251019213842	10	\N	\N
-13	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDI3MTIsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUwNzEyfQ.wbbjwyCDI3O6QUE2tAZmarnZoAVQLZO4NBSafl7r0CY	Windows 10 - Chrome 140.0.0.0	::1	0	20251022211832	\N	20251022211832	10	\N	\N
-14	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDI3ODAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUwNzgwfQ.5gEKAoGDE7fH3WpOA-8tJ3nYghiQvqCdByLRrmTInsE	PostmanRuntime/7.46.1	::1	0	20251022211940	\N	20251022211940	10	\N	\N
-15	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDI5NTksInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUwOTU5fQ.Z2QQFeATp6BZ9t4tHYBDHYtF7i4tUiryoUd6Tj_u5PU	Windows 10 - Chrome 140.0.0.0	::1	0	20251022212239	\N	20251022212239	10	\N	\N
-16	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDMyMTMsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxMjEzfQ.8qMWkw9_hzgAaS5BaMupGAdX21eX9Z95iMi8xXOPxZ0	PostmanRuntime/7.46.1	::1	0	20251022212653	\N	20251022212653	10	\N	\N
-17	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDMyMzYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxMjM2fQ.bAPnFxJalTNTJgb_7FjxLDLUHCS9pvODAezULU_VtGk	PostmanRuntime/7.46.1	::1	0	20251022212716	\N	20251022212716	10	\N	\N
-18	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDMyNTYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxMjU2fQ.VyDpfBQlkhvKn__nEpntztNO8RMQi8On87WZVa8aTXE	PostmanRuntime/7.46.1	::1	0	20251022212736	\N	20251022212736	10	\N	\N
-19	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDMzNjgsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxMzY4fQ.rNevfTk8IkhgHXMGJpD1MisP2IXhJVPv8DCECypwVpE	Windows 10 - Chrome 140.0.0.0	::1	0	20251022212928	\N	20251022212928	10	\N	\N
-20	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDM0MTMsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxNDEzfQ.tw2l5_uDXlE1A6lC7AL-7HTpUAk8I96gUyU7Ivou6gE	Windows 10 - Chrome 140.0.0.0	::1	0	20251022213013	\N	20251022213013	10	\N	\N
-21	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDM1NTUsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxNTU1fQ.JM542Cm0ONd6q2ekDJiXT4j4N3M8CIex-DGwHg4L1mk	Windows 10 - Chrome 140.0.0.0	::1	0	20251022213235	\N	20251022213235	10	\N	\N
-22	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDM3NDgsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxNzQ4fQ.SfQFfRuocHkukzkvrmWE79UISfxoiEwfdPGJRB1TTVk	Windows 10 - Chrome 140.0.0.0	::1	0	20251022213548	\N	20251022213548	10	\N	\N
-23	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDM3NjIsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxNzYyfQ.FHSs19rUpk_3-FrGbUtsD2yuQLFYwGsWXYTQPBvs4L4	Windows 10 - Chrome 140.0.0.0	::1	0	20251022213602	\N	20251022213602	10	\N	\N
-24	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDM4NDEsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTUxODQxfQ.l3di-R5O36jV6dfs8ofHYabKnkXs_m9T_tVuSNX_MdA	Windows 10 - Chrome 140.0.0.0	::1	0	20251022213721	\N	20251022213721	10	\N	\N
-25	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjExNDYxMDAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4NTU0MTAwfQ.DCWTzD-WAcZZ9W7-OOkQp6JJ_R9rRw2j4T_CGp0wBk4	Windows 10 - Chrome 140.0.0.0	::1	0	20251022221500	\N	20251022221500	10	\N	\N
-26	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjEzOTk4MjYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4ODA3ODI2fQ.BoZGiSFrT5oWVQ3TXSJMIGzx4mSZRnd8VsLEJ8HbcCc	PostmanRuntime/7.47.1	::1	0	20251025204346	\N	20251025204346	10	\N	\N
-27	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjE1NTEyMTAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU4OTU5MjEwfQ.AEImQ9ewiL0qN1n_S3kLXhNmdFKqy_paiQvqQVG0C5A	PostmanRuntime/7.47.1	::1	0	20251027144650	\N	20251027144650	10	\N	\N
-28	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjE2MzE2OTUsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5MDM5Njk1fQ.jyAdtCfGQzZ77G_E0Agv7FWhYkaPwJTS_oFq9f1gHwc	Windows 10 - Chrome 140.0.0.0	::1	0	20251028130815	\N	20251028130815	10	\N	\N
-29	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjE2MzI0MTYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5MDQwNDE2fQ.xyPujjgUqEVCL70Bbv_MFqy6SpTqHOL_a_dwJhcasRs	Windows 10 - Chrome 140.0.0.0	::1	0	20251028132016	\N	20251028132016	10	\N	\N
-30	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjE2MzI2MjUsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5MDQwNjI1fQ.PhgrXYOmtKBdAWRJn3fkth_SHTsQne77glyjc6-Oe1E	Windows 10 - Chrome 140.0.0.0	::1	0	20251028132345	\N	20251028132345	10	\N	\N
-31	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwNTU5NTAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NDYzOTUwfQ.I_url6INvvoSGBd0TVEbdQHQE7JY26tyjUPhbW8TLQI	Windows 10 - Chrome 140.0.0.0	::1	0	20251102105910	\N	20251102105910	10	\N	\N
-32	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwNTU5OTQsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NDYzOTk0fQ.sOTOITo8VDHyFb79qMGXGdt2UGYFqhl75Q6lManl8iY	Windows 10 - Chrome 140.0.0.0	::1	0	20251102105954	\N	20251102105954	10	\N	\N
-33	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTQzOTAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTAyMzkwfQ.szZutbqEFe3947E96mfaCTHqTG9G7eH54QiiW0O3Da8	Windows 10 - Chrome 140.0.0.0	::1	0	20251102213950	\N	20251102213950	10	\N	\N
-34	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTQ0NzYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTAyNDc2fQ.8e0m2TWRoLzNN-AJD6ZQWysUaC9r33G9vOCkBaaykLw	Windows 10 - Chrome 140.0.0.0	::1	0	20251102214116	\N	20251102214116	10	\N	\N
-35	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTQ5MDMsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTAyOTAzfQ.EAcpVN8uo9nviOqc1hVX8mQIjZmqMZbZyhrVYwJarJM	Windows 10 - Chrome 140.0.0.0	::1	0	20251102214823	\N	20251102214823	10	\N	\N
-36	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTYxOTMsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA0MTkzfQ.vDFDPQtsfbkt2XR9wu7QISsf5bAjNY5cOJU1Ww_YuNo	Windows 10 - Chrome 140.0.0.0	::1	0	20251102220953	\N	20251102220953	10	\N	\N
-37	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTYyNjcsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA0MjY3fQ.TK55aJ5yX7UwGmqOUIFT5YjwH0JHEms0o6T9WY4o6Mc	Windows 10 - Chrome 140.0.0.0	::1	0	20251102221107	\N	20251102221107	10	\N	\N
-38	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTYyOTYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA0Mjk2fQ.JcTmxx79HgkDuYusnL3ILBrbTnBEZBdK1ZJ3LkjPZMQ	Windows 10 - Chrome 140.0.0.0	::1	0	20251102221136	\N	20251102221136	10	\N	\N
-39	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTY0MDAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA0NDAwfQ.m7QjR62qkF5fCd6Ew_4-TwYeA7XCqQMJ72V0P71L18c	Windows 10 - Chrome 140.0.0.0	::1	1	20251102221320	\N	20251102221320	10	\N	\N
-40	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTc4MjksInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA1ODI5fQ.1S7lPqkvGkkmUi9z-kueFShmisUJVf1G81sgCSA1VTU	Windows 10 - Chrome 140.0.0.0	::1	1	20251102223709	\N	20251102223709	10	\N	\N
-41	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTc5MTksInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA1OTE5fQ.4N4ja8i94UeWKxQCGHJcCjPfH-3nPIp77p8xP83xJVQ	Windows 10 - Chrome 140.0.0.0	::1	1	20251102223839	\N	20251102223839	10	\N	\N
-42	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTc5MzIsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA1OTMyfQ.o-rMSkfCl9Vx_TPiOi4OZwpeLtfGxZ7Ok6b09kXwiFE	Windows 10 - Chrome 140.0.0.0	::1	1	20251102223852	\N	20251102223852	10	\N	\N
-43	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTgwNjQsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA2MDY0fQ.5fqJMrfBWdfUtAQNXJdDLY1HdeKm49INQpnFMm0qd6A	Windows 10 - Chrome 140.0.0.0	::1	1	20251102224104	\N	20251102224104	10	\N	\N
-44	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTgwOTYsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA2MDk2fQ.K_cqLZy34dYF-vH0UuAJNUXdN2jX_g5UZsd4PSYMSCk	Windows 10 - Chrome 140.0.0.0	::1	1	20251102224136	\N	20251102224136	10	\N	\N
-45	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTg3MTksInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA2NzE5fQ.gYYVgWPmjjIm_UT4iQF6LEXBRpeGeekY4ho8o_-GSJ0	Windows 10 - Chrome 140.0.0.0	::1	1	20251102225159	\N	20251102225159	10	\N	\N
-46	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTkwMDAsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA3MDAwfQ._s9l_n7Ig8PC2dtQxDchVACQ3ozHYLotxqLi7l_OgH4	Windows 10 - Chrome 140.0.0.0	::1	1	20251102225640	\N	20251102225640	10	\N	\N
-47	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTkwMTMsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA3MDEzfQ.a30OdF7xXSqWFlnLb2D-crhP6NUI-Wby7G6nKvgL4JI	Windows 10 - Chrome 140.0.0.0	::1	1	20251102225653	\N	20251102225653	10	\N	\N
-48	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTkwMzQsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA3MDM0fQ.WKA84VmtCsg6UvoJZidPq48TvM3C9qK_GtNG6UQs3DI	Windows 10 - Chrome 140.0.0.0	::1	1	20251102225714	\N	20251102225714	10	\N	\N
-49	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIwOTk2NjQsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA3NjY0fQ.CEAVQ32jmfBU9z-_6IcWAFArUknNkhJcfG4YKiO30_0	Windows 10 - Chrome 140.0.0.0	::1	1	20251102230744	\N	20251102230744	10	\N	\N
-50	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxMDAwMjgsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTA4MDI4fQ.MzIWf7T5a87_sclZ7T-ifjGMdSfDgxusMaq05MnZBC4	Windows 10 - Chrome 140.0.0.0	::1	1	20251102231348	\N	20251102231348	10	\N	\N
-51	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNzIzMzIsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTgwMzMyfQ.WyAVBMoIuMTSB386CFyrWDNs5U9szko6b3-1ZJ4EahI	Windows 10 - Chrome 141.0.0.0	::1	1	20251103191852	\N	20251103191852	10	\N	\N
-52	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNzI0ODcsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTgwNDg3fQ.DjLFs0Q8se1yg6NTQolRNoN1XzYBWRuGgTvpsd7pXFI	Windows 10 - Chrome 141.0.0.0	::1	1	20251103192127	\N	20251103192127	10	\N	\N
-53	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNzI1NjUsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTgwNTY1fQ.LmHtmc899w6mA-cyjohZER0Wu9mg2gE7KjPyw3Tiv3g	Windows 10 - Chrome 141.0.0.0	::1	1	20251103192245	\N	20251103192245	10	\N	\N
-54	user	10	0	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNzI3NjMsInVzZXJJZCI6IjEwIiwiaWF0IjoxNzU5NTgwNzYzfQ.FywJ43Ijqm1GFRT0cL_wm6bFdT0p5i9dsrrGIWQr2SE	Windows 10 - Chrome 141.0.0.0	::1	1	20251103192603	\N	20251103192603	10	\N	\N
-\.
-
-
---
--- TOC entry 5023 (class 0 OID 26842)
--- Dependencies: 218
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.users (id, code, username, password, email, phone_number, first_name, last_name, gender, date_of_birth, address, status, created_at, created_by, updated_at, updated_by, del_flag, role_id) FROM stdin;
-10	\N	lkhai4617	$2b$10$E6oHxwvfKlh6xr8RmQd91O4jopC7YcpQww00RXGruo7Se/FYcrw8K	lkhai4617@gmail.com	\N	Lê	Khải	\N	20030720	\N	0	20250918090151	\N	20250918102851	10	0	1
-\.
-
-
---
--- TOC entry 5041 (class 0 OID 26961)
--- Dependencies: 236
--- Data for Name: watch_variants; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.watch_variants (id, watch_id, color_id, strap_material_id, stock_quantity, price, created_at, created_by, updated_at, updated_by, del_flag) FROM stdin;
-27	16	2	2	50	9500000	20250929230400	10	\N	\N	0
-28	16	2	1	50	9200000	20250929230525	10	\N	\N	0
-29	17	1	2	50	9500000	20250929230539	10	\N	\N	0
-30	17	1	1	30	9200000	20250929230539	10	\N	\N	0
-26	16	1	1	27	9200000	20250929230324	10	\N	\N	0
-25	16	1	2	47	9500000	20250929230324	10	\N	\N	0
-\.
-
-
---
--- TOC entry 5035 (class 0 OID 26918)
--- Dependencies: 230
--- Data for Name: watches; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.watches (id, code, name, description, model, case_material, case_size, strap_size, gender, water_resistance, release_date, sold, base_price, rating, status, thumbnail, slider, created_at, updated_at, updated_by, del_flag, category_id, brand_id, movement_type_id, created_by) FROM stdin;
-16	TEST	Seiko Presage Automatic	Đồng hồ cơ Seiko Presage Automatic với thiết kế sang trọng, kính sapphire chống xước, phù hợp cả đi làm và đi chơi.	SRPB41J1	Thép không gỉ	41	20	0	5 ATM	2023-10-15	1	8500000	4.5	t	https://example.com/images/seiko-thumbnail.jpg	https://example.com/images/seiko-slider1.jpg,https://example.com/images/seiko-slider2.jpg	20250929230324	20251008220059	10	0	1	1	1	10
-17	WATXIN	Seiko Presage Automatic	Đồng hồ cơ Seiko Presage Automatic với thiết kế sang trọng, kính sapphire chống xước, phù hợp cả đi làm và đi chơi.	SRPB41J1	Thép không gỉ	41	20	0	5 ATM	2023-10-15	0	8500000	0	t	https://example.com/images/seiko-thumbnail.jpg	https://example.com/images/seiko-slider1.jpg,https://example.com/images/seiko-slider2.jpg	20250929230539	\N	\N	0	1	1	1	10
-\.
-
-
---
--- TOC entry 5097 (class 0 OID 0)
--- Dependencies: 219
--- Name: addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.addresses_id_seq', 3, true);
-
-
---
--- TOC entry 5098 (class 0 OID 0)
--- Dependencies: 221
--- Name: brands_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.brands_id_seq', 1, true);
-
-
---
--- TOC entry 5099 (class 0 OID 0)
--- Dependencies: 237
--- Name: cart_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.cart_items_id_seq', 12, true);
-
-
---
--- TOC entry 5100 (class 0 OID 0)
--- Dependencies: 223
--- Name: carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.carts_id_seq', 15, true);
-
-
---
--- TOC entry 5101 (class 0 OID 0)
--- Dependencies: 225
--- Name: categorys_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.categorys_id_seq', 1, true);
-
-
---
--- TOC entry 5102 (class 0 OID 0)
--- Dependencies: 231
--- Name: colors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.colors_id_seq', 2, true);
-
-
---
--- TOC entry 5103 (class 0 OID 0)
--- Dependencies: 239
--- Name: config_order_status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.config_order_status_id_seq', 6, true);
-
-
---
--- TOC entry 5104 (class 0 OID 0)
--- Dependencies: 241
--- Name: discounts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.discounts_id_seq', 1, true);
-
-
---
--- TOC entry 5105 (class 0 OID 0)
--- Dependencies: 227
--- Name: movement_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.movement_types_id_seq', 2, true);
-
-
---
--- TOC entry 5106 (class 0 OID 0)
--- Dependencies: 245
--- Name: order_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.order_details_id_seq', 36, true);
-
-
---
--- TOC entry 5107 (class 0 OID 0)
--- Dependencies: 247
--- Name: order_status_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.order_status_history_id_seq', 39, true);
-
-
---
--- TOC entry 5108 (class 0 OID 0)
--- Dependencies: 243
--- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.orders_id_seq', 18, true);
-
-
---
--- TOC entry 5109 (class 0 OID 0)
--- Dependencies: 249
--- Name: payments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.payments_id_seq', 6, true);
-
-
---
--- TOC entry 5110 (class 0 OID 0)
--- Dependencies: 253
--- Name: permission_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.permission_role_id_seq', 1, false);
-
-
---
--- TOC entry 5111 (class 0 OID 0)
--- Dependencies: 251
--- Name: permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.permissions_id_seq', 1, false);
-
-
---
--- TOC entry 5112 (class 0 OID 0)
--- Dependencies: 255
--- Name: reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.reviews_id_seq', 6, true);
-
-
---
--- TOC entry 5113 (class 0 OID 0)
--- Dependencies: 215
--- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
-
-
---
--- TOC entry 5114 (class 0 OID 0)
--- Dependencies: 257
--- Name: shipments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.shipments_id_seq', 1, false);
-
-
---
--- TOC entry 5115 (class 0 OID 0)
--- Dependencies: 233
--- Name: strap_materials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.strap_materials_id_seq', 2, true);
-
-
---
--- TOC entry 5116 (class 0 OID 0)
--- Dependencies: 259
--- Name: tb_dictionarys_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.tb_dictionarys_id_seq', 4, true);
-
-
---
--- TOC entry 5117 (class 0 OID 0)
--- Dependencies: 261
--- Name: tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.tokens_id_seq', 54, true);
-
-
---
--- TOC entry 5118 (class 0 OID 0)
--- Dependencies: 217
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.users_id_seq', 10, true);
-
-
---
--- TOC entry 5119 (class 0 OID 0)
--- Dependencies: 235
--- Name: watch_variants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.watch_variants_id_seq', 30, true);
-
-
---
--- TOC entry 5120 (class 0 OID 0)
--- Dependencies: 229
--- Name: watches_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.watches_id_seq', 17, true);
 
 
 --
@@ -2117,7 +1559,7 @@ ALTER TABLE ONLY public.watches
 
 
 --
--- TOC entry 4852 (class 2606 OID 334856)
+-- TOC entry 4852 (class 2606 OID 401444)
 -- Name: addresses addresses_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2126,7 +1568,7 @@ ALTER TABLE ONLY public.addresses
 
 
 --
--- TOC entry 4860 (class 2606 OID 334918)
+-- TOC entry 4860 (class 2606 OID 401506)
 -- Name: cart_items cart_items_cart_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2135,7 +1577,7 @@ ALTER TABLE ONLY public.cart_items
 
 
 --
--- TOC entry 4861 (class 2606 OID 334923)
+-- TOC entry 4861 (class 2606 OID 401511)
 -- Name: cart_items cart_items_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2144,7 +1586,7 @@ ALTER TABLE ONLY public.cart_items
 
 
 --
--- TOC entry 4853 (class 2606 OID 334863)
+-- TOC entry 4853 (class 2606 OID 401451)
 -- Name: carts carts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2153,7 +1595,7 @@ ALTER TABLE ONLY public.carts
 
 
 --
--- TOC entry 4864 (class 2606 OID 334948)
+-- TOC entry 4864 (class 2606 OID 401536)
 -- Name: order_details order_details_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2162,7 +1604,7 @@ ALTER TABLE ONLY public.order_details
 
 
 --
--- TOC entry 4865 (class 2606 OID 334953)
+-- TOC entry 4865 (class 2606 OID 401541)
 -- Name: order_details order_details_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2171,7 +1613,7 @@ ALTER TABLE ONLY public.order_details
 
 
 --
--- TOC entry 4866 (class 2606 OID 334960)
+-- TOC entry 4866 (class 2606 OID 401548)
 -- Name: order_details order_details_watch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2180,7 +1622,7 @@ ALTER TABLE ONLY public.order_details
 
 
 --
--- TOC entry 4867 (class 2606 OID 334965)
+-- TOC entry 4867 (class 2606 OID 401553)
 -- Name: order_status_history order_status_history_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2189,7 +1631,7 @@ ALTER TABLE ONLY public.order_status_history
 
 
 --
--- TOC entry 4868 (class 2606 OID 334970)
+-- TOC entry 4868 (class 2606 OID 401558)
 -- Name: order_status_history order_status_history_status_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2198,7 +1640,7 @@ ALTER TABLE ONLY public.order_status_history
 
 
 --
--- TOC entry 4862 (class 2606 OID 334941)
+-- TOC entry 4862 (class 2606 OID 401529)
 -- Name: orders orders_current_status_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2207,7 +1649,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4863 (class 2606 OID 334934)
+-- TOC entry 4863 (class 2606 OID 401522)
 -- Name: orders orders_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2216,7 +1658,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4869 (class 2606 OID 334977)
+-- TOC entry 4869 (class 2606 OID 401565)
 -- Name: payments payments_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2225,7 +1667,7 @@ ALTER TABLE ONLY public.payments
 
 
 --
--- TOC entry 4870 (class 2606 OID 334993)
+-- TOC entry 4870 (class 2606 OID 401581)
 -- Name: permission_role permission_role_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2234,7 +1676,7 @@ ALTER TABLE ONLY public.permission_role
 
 
 --
--- TOC entry 4871 (class 2606 OID 334988)
+-- TOC entry 4871 (class 2606 OID 401576)
 -- Name: permission_role permission_role_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2243,7 +1685,7 @@ ALTER TABLE ONLY public.permission_role
 
 
 --
--- TOC entry 4872 (class 2606 OID 335005)
+-- TOC entry 4872 (class 2606 OID 401593)
 -- Name: reviews reviews_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2252,7 +1694,7 @@ ALTER TABLE ONLY public.reviews
 
 
 --
--- TOC entry 4873 (class 2606 OID 335000)
+-- TOC entry 4873 (class 2606 OID 401588)
 -- Name: reviews reviews_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2261,7 +1703,7 @@ ALTER TABLE ONLY public.reviews
 
 
 --
--- TOC entry 4874 (class 2606 OID 335010)
+-- TOC entry 4874 (class 2606 OID 401598)
 -- Name: reviews reviews_watch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2270,7 +1712,7 @@ ALTER TABLE ONLY public.reviews
 
 
 --
--- TOC entry 4875 (class 2606 OID 335017)
+-- TOC entry 4875 (class 2606 OID 401605)
 -- Name: shipments shipments_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2279,7 +1721,7 @@ ALTER TABLE ONLY public.shipments
 
 
 --
--- TOC entry 4876 (class 2606 OID 335024)
+-- TOC entry 4876 (class 2606 OID 401612)
 -- Name: tokens tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2288,7 +1730,7 @@ ALTER TABLE ONLY public.tokens
 
 
 --
--- TOC entry 4851 (class 2606 OID 334847)
+-- TOC entry 4851 (class 2606 OID 401435)
 -- Name: users users_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2297,7 +1739,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4857 (class 2606 OID 334906)
+-- TOC entry 4857 (class 2606 OID 401494)
 -- Name: watch_variants watch_variants_color_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2306,7 +1748,7 @@ ALTER TABLE ONLY public.watch_variants
 
 
 --
--- TOC entry 4858 (class 2606 OID 334911)
+-- TOC entry 4858 (class 2606 OID 401499)
 -- Name: watch_variants watch_variants_strap_material_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2315,7 +1757,7 @@ ALTER TABLE ONLY public.watch_variants
 
 
 --
--- TOC entry 4859 (class 2606 OID 334901)
+-- TOC entry 4859 (class 2606 OID 401489)
 -- Name: watch_variants watch_variants_watch_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2324,7 +1766,7 @@ ALTER TABLE ONLY public.watch_variants
 
 
 --
--- TOC entry 4854 (class 2606 OID 334887)
+-- TOC entry 4854 (class 2606 OID 401475)
 -- Name: watches watches_brand_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2333,7 +1775,7 @@ ALTER TABLE ONLY public.watches
 
 
 --
--- TOC entry 4855 (class 2606 OID 334882)
+-- TOC entry 4855 (class 2606 OID 401470)
 -- Name: watches watches_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2342,7 +1784,7 @@ ALTER TABLE ONLY public.watches
 
 
 --
--- TOC entry 4856 (class 2606 OID 334892)
+-- TOC entry 4856 (class 2606 OID 401480)
 -- Name: watches watches_movement_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2350,7 +1792,7 @@ ALTER TABLE ONLY public.watches
     ADD CONSTRAINT watches_movement_type_id_fkey FOREIGN KEY (movement_type_id) REFERENCES public.movement_types(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
--- Completed on 2025-10-12 16:30:14
+-- Completed on 2025-10-28 19:19:31
 
 --
 -- PostgreSQL database dump complete
