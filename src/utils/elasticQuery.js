@@ -32,6 +32,7 @@ function buildElasticQuery(queryParams, schema = {}) {
 		const op = (opOverride || allowed.op || 'eq').trim();
 		const field = allowed.field || fieldKey;
 		const type = allowed.type || 'string';
+		const nestedPath = allowed.nestedPath; // nestesd field
 
 		let value = rawVal;
 		if (type === 'number' && !['range', 'between'].includes(op))
@@ -39,21 +40,26 @@ function buildElasticQuery(queryParams, schema = {}) {
 		if (type === 'boolean')
 			value = ['true', '1', 'yes'].includes(String(value).toLowerCase());
 
+		let queryPart = null;
 		switch (op) {
 			case 'eq':
-				bool.filter.push({ term: { [field]: value } });
+				queryPart = { term: { [field]: value } };
+				// bool.filter.push({ term: { [field]: value } });
 				break;
 			case 'like':
-				bool.must.push({ match_phrase: { [field]: value } });
+				queryPart = { match_phrase: { [field]: value } };
+				// bool.must.push({ match_phrase: { [field]: value } });
 				break;
 			case 'in':
-				bool.filter.push({ terms: { [field]: toArray(value) } });
+				queryPart = { terms: { [field]: toArray(value) } };
+				// bool.filter.push({ terms: { [field]: toArray(value) } });
 				break;
 			case 'gte':
 			case 'lte':
 			case 'gt':
 			case 'lt':
-				bool.filter.push({ range: { [field]: { [op]: value } } });
+				queryPart = { range: { [field]: { [op]: value } } };
+				// bool.filter.push({ range: { [field]: { [op]: value } } });
 				break;
 			case 'between':
 			case 'range': {
@@ -65,12 +71,25 @@ function buildElasticQuery(queryParams, schema = {}) {
 					range.gte = from;
 				if (to !== undefined && to !== null && !Number.isNaN(to))
 					range.lte = to;
-				bool.filter.push({ range: { [field]: range } });
+				queryPart = { range: { [field]: range } };
+				// bool.filter.push({ range: { [field]: range } });
 				break;
 			}
 			default:
-				bool.must.push({ match: { [field]: value } });
+				queryPart = { match: { [field]: value } };
+			// bool.must.push({ match: { [field]: value } });
 		}
+
+		if (nestedPath) {
+			queryPart = {
+				nested: {
+					path: nestedPath,
+					query: queryPart,
+				},
+			};
+		}
+
+		bool.filter.push(queryPart);
 	});
 
 	// bool.filter.push({ term: { del_flag: '0' } });

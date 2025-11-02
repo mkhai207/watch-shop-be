@@ -1,8 +1,7 @@
 const client = require('../config/elastic.search');
-const ApiError = require('../utils/ApiError');
 
 async function createWatchIndex() {
-	const indexName = 'watchshop_watches';
+	const indexName = 'watch_shop';
 
 	try {
 		const exists = await client.indices.exists({ index: indexName });
@@ -104,8 +103,27 @@ async function createWatchIndex() {
 						},
 						created_at: { type: 'date', format: 'yyyyMMddHHmmss' },
 						updated_at: { type: 'date', format: 'yyyyMMddHHmmss' },
-						// color
-						// strap_material
+						variants: {
+							type: 'nested',
+							properties: {
+								color_id: { type: 'keyword' },
+								color_name: {
+									type: 'text',
+									analyzer: 'standard',
+									fields: {
+										keyword: { type: 'keyword' },
+									},
+								},
+								strap_material_id: { type: 'keyword' },
+								strap_material_name: {
+									type: 'text',
+									analyzer: 'standard',
+									fields: {
+										keyword: { type: 'keyword' },
+									},
+								},
+							},
+						},
 					},
 				},
 			},

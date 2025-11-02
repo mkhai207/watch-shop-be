@@ -28,6 +28,18 @@ async function search(req) {
 			category_id: { op: 'eq', type: 'number' },
 			movement_type_id: { op: 'eq', type: 'number' },
 			gender: { op: 'eq', type: 'string' },
+			color_id: {
+				op: 'eq',
+				type: 'number',
+				field: 'variants.color_id',
+				nestedPath: 'variants',
+			},
+			strap_material_id: {
+				op: 'eq',
+				type: 'number',
+				field: 'variants.strap_material_id',
+				nestedPath: 'variants',
+			},
 		},
 	};
 
@@ -58,7 +70,7 @@ async function search(req) {
 	]);
 
 	const response = await client.search({
-		index: 'watchshop_watches',
+		index: 'watch_shop',
 		from,
 		size: Number(limit),
 		sort: sortDsl,

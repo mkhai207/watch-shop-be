@@ -25,6 +25,25 @@ async function syncOneWatch(watchId) {
 		throw new ApiError(404, `This watch not found`);
 	}
 
+	const variants = await db.watchVariant.findAll({
+		where: { watch_id: watchId, del_flag: '0' },
+		include: [
+			{ model: db.color, as: 'color', attributes: ['id', 'name'] },
+			{
+				model: db.strapMaterial,
+				as: 'strapMaterial',
+				attributes: ['id', 'name'],
+			},
+		],
+	});
+
+	const variantDocuments = variants.map((variant) => ({
+		color_id: variant.color_id,
+		color_name: variant.color?.name,
+		strap_material_id: variant.strap_material_id,
+		strap_material_name: variant.strapMaterial?.name,
+	}));
+
 	const document = {
 		id: watch.id,
 		code: watch.code,
@@ -51,12 +70,14 @@ async function syncOneWatch(watchId) {
 		movement_type_name: watch.movementType?.name,
 		created_at: watch.created_at,
 		updated_at: watch.updated_at,
+		variants: variantDocuments || [],
 	};
 
 	const response = await client.index({
-		index: 'watchshop_watches',
+		index: 'watch_shop',
 		id: String(watch.id),
 		document,
+		refresh: true,
 	});
 
 	if (response._shards?.failed > 0) {
@@ -83,6 +104,23 @@ async function syncAllWatches() {
 				as: 'movementType',
 				attributes: ['id', 'name'],
 			},
+			{
+				model: db.watchVariant,
+				as: 'variants',
+				required: false,
+				include: [
+					{
+						model: db.color,
+						as: 'color',
+						attributes: ['id', 'name'],
+					},
+					{
+						model: db.strapMaterial,
+						as: 'strapMaterial',
+						attributes: ['id', 'name'],
+					},
+				],
+			},
 		],
 	});
 
@@ -90,36 +128,45 @@ async function syncAllWatches() {
 		throw new ApiError(404, 'Không có đồng hồ nào để đồng bộ.');
 	}
 
-	const body = watches.flatMap((w) => [
-		{ index: { _index: 'watchshop_watches', _id: String(w.id) } },
-		{
-			id: w.id,
-			code: w.code,
-			name: w.name,
-			description: w.description,
-			model: w.model,
-			case_material: w.case_material,
-			case_size: w.case_size,
-			strap_size: w.strap_size,
-			gender: w.gender,
-			water_resistance: w.water_resistance,
-			release_date: w.release_date,
-			sold: w.sold,
-			base_price: w.base_price,
-			rating: w.rating,
-			status: w.status,
-			thumbnail: w.thumbnail,
-			slider: w.slider,
-			category_id: w.category?.id,
-			category_name: w.category?.name,
-			brand_id: w.brand?.id,
-			brand_name: w.brand?.name,
-			movement_type_id: w.movementType?.id,
-			movement_type_name: w.movementType?.name,
-			created_at: w.created_at,
-			updated_at: w.updated_at,
-		},
-	]);
+	const body = watches.flatMap((w) => {
+		const variants = (w.variants || []).map((v) => ({
+			color_id: String(v.color_id || ''),
+			color_name: v.color?.name || null,
+			strap_material_id: String(v.strap_material_id || ''),
+			strap_material_name: v.strapMaterial?.name || null,
+		}));
+		return [
+			{ index: { _index: 'watch_shop', _id: String(w.id) } },
+			{
+				id: w.id,
+				code: w.code,
+				name: w.name,
+				description: w.description,
+				model: w.model,
+				case_material: w.case_material,
+				case_size: w.case_size,
+				strap_size: w.strap_size,
+				gender: w.gender,
+				water_resistance: w.water_resistance,
+				release_date: w.release_date,
+				sold: w.sold,
+				base_price: w.base_price,
+				rating: w.rating,
+				status: w.status,
+				thumbnail: w.thumbnail,
+				slider: w.slider,
+				category_id: w.category?.id,
+				category_name: w.category?.name,
+				brand_id: w.brand?.id,
+				brand_name: w.brand?.name,
+				movement_type_id: w.movementType?.id,
+				movement_type_name: w.movementType?.name,
+				created_at: w.created_at,
+				updated_at: w.updated_at,
+				variants,
+			},
+		];
+	});
 
 	const response = await client.bulk({
 		refresh: true,
