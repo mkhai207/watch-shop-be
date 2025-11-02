@@ -2,9 +2,11 @@ const httpStatus = require('http-status');
 const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
 const db = require('../db/models');
-const { decryptData, verifyToken } = require('../utils/auth');
+const { decryptData, verifyToken, encryptData } = require('../utils/auth');
 const tokenService = require('./token.service');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
+const { OAuth2Client } = require('google-auth-library');
+const config = require('../config/config');
 
 async function loginUser(req) {
 	const { userName, password } = req.body;
@@ -71,8 +73,89 @@ async function getMe(req) {
 	return user;
 }
 
+async function loginByGoogle(req) {
+	try {
+		const { credential } = req.body;
+		const client = new OAuth2Client(config.google.clientId);
+		const ticket = await client.verifyIdToken({
+			idToken: credential,
+			audience: config.google.clientId,
+		});
+
+		const payload = ticket.getPayload();
+
+		const {
+			sub,
+			email,
+			name,
+			picture,
+			email_verified,
+			given_name,
+			family_name,
+		} = payload;
+
+		if (!email_verified) {
+			throw new ApiError(
+				httpStatus.UNAUTHORIZED,
+				'Google account email must be verified'
+			);
+		}
+
+		if (!email) {
+			throw new ApiError(
+				httpStatus.UNAUTHORIZED,
+				'Google account must have an email'
+			);
+		}
+		let user = await userService.getUserByEmail(email);
+
+		if (user) {
+			let needUpdate = false;
+
+			if (!user.avatar && picture) {
+				user.avatar = picture;
+				needUpdate = true;
+			}
+
+			if (user.email !== email) {
+				user.email = email;
+				needUpdate = true;
+			}
+
+			if (user.full_name !== name && name) {
+				user.full_name = name;
+				needUpdate = true;
+			}
+
+			if (needUpdate) {
+				await db.user.update(
+					{ avatar: picture, full_name: name },
+					{ where: { email } }
+				);
+			}
+		} else {
+			user = await userService.createUserOther({
+				email,
+				userName: email,
+				password: await encryptData(`google_auth_${sub}`),
+				firstName: given_name || name,
+				lastName: family_name || '',
+				roleId: 1,
+			});
+		}
+
+		return user;
+	} catch (error) {
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			`Google login failed: ${error.message}`
+		);
+	}
+}
+
 module.exports = {
 	loginUser,
 	refresh,
 	getMe,
+	loginByGoogle,
 };

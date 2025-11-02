@@ -25,6 +25,8 @@ router.post(
 router.get('/refresh', authController.refresh);
 router.get('/me', authController.getMe);
 
+router.post('/google', authController.loginByGoogle);
+
 module.exports = router;
 
 /**

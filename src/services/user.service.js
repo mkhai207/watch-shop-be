@@ -105,6 +105,38 @@ async function createUser(req) {
 	return createdUser;
 }
 
+async function createUserOther(userData) {
+	const { email, fistName, lastName, userName, password, roleId } = userData;
+	const hashedPassword = await encryptData(password);
+	const user = await getUserByEmail(email);
+
+	if (user) {
+		throw new ApiError(httpStatus.CONFLICT, 'This email already exits');
+	}
+
+	const role = await roleService.getRoleById(roleId);
+
+	if (!role) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Role not found');
+	}
+
+	const createdUser = await db.user
+		.create({
+			first_name: fistName,
+			last_name: lastName,
+			username: userName,
+			email,
+			role_id: roleId,
+			password: hashedPassword,
+			status: '0',
+			created_at: getCurrentDateYYYYMMDDHHMMSS(),
+			del_flag: '0',
+		})
+		.then((resultEntity) => resultEntity.get({ plain: true }));
+
+	return createdUser;
+}
+
 async function getUsers(req) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const { page = defaultPage, limit = defaultLimit } = req.query;
@@ -226,4 +258,5 @@ module.exports = {
 	getUsers,
 	deleteUserById,
 	getMe,
+	createUserOther,
 };

@@ -89,6 +89,9 @@ const envVarsSchema = Joi.object()
 			.uri()
 			.required()
 			.description('VNPAY Return URL'),
+		GOOGLE_CLIENT_ID: Joi.string()
+			.required()
+			.description('Google OAuth Client ID'),
 	})
 	.unknown();
 
@@ -180,4 +183,7 @@ module.exports = {
 		password: process.env.ELASTICSEARCH_PASSWORD,
 	},
 	aiServerUrl: process.env.AI_SERVER_URL || 'http://localhost:5001',
+	google: {
+		clientId: envVars.GOOGLE_CLIENT_ID,
+	},
 };

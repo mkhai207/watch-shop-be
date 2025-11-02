@@ -105,6 +105,29 @@ const getMe = catchAsync(async (req, res) => {
 	res.send({ user });
 });
 
+const loginByGoogle = catchAsync(async (req, res) => {
+	const user = await authService.loginByGoogle(req);
+	const tokens = await tokenService.generateAuthTokens({
+		userId: user.id,
+		roleId: user.role_id,
+	});
+	if (tokens) {
+		await tokenService.insertToken(
+			{
+				ownerType: 'user',
+				userId: user.id,
+				tokenType: '0',
+				tokenValue: tokens.refresh.token,
+				expiresAt: tokens.refresh.expires,
+				deviceInfo: getDeviceInfo(req),
+				ipAddress: getClientIp(req),
+			},
+			user.id
+		);
+	}
+	res.send({ user, tokens });
+});
+
 module.exports = {
 	register,
 	login,
@@ -112,4 +135,5 @@ module.exports = {
 	resetPassword,
 	refresh,
 	getMe,
+	loginByGoogle,
 };

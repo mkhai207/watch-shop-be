@@ -48,7 +48,7 @@ function jwt() {
 			}
 
 			return (
-				/\/v[1-9]\d*\/auth\/(login|register|refresh|forgot-password|reset-password)/.test(
+				/\/v[1-9]\d*\/auth\/(login|register|refresh|forgot-password|reset-password|google)/.test(
 					req.path
 				) ||
 				/\/v[1-9]\d*\/docs\/.*/.test(req.path) ||
