@@ -89,9 +89,11 @@ const envVarsSchema = Joi.object()
 			.uri()
 			.required()
 			.description('VNPAY Return URL'),
-		GOOGLE_CLIENT_ID: Joi.string()
-			.required()
-			.description('Google OAuth Client ID'),
+        GOOGLE_CLIENT_ID: Joi.when('NODE_ENV', {
+            is: 'production',
+            then: Joi.string().required(),
+            otherwise: Joi.string().allow('').optional(),
+        }).description('Google OAuth Client ID'),
 	})
 	.unknown();
 
