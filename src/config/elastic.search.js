@@ -12,7 +12,7 @@
 
 // module.exports = client;
 
-const { Client } = require('@opensearch-project/opensearch-js');
+const { Client } = require('@opensearch-project/opensearch');
 
 const config = require('./config');
 
