@@ -4,7 +4,10 @@ async function createWatchIndex() {
 	const indexName = 'watch_shop';
 
 	try {
-		const exists = await client.indices.exists({ index: indexName });
+		// const exists = await client.indices.exists({ index: indexName });
+		const { body: exists } = await client.indices.exists({
+			index: indexName,
+		});
 		if (exists) {
 			console.log(`Index '${indexName}' đã tồn tại, bỏ qua tạo mới.`);
 			return;
