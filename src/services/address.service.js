@@ -24,12 +24,15 @@ async function getAddresses(req) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const { page = defaultPage, limit = defaultLimit } = req.query;
 
+	req.query.user_id = req.user.userId;
+
 	const offset = getOffset(page, limit);
 
 	const schema = {
 		root: {
 			created_at: { type: 'date', op: 'range' },
 			del_flag: { type: 'string', op: 'eq', default: '0' },
+			user_id: { type: 'number', op: 'eq' },
 		},
 	};
 
