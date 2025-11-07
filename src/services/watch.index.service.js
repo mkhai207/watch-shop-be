@@ -138,6 +138,6 @@ async function createWatchIndex() {
 	}
 }
 
-createWatchIndex();
+// createWatchIndex();
 
 module.exports = createWatchIndex;
