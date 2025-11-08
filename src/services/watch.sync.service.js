@@ -76,7 +76,7 @@ async function syncOneWatch(watchId) {
 	const response = await client.index({
 		index: 'watch_shop',
 		id: String(watch.id),
-		document,
+		body: document,
 		refresh: true,
 	});
 
@@ -174,13 +174,13 @@ async function syncAllWatches() {
 	});
 
 	if (response.errors) {
-		const failedItems = response.items.filter(
+		const failedItems = response.body.items.filter(
 			(item) => item.index && item.index.error
 		);
-		const successCount = response.items.length - failedItems.length;
+		const successCount = response.body.items.length - failedItems.length;
 
 		console.error(
-			`Có ${failedItems.length} / ${response.items.length} document bị lỗi.`
+			`Có ${failedItems.length} / ${response.body.items.length} document bị lỗi.`
 		);
 		failedItems.slice(0, 5).forEach((item) => {
 			console.error('→ Lỗi:', item.index.error);
@@ -193,23 +193,23 @@ async function syncAllWatches() {
 	}
 
 	console.log(
-		`🎉 Đồng bộ thành công ${response.items.length} document sang Elasticsearch.`
+		`🎉 Đồng bộ thành công ${response.body.items.length} document sang Elasticsearch.`
 	);
 
 	return {
-		total: response.items.length,
-		took: response.took,
-		errors: response.errors,
+		total: response.body.items.length,
+		took: response.body.took,
+		errors: response.body.errors,
 	};
 }
 
 async function syncDeleteOneWatch(watchId) {
 	const response = await client.delete({
-		index: 'watchshop_watches',
+		index: 'watch_shop',
 		id: String(watchId),
 	});
 
-	if (response._shards?.failed > 0) {
+	if (response.body._shards?.failed > 0) {
 		throw new ApiError(
 			500,
 			`Một số shard bị lỗi khi xóa document ID=${watchId} trong Elasticsearch`

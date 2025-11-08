@@ -71,18 +71,21 @@ async function search(req) {
 
 	const response = await client.search({
 		index: 'watch_shop',
-		from,
-		size: Number(limit),
-		sort: sortDsl,
-		query,
+		body: {
+			from,
+			size: Number(limit),
+			sort: sortDsl,
+			query,
+		},
 	});
 
-	if (!response.hits || !response.hits.hits)
+	if (!response.body.hits || !response.body.hits.hits)
 		throw new ApiError(500, 'Không nhận được dữ liệu từ Elasticsearch');
 
-	const totalItems = (response.hits.total && response.hits.total.value) || 0;
+	const totalItems =
+		(response.body.hits.total && response.body.hits.total.value) || 0;
 	const totalPages = Math.ceil(totalItems / limit);
-	const items = response.hits.hits.map((h) => h._source);
+	const items = response.body.hits.hits.map((h) => h._source);
 
 	return {
 		page: Number(page),
