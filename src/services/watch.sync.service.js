@@ -76,7 +76,7 @@ async function syncOneWatch(watchId) {
 	const response = await client.index({
 		index: 'watch_shop',
 		id: String(watch.id),
-		document,
+		body: document,
 		refresh: true,
 	});
 
@@ -205,7 +205,7 @@ async function syncAllWatches() {
 
 async function syncDeleteOneWatch(watchId) {
 	const response = await client.delete({
-		index: 'watchshop_watches',
+		index: 'watch_shop',
 		id: String(watchId),
 	});
 
