@@ -184,7 +184,7 @@ module.exports = {
 		username: process.env.ELASTICSEARCH_USERNAME,
 		password: process.env.ELASTICSEARCH_PASSWORD,
 	},
-	aiServerUrl: process.env.AI_SERVER_URL || 'http://localhost:5001',
+	aiServerUrl: process.env.AI_SERVER_URL || 'https://ai-recommendation-server.onrender.com',
 	google: {
 		clientId: envVars.GOOGLE_CLIENT_ID,
 	},
