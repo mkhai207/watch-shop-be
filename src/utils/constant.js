@@ -1,0 +1,11 @@
+const ORDER_STATUS = {
+	PENDING_PAYMENT: 'PENDINGPAYMENT',
+	CANCEL: 'CANCEL',
+};
+
+const TIME_PAID_ORDER_LIMIT = 15; // minutes
+
+module.exports = {
+	ORDER_STATUS,
+	TIME_PAID_ORDER_LIMIT,
+};

@@ -63,6 +63,11 @@ const retryPayment = catchAsync(async (req, res) => {
 	res.send({ rePaymentUrl });
 });
 
+const cancelOrderUnpaid = catchAsync(async () => {
+	const cancelOrdersRes = await orderService.cancelOrderUnpaid();
+	return cancelOrdersRes;
+});
+
 module.exports = {
 	createOrder,
 	getOrders,
@@ -72,4 +77,5 @@ module.exports = {
 	cancelOrder,
 	retryPayment,
 	getAllOrders,
+	cancelOrderUnpaid,
 };

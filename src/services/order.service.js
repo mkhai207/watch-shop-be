@@ -15,6 +15,7 @@ const orderStatusHistoryService = require('./order.status.history.service');
 const emailService = require('./email.service');
 const watchService = require('./watch.service');
 const watchSyncService = require('./watch.sync.service');
+const constant = require('../utils/constant');
 
 async function sendOrderConfirmationEmail(to, order) {
 	const subject = `Xác nhận đơn hàng #${order.code} thành công`;
@@ -586,6 +587,104 @@ async function retryPayment(req) {
 	return rePaymentUrl;
 }
 
+async function cancelOrderUnpaid() {
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		const pendingPayment = await orderStatusService.getOrderStatusByCode(
+			constant.ORDER_STATUS.PENDING_PAYMENT
+		);
+		const cancelledStatus = await orderStatusService.getOrderStatusByCode(
+			constant.ORDER_STATUS.CANCEL
+		);
+
+		if (!pendingPayment || !cancelledStatus) {
+			console.error('Could not find PENDING_PAYMENT or CANCEL status.');
+			await transaction.rollback();
+			return;
+		}
+
+		const ordersToCancel = await db.order.findAll({
+			where: {
+				current_status_id: pendingPayment.id,
+				del_flag: '0',
+				[Op.and]: Sequelize.literal(
+					`to_timestamp(created_at, 'YYYYMMDDHHMMSS') <= (NOW() - INTERVAL '${constant.TIME_PAID_ORDER_LIMIT} minutes')`
+				),
+			},
+			attributes: ['id'],
+			transaction,
+		});
+
+		if (ordersToCancel.length === 0) {
+			console.log('No unpaid orders found to cancel.');
+			await transaction.commit();
+			return;
+		}
+
+		const orderIds = ordersToCancel.map((order) => order.id);
+		console.log(
+			`Found ${orderIds.length} orders to cancel: ${orderIds.join(', ')}`
+		);
+
+		await db.order.update(
+			{
+				current_status_id: cancelledStatus.id,
+				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+				updated_by: '0',
+			},
+			{
+				where: { id: { [Op.in]: orderIds } },
+				transaction,
+			}
+		);
+
+		const orderDetails = await db.orderDetail.findAll({
+			where: {
+				order_id: { [Op.in]: orderIds },
+				del_flag: '0',
+			},
+			transaction,
+		});
+
+		const stockUpdates = new Map();
+		for (const item of orderDetails) {
+			const currentQty = stockUpdates.get(item.variant_id) || 0;
+			stockUpdates.set(item.variant_id, currentQty + item.quantity);
+		}
+
+		for (const [variantId, quantityToRestore] of stockUpdates.entries()) {
+			await db.watchVariant.increment('stock', {
+				by: quantityToRestore,
+				where: { id: variantId },
+				transaction,
+			});
+		}
+		console.log(`Restored stock for ${stockUpdates.size} variants.`);
+
+		const historyRecords = orderIds.map((orderId) => ({
+			order_id: orderId,
+			status_id: cancelledStatus.id,
+			note: 'Tự động hủy do quá hạn thanh toán.',
+			created_at: getCurrentDateYYYYMMDDHHMMSS(),
+			created_by: '0',
+			del_flag: '0',
+		}));
+
+		await db.orderStatusHistory.bulkCreate(historyRecords, { transaction });
+		console.log(`Created ${historyRecords.length} order history records.`);
+
+		await transaction.commit();
+		console.log(`Successfully cancelled ${orderIds.length} orders.`);
+	} catch (error) {
+		console.error(
+			'Error during cancelOrderUnpaid cron job, rolling back:',
+			error
+		);
+		await transaction.rollback();
+	}
+}
+
 module.exports = {
 	createOrder,
 	getOrders,
@@ -596,4 +695,5 @@ module.exports = {
 	cancelOrder,
 	retryPayment,
 	getAllOrders,
+	cancelOrderUnpaid,
 };
