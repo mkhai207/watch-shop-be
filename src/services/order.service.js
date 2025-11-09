@@ -271,15 +271,6 @@ async function getOrders(req) {
 			code: { type: 'string', op: 'like' },
 			created_at: { type: 'date', op: 'range' },
 		},
-		include: {
-			orderStatus: {
-				model: db.configOrderStatus,
-				as: 'currentStatus',
-				fields: {
-					name: { type: 'string', op: 'like' },
-				},
-			},
-		},
 	};
 
 	const { where } = buildFilters(req.query, schema);
@@ -295,6 +286,12 @@ async function getOrders(req) {
 	const { count, rows } = await db.order.findAndCountAll({
 		where,
 		order,
+		include: {
+			model: db.configOrderStatus,
+			as: 'currentStatus',
+			attributes: ['name'],
+			where: { del_flag: '0' },
+		},
 		limit,
 		offset,
 		raw: true,
