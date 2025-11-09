@@ -271,6 +271,15 @@ async function getOrders(req) {
 			code: { type: 'string', op: 'like' },
 			created_at: { type: 'date', op: 'range' },
 		},
+		include: {
+			orderStatus: {
+				model: db.configOrderStatus,
+				as: 'currentStatus',
+				fields: {
+					name: { type: 'string', op: 'like' },
+				},
+			},
+		},
 	};
 
 	const { where } = buildFilters(req.query, schema);
