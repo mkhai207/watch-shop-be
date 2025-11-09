@@ -42,7 +42,11 @@ app.use(compression());
 
 // enable cors
 const corsOptions = {
-	origin: 'http://localhost:3000',
+	origin: [
+		'http://localhost:3000',
+		'https://ai-recommendation-server.onrender.com',
+		'https://watch-shop-fe.onrender.com',
+	],
 	credentials: true,
 };
 app.use(cors(corsOptions));
