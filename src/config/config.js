@@ -92,6 +92,11 @@ const envVarsSchema = Joi.object()
 		GOOGLE_CLIENT_ID: Joi.string()
 			.required()
 			.description('Google OAuth Client ID'),
+		FE_SERVER_URL: Joi.string()
+			.uri()
+			.required()
+			.description('Frontend server URL'),
+		AI_SERVER_URL: Joi.string().uri().required(),
 	})
 	.unknown();
 
@@ -186,4 +191,5 @@ module.exports = {
 	google: {
 		clientId: envVars.GOOGLE_CLIENT_ID,
 	},
+	feServerUrl: envVars.FE_SERVER_URL,
 };

@@ -7,6 +7,7 @@ const orderStatusService = require('../services/order.status.service');
 const orderStatusHistoryService = require('../services/order.status.history.service');
 const paymentService = require('../services/payment.service');
 const ApiError = require('../utils/ApiError');
+const { config } = require('../config/config');
 
 const handleVNPayReturn = catchAsync(async (req, res) => {
 	const vnp_HashSecret = config.vnpay.hashSecret;
@@ -80,7 +81,11 @@ const handleVNPayReturn = catchAsync(async (req, res) => {
 				{ transaction: t }
 			);
 			await t.commit();
-			return res.redirect('http://localhost:3000/order/order-success');
+			return res.redirect(
+				`${
+					config.feServerUrl || 'http://localhost:3000'
+				}/order/order-success`
+			);
 		}
 		await paymentService.createPayment(
 			{
