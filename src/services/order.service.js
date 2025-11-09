@@ -294,7 +294,6 @@ async function getOrders(req) {
 		},
 		limit,
 		offset,
-		raw: true,
 	});
 
 	return {
