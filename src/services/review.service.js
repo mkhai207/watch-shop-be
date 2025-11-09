@@ -97,11 +97,11 @@ async function getReviews(req) {
 			rating: { type: 'number', op: 'range' },
 			user_id: { type: 'number', op: 'eq' },
 			order_id: { type: 'number', op: 'eq' },
-			watch_id: { type: 'number', op: 'eq' },
 		},
 	};
 
 	const { where } = buildFilters(req.query, schema);
+	where.watch_id = req.params.watchId;
 	const order = buildOrder(req.query.sort, ['rating']);
 
 	const { count, rows } = await db.review.findAndCountAll({

@@ -289,7 +289,7 @@ async function getOrders(req) {
 		include: {
 			model: db.configOrderStatus,
 			as: 'currentStatus',
-			attributes: ['name'],
+			attributes: ['name', 'hex_code'],
 			where: { del_flag: '0' },
 		},
 		limit,
