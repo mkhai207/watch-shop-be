@@ -35,7 +35,7 @@ function buildElasticQuery(queryParams, schema = {}) {
 		const nestedPath = allowed.nestedPath; // nestesd field
 
 		let value = rawVal;
-		if (type === 'number' && !['range', 'between'].includes(op))
+		if (type === 'number' && !['range', 'between', 'in'].includes(op))
 			value = Number(value);
 		if (type === 'boolean')
 			value = ['true', '1', 'yes'].includes(String(value).toLowerCase());
@@ -50,10 +50,16 @@ function buildElasticQuery(queryParams, schema = {}) {
 				queryPart = { match_phrase: { [field]: value } };
 				// bool.must.push({ match_phrase: { [field]: value } });
 				break;
-			case 'in':
-				queryPart = { terms: { [field]: toArray(value) } };
-				// bool.filter.push({ terms: { [field]: toArray(value) } });
+			case 'in': {
+				let arrayValue = toArray(value);
+				if (type === 'number') {
+					arrayValue = arrayValue
+						.map((v) => Number(v))
+						.filter((v) => !Number.isNaN(v));
+				}
+				queryPart = { terms: { [field]: arrayValue } };
 				break;
+			}
 			case 'gte':
 			case 'lte':
 			case 'gt':
