@@ -46,6 +46,8 @@ const corsOptions = {
 		'http://localhost:3000',
 		'https://ai-recommendation-server.onrender.com',
 		'https://watch-shop-fe.onrender.com',
+		'https://rasa-server-qbmc.onrender.com',
+		'https://rasa-actions-ik5j.onrender.com',
 	],
 	credentials: true,
 };
