@@ -26,6 +26,7 @@ const resources = {
 	ORDER_STATUS_HISTORY: 'orderStatusHistory',
 	REVIEW: 'review',
 	DISCOUNT: 'discount',
+	REPORT: 'report',
 };
 
 const grantsObject = {
@@ -137,6 +138,9 @@ const grantsObject = {
 			'read:any': ['*'],
 			'update:any': ['*'],
 			'delete:any': ['*'],
+		},
+		[resources.REPORT]: {
+			'read:any': ['*'],
 		},
 	},
 	[roleIds.USER]: {

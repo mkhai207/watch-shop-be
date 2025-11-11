@@ -11,4 +11,12 @@ router
 	.route('/revenue')
 	.get(validate(reportValidation.revenue), reportController.revenue);
 
+router
+	.route('/revenue-year')
+	.post(
+		grantAccess('readAny', resources.REPORT),
+		validate(reportValidation.revenueYear),
+		reportController.revenueYear
+	);
+
 module.exports = router;

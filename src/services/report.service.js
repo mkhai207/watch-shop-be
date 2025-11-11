@@ -105,6 +105,74 @@ async function revenue(req) {
 	};
 }
 
+async function revenueYear(year) {
+	if (!year || !year.match(/^\d{4}$/)) {
+		throw new ApiError(
+			httpStatus.BAD_REQUEST,
+			'Year must be in YYYY format'
+		);
+	}
+
+	const chartData = [];
+	const monthNames = [
+		'T1',
+		'T2',
+		'T3',
+		'T4',
+		'T5',
+		'T6',
+		'T7',
+		'T8',
+		'T9',
+		'T10',
+		'T11',
+		'T12',
+	];
+
+	const monthPromises = [];
+	for (let month = 1; month <= 12; month += 1) {
+		const monthStr = month.toString().padStart(2, '0');
+
+		const startDateStr = `${year}${monthStr}01000000`;
+		const lastDay = new Date(year, month, 0).getDate();
+		const lastDayStr = lastDay.toString().padStart(2, '0');
+		const endDateStr = `${year}${monthStr}${lastDayStr}235959`;
+
+		const monthPromise = db.order.findAll({
+			where: {
+				created_at: {
+					[Op.gte]: startDateStr,
+					[Op.lte]: endDateStr,
+				},
+				del_flag: '0',
+			},
+			attributes: ['final_amount'],
+		});
+
+		monthPromises.push(monthPromise);
+	}
+
+	const monthResults = await Promise.all(monthPromises);
+
+	monthResults.forEach((orders, index) => {
+		const monthRevenue = orders.reduce((sum, order) => {
+			const amt = Number(order.final_amount);
+			return sum + (Number.isFinite(amt) ? amt : 0);
+		}, 0);
+
+		const orderCount = orders.length;
+
+		chartData.push({
+			month: monthNames[index],
+			revenue: monthRevenue,
+			orderCount,
+		});
+	});
+
+	return chartData;
+}
+
 module.exports = {
 	revenue,
+	revenueYear,
 };
