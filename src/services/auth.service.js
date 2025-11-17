@@ -140,7 +140,7 @@ async function loginByGoogle(req) {
 				password: await encryptData(`google_auth_${sub}`),
 				firstName: given_name || name,
 				lastName: family_name || '',
-				roleId: 1,
+				roleId: 2,
 			});
 		}
 
