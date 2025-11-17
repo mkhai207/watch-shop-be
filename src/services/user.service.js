@@ -257,6 +257,41 @@ async function updateUser(req) {
 	return updatedUser;
 }
 
+async function changePassword(password, id) {
+	if (!id) return;
+	let newPassword = password;
+	if (password) {
+		const hashedPassword = await encryptData(password);
+
+		if (!hashedPassword) {
+			throw new ApiError(
+				httpStatus.INTERNAL_SERVER_ERROR,
+				'Internal Server Error'
+			);
+		}
+
+		newPassword = hashedPassword;
+	}
+
+	const updatedUser = await db.user
+		.update(
+			{
+				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+				updated_by: id || 0,
+				password: newPassword,
+			},
+			{
+				where: { id: id || 0 },
+				returning: true,
+				plain: true,
+				raw: true,
+			}
+		)
+		.then((data) => data[1]);
+
+	return updatedUser;
+}
+
 module.exports = {
 	getUserByEmail,
 	getUserByUsername,
@@ -267,4 +302,5 @@ module.exports = {
 	deleteUserById,
 	getMe,
 	createUserOther,
+	changePassword,
 };

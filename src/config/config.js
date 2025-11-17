@@ -94,7 +94,7 @@ const envVarsSchema = Joi.object()
 			.description('Google OAuth Client ID'),
 		FE_SERVER_URL: Joi.string()
 			.uri()
-			.required()
+			.optional()
 			.description('Frontend server URL'),
 		AI_SERVER_URL: Joi.string().uri().required(),
 	})
