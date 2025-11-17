@@ -107,6 +107,11 @@ async function getReviews(req) {
 	const { count, rows } = await db.review.findAndCountAll({
 		where,
 		order,
+		include: {
+			model: db.user,
+			as: 'user',
+			attributes: ['id', 'first_name', 'last_name', 'username', 'email'],
+		},
 		limit,
 		offset,
 		raw: true,

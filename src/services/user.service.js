@@ -158,6 +158,7 @@ async function getUsers(req) {
 				fields: {
 					id: { type: 'number', op: 'eq' },
 					name: { type: 'string', op: 'like' },
+					status: { type: 'string', op: 'eq' },
 				},
 			},
 		},
@@ -165,7 +166,7 @@ async function getUsers(req) {
 
 	const { where, include } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['name', 'created_at', 'id']);
-	const users = await db.user.findAndCountAll({
+	const { count, rows } = await db.user.findAndCountAll({
 		where,
 		order,
 		include,
@@ -185,13 +186,20 @@ async function getUsers(req) {
 			'created_by',
 			'updated_at',
 			'updated_by',
+			'role_id',
 		],
 		offset,
 		limit,
 		raw: true,
 	});
 
-	return users;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function deleteUserById(userId) {

@@ -2,7 +2,6 @@ const client = require('../config/elastic.search');
 const { getOffset } = require('../utils/query');
 const config = require('../config/config');
 const ApiError = require('../utils/ApiError');
-const logger = require('../config/logger');
 const {
 	buildElasticQuery,
 	buildElasticSort,
