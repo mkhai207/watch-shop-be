@@ -7,13 +7,11 @@ const { resources } = require('../../config/roles');
 
 const router = express.Router();
 
-router
-	.route('/')
-	.post(
-		grantAccess('createAny', resources.REVIEW),
-		validate(reviewValidation.createReview),
-		reviewController.createReview
-	);
+router.route('/').post(
+	// grantAccess('createAny', resources.REVIEW),
+	validate(reviewValidation.createReview),
+	reviewController.createReview
+);
 
 router
 	.route('/:watchId')
@@ -22,12 +20,12 @@ router
 router
 	.route('/:reviewId')
 	.put(
-		grantAccess('updateAny', resources.REVIEW),
+		// grantAccess('updateAny', resources.REVIEW),
 		validate(reviewValidation.updateReview),
 		reviewController.updateReview
 	)
 	.delete(
-		grantAccess('deleteAny', resources.REVIEW),
+		// grantAccess('deleteAny', resources.REVIEW),
 		validate(reviewValidation.deleteReview),
 		reviewController.deleteReview
 	);
