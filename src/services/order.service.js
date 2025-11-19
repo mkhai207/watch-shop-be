@@ -321,13 +321,14 @@ async function getAllOrders(req) {
 	};
 
 	const { where } = buildFilters(req.query, schema);
-
 	const order = buildOrder(req.query.sort, [
 		'total_amount',
 		'id',
 		'final_amount',
 		'guess_name',
 	]);
+
+	order.push(['created_at', 'DESC']);
 
 	const orders = await db.order.findAndCountAll({
 		where,
