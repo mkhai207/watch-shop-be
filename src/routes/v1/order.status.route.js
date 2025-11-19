@@ -10,12 +10,12 @@ const router = express.Router();
 router
 	.route('/')
 	.get(
-		grantAccess('readAny', resources.ORDER_STATUS),
+		// grantAccess('readAny', resources.ORDER_STATUS),
 		validate(orderStatusValidation.getOrderStatuses),
 		orderStatusController.getOrderStatuses
 	)
 	.post(
-		grantAccess('createAny', resources.ORDER_STATUS),
+		// grantAccess('createAny', resources.ORDER_STATUS),
 		validate(orderStatusValidation.createOrderStatus),
 		orderStatusController.createOrderStatus
 	);
@@ -23,17 +23,17 @@ router
 router
 	.route('/:orderStatusId')
 	.get(
-		grantAccess('readAny', resources.ORDER_STATUS),
+		// grantAccess('readAny', resources.ORDER_STATUS),
 		validate(orderStatusValidation.getOrderStatus),
 		orderStatusController.getOrderStatus
 	)
 	.put(
-		grantAccess('updateAny', resources.ORDER_STATUS),
+		// grantAccess('updateAny', resources.ORDER_STATUS),
 		validate(orderStatusValidation.updateOrderStatus),
 		orderStatusController.updateOrderStatus
 	)
 	.delete(
-		grantAccess('deleteAny', resources.ORDER_STATUS),
+		// grantAccess('deleteAny', resources.ORDER_STATUS),
 		validate(orderStatusValidation.deleteOrderStatus),
 		orderStatusController.deleteOrderStatus
 	);
