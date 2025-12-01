@@ -8,6 +8,18 @@ const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 const watchService = require('./watch.service');
 const watchVariantService = require('./watch.variant.service');
 
+async function getCartItemById(cartItemId) {
+	const cartItem = await db.cartItem.findOne({
+		where: { id: cartItemId, del_flag: '0' },
+		include: [
+			{
+				model: db.cart,
+				as: 'cart',
+			},
+		],
+	});
+	return cartItem;
+}
 async function getCartItems(req) {
 	const { page: defaultPage, limit: defaultLimit } = config.pagination;
 	const { page = defaultPage, limit = defaultLimit } = req.query;
@@ -180,4 +192,5 @@ module.exports = {
 	deleteCartItem,
 	getCartItemsByCartId,
 	deleteCartItems,
+	getCartItemById,
 };

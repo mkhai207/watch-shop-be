@@ -8,6 +8,13 @@ const orderService = require('./order.service');
 const orderStatusService = require('./order.status.service');
 const watchSyncService = require('./watch.sync.service');
 
+async function getReviewById(reviewId) {
+	const review = await db.review.findOne({
+		where: { id: reviewId, del_flag: '0' },
+	});
+	return review;
+}
+
 async function createReview(req) {
 	const { rating, comment, image_url, user_id, order_id } = req.body;
 
@@ -172,4 +179,5 @@ module.exports = {
 	getReviews,
 	updateReview,
 	deleteReview,
+	getReviewById,
 };

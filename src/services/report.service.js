@@ -13,6 +13,7 @@ async function revenue(req) {
 					[Op.gte]: req.query.startDate,
 					[Op.lte]: req.query.endDate,
 				},
+				del_flag: '0',
 			},
 		});
 
@@ -28,6 +29,7 @@ async function revenue(req) {
 					[Op.gte]: req.query.startDate,
 					[Op.lte]: req.query.endDate,
 				},
+				del_flag: '0',
 			},
 		});
 
@@ -37,6 +39,7 @@ async function revenue(req) {
 				[Op.gte]: req.query.startDate,
 				[Op.lte]: req.query.endDate,
 			},
+			del_flag: '0',
 		},
 	});
 
@@ -47,6 +50,7 @@ async function revenue(req) {
 					[Op.gte]: req.query.startDate,
 					[Op.lte]: req.query.endDate,
 				},
+				del_flag: '0',
 			},
 		});
 
@@ -57,6 +61,7 @@ async function revenue(req) {
 					[Op.gte]: req.query.startDate,
 					[Op.lte]: req.query.endDate,
 				},
+				del_flag: '0',
 			},
 		});
 
@@ -67,6 +72,7 @@ async function revenue(req) {
 					[Op.gte]: req.query.startDate,
 					[Op.lte]: req.query.endDate,
 				},
+				del_flag: '0',
 			},
 		});
 
@@ -77,6 +83,7 @@ async function revenue(req) {
 					[Op.gte]: req.query.startDate,
 					[Op.lte]: req.query.endDate,
 				},
+				del_flag: '0',
 			},
 		});
 

@@ -8,6 +8,7 @@ const { getCategoryById } = require('./category.service');
 const { getBrandById } = require('./brand.service');
 const { getMovementTypeById } = require('./movement.type.service');
 const strapMaterialService = require('./strap.material.service');
+const watchVariantService = require('./watch.variant.service');
 
 async function getWatchByVariantId(variantId) {
 	const watch = await db.watch.findOne({
@@ -231,6 +232,30 @@ async function updateWatch(req) {
 			}
 		)
 		.then((data) => data[1]);
+
+	if (updatedWatch) {
+		const variants = await watchVariantService.getVariantsByWatchId(
+			updatedWatch.id
+		);
+		const updatePromises = variants.map((variant) => {
+			const extraPrice = variant.strapMaterial
+				? variant.strapMaterial.extra_money
+				: 0;
+
+			const newPrice = updatedWatch.base_price + extraPrice;
+
+			return db.watchVariant.update(
+				{
+					price: newPrice,
+				},
+				{
+					where: { id: variant.id },
+				}
+			);
+		});
+
+		await Promise.all(updatePromises);
+	}
 
 	return updatedWatch;
 }

@@ -45,11 +45,11 @@ async function getVariants(req) {
 			color_id: { type: 'number', op: 'eq' },
 			strap_material_id: { type: 'number', op: 'eq' },
 			created_at: { type: 'date', op: 'range' },
-			del_flag: { type: 'string', op: 'eq', default: '0' },
 		},
 	};
 
 	const { where } = buildFilters(req.query, schema);
+	where.del_flag = '0';
 	const order = buildOrder(req.query.sort, ['created_at', 'id']);
 
 	const variants = await db.watchVariant.findAndCountAll({

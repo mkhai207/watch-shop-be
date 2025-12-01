@@ -39,7 +39,7 @@ async function getStrapMaterials(req) {
 	const { where } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['code', 'name', 'id']);
 
-	const strapMaterials = await db.strapMaterial.findAndCountAll({
+	const { count, rows } = await db.strapMaterial.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -47,7 +47,13 @@ async function getStrapMaterials(req) {
 		raw: true,
 	});
 
-	return strapMaterials;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function createStrapMaterial(req) {

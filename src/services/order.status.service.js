@@ -57,7 +57,7 @@ async function getOrderStatuses(req) {
 	const { where } = buildFilters(req.query, schema);
 	const order = buildOrder(req.query.sort, ['code', 'name', 'id']);
 
-	const orderStatuses = await db.configOrderStatus.findAndCountAll({
+	const { count, rows } = await db.configOrderStatus.findAndCountAll({
 		where,
 		order,
 		limit,
@@ -65,7 +65,13 @@ async function getOrderStatuses(req) {
 		raw: true,
 	});
 
-	return orderStatuses;
+	return {
+		page,
+		limit,
+		totalItems: count,
+		totalPages: Math.ceil(count / limit),
+		items: rows,
+	};
 }
 
 async function createOrderStatus(req) {

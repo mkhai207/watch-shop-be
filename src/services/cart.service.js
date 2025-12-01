@@ -7,6 +7,13 @@ const db = require('../db/models');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
 const cartItemService = require('./cart.item.service');
 
+async function getCartByUserId(userId) {
+	const cart = await db.cart.findOne({
+		where: { user_id: userId, del_flag: '0' },
+	});
+	return cart;
+}
+
 async function getCart(req) {
 	const conditions = [];
 	if (req.user.userId) {
@@ -138,4 +145,5 @@ module.exports = {
 	updateCart,
 	deleteCartMe,
 	getCart,
+	getCartByUserId,
 };
