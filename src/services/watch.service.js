@@ -8,7 +8,6 @@ const { getCategoryById } = require('./category.service');
 const { getBrandById } = require('./brand.service');
 const { getMovementTypeById } = require('./movement.type.service');
 const strapMaterialService = require('./strap.material.service');
-const watchVariantService = require('./watch.variant.service');
 
 async function getWatchByVariantId(variantId) {
 	const watch = await db.watch.findOne({
@@ -234,6 +233,8 @@ async function updateWatch(req) {
 		.then((data) => data[1]);
 
 	if (updatedWatch) {
+		// Lazy load to avoid circular dependency
+		const watchVariantService = require('./watch.variant.service');
 		const variants = await watchVariantService.getVariantsByWatchId(
 			updatedWatch.id
 		);

@@ -4,7 +4,6 @@ const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
 const db = require('../db/models');
 const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
-const watchService = require('./watch.service');
 const strapMaterialService = require('./strap.material.service');
 
 async function getVariantById(variantId) {
@@ -101,6 +100,8 @@ async function createVariant(req) {
 		return res;
 	}
 
+	// Lazy load to avoid circular dependency
+	const watchService = require('./watch.service');
 	const watch = await watchService.getWatchById(watch_id);
 	const strapMaterial = await strapMaterialService.getStrapMaterialById(
 		strap_material_id
