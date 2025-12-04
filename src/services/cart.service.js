@@ -73,7 +73,20 @@ async function getCartMe(req) {
 	}
 
 	if (!cart) {
-		cart = await createCart(req);
+		// Nếu chưa có giỏ hàng thì chỉ tạo giỏ rỗng, KHÔNG tạo cart item
+		const createdCart = await db.cart
+			.create({
+				user_id: req.user ? req.user.userId : null,
+				session_id: req.sessionId ? req.sessionId : null,
+				status: 'active',
+				total_money: 0,
+				created_at: getCurrentDateYYYYMMDDHHMMSS(),
+				created_by: req.user ? req.user.userId : null,
+				del_flag: '0',
+			})
+			.then((resultEntity) => resultEntity.get({ plain: true }));
+
+		cart = createdCart;
 	}
 
 	const cartItems = await cartItemService.getCartItemsByCartId(req, cart.id);
