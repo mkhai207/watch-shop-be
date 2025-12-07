@@ -25,7 +25,7 @@ async function getMe(req) {
 
 async function getUserByEmail(email) {
 	const user = await db.user.findOne({
-		where: { email },
+		where: { email, del_flag: '0' },
 		include: [
 			{
 				model: db.role,
