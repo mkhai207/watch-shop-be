@@ -52,9 +52,35 @@ function parseChar14ToDDMMYYYY(str) {
 	return `${day}/${month}/${year}`;
 }
 
+// Convert YYYY-MM-DD to YYYYMMDDHHMMSS (with 000000 for time)
+function convertYYYYMMDDtoYYYYMMDDHHMMSS(dateStr) {
+	if (!dateStr || dateStr === '') return null;
+	
+	// Handle YYYY-MM-DD format
+	const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+	if (match) {
+		return `${match[1]}${match[2]}${match[3]}000000`;
+	}
+	
+	return null;
+}
+
+// Convert YYYYMMDDHHMMSS to YYYY-MM-DD
+function convertYYYYMMDDHHMMSStoYYYYMMDD(dateStr) {
+	if (!dateStr || dateStr.length < 8) return null;
+	
+	const year = dateStr.substring(0, 4);
+	const month = dateStr.substring(4, 6);
+	const day = dateStr.substring(6, 8);
+	
+	return `${year}-${month}-${day}`;
+}
+
 module.exports = {
 	parseChar14ToDDMMYYYY,
 	unixToYYYYMMDDHHMMSS,
 	yyyymmddhhmmssToUnix,
 	getCurrentDateYYYYMMDDHHMMSS,
+	convertYYYYMMDDtoYYYYMMDDHHMMSS,
+	convertYYYYMMDDHHMMSStoYYYYMMDD,
 };

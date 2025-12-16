@@ -3,12 +3,11 @@ const { getOffset, buildOrder, buildFilters } = require('../utils/query');
 const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
 const db = require('../db/models');
-const { getCurrentDateYYYYMMDDHHMMSS } = require('../utils/datetime');
+const { getCurrentDateYYYYMMDDHHMMSS, convertYYYYMMDDtoYYYYMMDDHHMMSS } = require('../utils/datetime');
 const { getCategoryById } = require('./category.service');
 const { getBrandById } = require('./brand.service');
 const { getMovementTypeById } = require('./movement.type.service');
 const strapMaterialService = require('./strap.material.service');
-const watchVariantService = require('./watch.variant.service');
 
 async function getWatchByVariantId(variantId) {
 	const watch = await db.watch.findOne({
@@ -148,6 +147,7 @@ async function createWatch(req) {
 	const createdWatch = await db.watch
 		.create({
 			...req.body,
+			release_date: req.body.release_date ? convertYYYYMMDDtoYYYYMMDDHHMMSS(req.body.release_date) : null,
 			created_at: getCurrentDateYYYYMMDDHHMMSS(),
 			created_by: req.user.userId,
 			del_flag: '0',
@@ -223,6 +223,7 @@ async function updateWatch(req) {
 				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
 				updated_by: req.user.userId,
 				...req.body,
+				release_date: req.body.release_date ? convertYYYYMMDDtoYYYYMMDDHHMMSS(req.body.release_date) : undefined,
 			},
 			{
 				where: { id: req.params.watchId },
@@ -234,6 +235,7 @@ async function updateWatch(req) {
 		.then((data) => data[1]);
 
 	if (updatedWatch) {
+		const watchVariantService = require('./watch.variant.service');
 		const variants = await watchVariantService.getVariantsByWatchId(
 			updatedWatch.id
 		);

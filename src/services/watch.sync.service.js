@@ -2,6 +2,7 @@ const client = require('../config/elastic.search');
 const db = require('../db/models');
 const { Op } = require('sequelize');
 const ApiError = require('../utils/ApiError');
+const { convertYYYYMMDDHHMMSStoYYYYMMDD } = require('../utils/datetime');
 
 async function syncOneWatch(watchId) {
 	const watch = await db.watch.findOne({
@@ -55,7 +56,7 @@ async function syncOneWatch(watchId) {
 		strap_size: watch.strap_size,
 		gender: watch.gender,
 		water_resistance: watch.water_resistance,
-		release_date: watch.release_date,
+		release_date: watch.release_date ? convertYYYYMMDDHHMMSStoYYYYMMDD(watch.release_date) : null,
 		sold: watch.sold,
 		base_price: watch.base_price,
 		rating: watch.rating,
@@ -148,7 +149,7 @@ async function syncAllWatches() {
 				strap_size: w.strap_size,
 				gender: w.gender,
 				water_resistance: w.water_resistance,
-				release_date: w.release_date,
+				release_date: w.release_date ? convertYYYYMMDDHHMMSStoYYYYMMDD(w.release_date) : null,
 				sold: w.sold,
 				base_price: w.base_price,
 				rating: w.rating,
