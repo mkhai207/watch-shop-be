@@ -13,7 +13,7 @@ const createWatch = {
 		name: Joi.string().required(),
 		description: Joi.string().required(),
 		model: Joi.string().required(),
-		case_material: Joi.string().optional(),
+		case_material: Joi.string().allow('').optional(),
 		case_size: Joi.number().optional(),
 		strap_size: Joi.number().optional(),
 		gender: Joi.string().allow('').optional(),
@@ -35,7 +35,7 @@ const createWatch = {
 		slider: Joi.string().allow('').optional(),
 		category_id: Joi.number().optional(),
 		brand_id: Joi.number().optional(),
-		movement_type_id: Joi.number(),
+		movement_type_id: Joi.number().optional(),
 		variants: Joi.array()
 			.min(1)
 			.items(
@@ -71,14 +71,14 @@ const updateWatch = {
 	}),
 	body: Joi.object()
 		.keys({
-			code: Joi.string(),
-			name: Joi.string(),
-			description: Joi.string(),
-			model: Joi.string(),
-			case_material: Joi.string(),
-			case_size: Joi.number(),
-			strap_size: Joi.number(),
-			gender: Joi.string().allow(''),
+			code: Joi.string().required(),
+			name: Joi.string().required(),
+			description: Joi.string().required(),
+			model: Joi.string().required(),
+			case_material: Joi.string().allow('').optional(),
+			case_size: Joi.number().optional(),
+			strap_size: Joi.number().optional(),
+			gender: Joi.string().allow('').optional(),
 			// ML feature fields
 			price_tier: Joi.string().allow('').optional(),
 			gender_target: Joi.string().allow('').optional(),

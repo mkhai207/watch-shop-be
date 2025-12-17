@@ -11,9 +11,9 @@ const createDiscount = {
 	body: Joi.object().keys({
 		code: Joi.string().required(),
 		name: Joi.string().required(),
-		description: Joi.string(),
-		min_order_value: Joi.number(),
-		max_discount_amount: Joi.number(),
+		description: Joi.string().allow(''),
+		min_order_value: Joi.number().optional(),
+		max_discount_amount: Joi.number().optional(),
 		discount_type: Joi.string().valid('0', '1').required(),
 		discount_value: Joi.number().required(),
 		effective_date: Joi.string().length(14).required(),

@@ -42,7 +42,7 @@ async function getUserByEmail(email) {
 
 async function getUserByUsername(userName) {
 	const user = await db.user.findOne({
-		where: { username: userName, del_flag: '0' },
+		where: { username: userName, del_flag: '0', status: '0' },
 		include: [
 			{
 				model: db.role,
