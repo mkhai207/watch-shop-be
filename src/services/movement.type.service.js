@@ -37,7 +37,14 @@ async function getMovementTypes(req) {
 	};
 
 	const { where } = buildFilters(req.query, schema);
-	const order = buildOrder(req.query.sort, ['name', 'id', 'code']);
+	const order = buildOrder(req.query.sort, [
+		'name',
+		'id',
+		'code',
+		'created_at',
+	]);
+
+	order.push(['created_at', 'DESC']);
 
 	const { count, rows } = await db.movementType.findAndCountAll({
 		where,

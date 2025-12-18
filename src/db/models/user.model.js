@@ -109,6 +109,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
+			avatar_url: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 		},
 		{
 			tableName: 'users',

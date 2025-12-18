@@ -11,10 +11,10 @@ const createOrderStatus = {
 	body: Joi.object().keys({
 		code: Joi.string().required(),
 		name: Joi.string().required(),
-		description: Joi.string(),
-		hex_code: Joi.string(),
-		color: Joi.string(),
-		sort_order: Joi.number(),
+		description: Joi.string().allow('').optional(),
+		hex_code: Joi.string().required(),
+		color: Joi.string().allow('').optional(),
+		sort_order: Joi.number().optional(),
 	}),
 };
 
@@ -39,12 +39,12 @@ const updateOrderStatus = {
 		orderStatusId: Joi.number().required(),
 	}),
 	body: Joi.object().keys({
-		code: Joi.string(),
-		name: Joi.string(),
-		description: Joi.string(),
-		hex_code: Joi.string(),
-		color: Joi.string(),
-		sort_order: Joi.number(),
+		code: Joi.string().optional(),
+		name: Joi.string().optional(),
+		description: Joi.string().allow('').optional(),
+		hex_code: Joi.string().optional(),
+		color: Joi.string().allow('').optional(),
+		sort_order: Joi.number().optional(),
 	}),
 };
 

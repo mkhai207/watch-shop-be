@@ -37,7 +37,14 @@ async function getStrapMaterials(req) {
 	};
 
 	const { where } = buildFilters(req.query, schema);
-	const order = buildOrder(req.query.sort, ['code', 'name', 'id']);
+	const order = buildOrder(req.query.sort, [
+		'code',
+		'name',
+		'id',
+		'created_at',
+	]);
+
+	order.push(['created_at', 'DESC']);
 
 	const { count, rows } = await db.strapMaterial.findAndCountAll({
 		where,

@@ -72,19 +72,21 @@ const updateUser = {
 			username: Joi.string().optional(),
 			first_name: Joi.string().optional(),
 			last_name: Joi.string().optional(),
-			phone_number: Joi.string().optional(),
+			phone_number: Joi.string().allow('').optional(),
 			gender: Joi.string().valid('0', '1', '2').optional(),
 			date_of_birth: Joi.string()
+				.allow('')
 				.pattern(/^\d{8}$/)
 				.optional(),
-			address: Joi.string().optional(),
+			address: Joi.string().allow('').optional(),
 			status: Joi.string().valid('0', '1').optional(),
 			role_id: Joi.number().optional(),
 			del_flag: Joi.string().valid('0', '1').optional(),
+			avatar_url: Joi.string().uri().allow('').optional(),
 			// ML feature fields
-			age_group: Joi.string().optional(),
-			gender_preference: Joi.string().optional(),
-			price_range_preference: Joi.string().optional(),
+			age_group: Joi.string().allow('').optional(),
+			gender_preference: Joi.string().allow('').optional(),
+			price_range_preference: Joi.string().allow('').optional(),
 			brand_preferences: Joi.array().items(Joi.string()).optional(),
 			category_preferences: Joi.array().items(Joi.string()).optional(),
 			style_preferences: Joi.array().items(Joi.string()).optional(),

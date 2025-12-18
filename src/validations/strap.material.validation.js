@@ -11,7 +11,7 @@ const createStrapMaterial = {
 	body: Joi.object().keys({
 		code: Joi.string().required(),
 		name: Joi.string().required(),
-		description: Joi.string(),
+		description: Joi.string().allow('').optional(),
 		extra_money: Joi.number().required(),
 	}),
 };
@@ -38,10 +38,10 @@ const updateStrapMaterial = {
 	}),
 	body: Joi.object()
 		.keys({
-			code: Joi.string(),
-			name: Joi.string(),
-			description: Joi.string(),
-			extra_money: Joi.number(),
+			code: Joi.string().optional(),
+			name: Joi.string().optional(),
+			description: Joi.string().allow('').optional(),
+			extra_money: Joi.number().optional(),
 		})
 		.min(1),
 };

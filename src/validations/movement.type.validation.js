@@ -11,7 +11,7 @@ const createMovementType = {
 	body: Joi.object().keys({
 		name: Joi.string().required(),
 		code: Joi.string().required(),
-		description: Joi.string(),
+		description: Joi.string().allow('').optional(),
 	}),
 };
 
@@ -37,9 +37,9 @@ const updateMovementType = {
 	}),
 	body: Joi.object()
 		.keys({
-			name: Joi.string(),
-			code: Joi.string(),
-			description: Joi.string(),
+			name: Joi.string().optional(),
+			code: Joi.string().optional(),
+			description: Joi.string().allow('').optional(),
 		})
 		.min(1),
 };
