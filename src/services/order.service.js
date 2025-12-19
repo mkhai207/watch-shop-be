@@ -362,7 +362,10 @@ async function changeOrderStatus(req) {
 		order.current_status_id
 	);
 
-	if (currStatus.code.toLowerCase() === 'completed')
+	if (
+		currStatus.code.toLowerCase() === 'completed' ||
+		currStatus.code.toLowerCase() === 'cancel'
+	)
 		throw new ApiError(
 			400,
 			'Đơn hàng đã hoàn thành, không thể thay đổi trạng thái.'
@@ -392,13 +395,36 @@ async function changeOrderStatus(req) {
 		);
 
 		if (updatedStatus && newStatus.code.toLowerCase() === 'completed') {
+			for (const detail of order.details) {
+				const watchId = detail.variant.watch.id;
+				const quantity = detail.quantity;
+
+				await watchService.incrementWatchSoldCount(watchId, quantity);
+			}
+
 			const watch_ids = [
 				...new Set(order.details.map((item) => item.variant.watch.id)),
 			];
-			watch_ids.forEach(async (watch_id) => {
-				await watchService.incrementWatchSoldCount(watch_id);
+			for (const watch_id of watch_ids) {
 				await watchSyncService.syncOneWatch(watch_id);
-			});
+			}
+		}
+
+		if (updatedStatus && newStatus.code.toLowerCase() === 'cancel') {
+			for (const detail of order.details) {
+				const variantId = detail.variant.id;
+				const quantity = detail.quantity;
+				const watchId = detail.variant.watch.id;
+
+				await watchService.incrementVariantStock(variantId, quantity);
+			}
+
+			const watch_ids = [
+				...new Set(order.details.map((item) => item.variant.watch.id)),
+			];
+			for (const watch_id of watch_ids) {
+				await watchSyncService.syncOneWatch(watch_id);
+			}
 		}
 
 		await t.commit();

@@ -3,7 +3,12 @@ const { getOffset, buildOrder, buildFilters } = require('../utils/query');
 const ApiError = require('../utils/ApiError');
 const config = require('../config/config');
 const db = require('../db/models');
-const { getCurrentDateYYYYMMDDHHMMSS, convertYYYYMMDDtoYYYYMMDDHHMMSS } = require('../utils/datetime');
+
+const { fn, col, literal, Op } = db.Sequelize;
+const {
+	getCurrentDateYYYYMMDDHHMMSS,
+	convertYYYYMMDDtoYYYYMMDDHHMMSS,
+} = require('../utils/datetime');
 const { getCategoryById } = require('./category.service');
 const { getBrandById } = require('./brand.service');
 const { getMovementTypeById } = require('./movement.type.service');
@@ -53,11 +58,28 @@ async function getWatchById(watchId) {
 						as: 'strapMaterial',
 					},
 				],
+				where: { del_flag: '0' },
 			},
 		],
 	});
 
-	return watch;
+	if (!watch) {
+		return null;
+	}
+
+	const watchData = watch.get({ plain: true });
+
+	let totalInventory = 0;
+	if (watchData.variants) {
+		watchData.variants.forEach((variant) => {
+			totalInventory += variant.stock_quantity;
+		});
+	}
+
+	return {
+		...watchData,
+		totalInventory,
+	};
 }
 
 async function getWatchByCode(code) {
@@ -102,10 +124,49 @@ async function getWatches(req) {
 
 	const { count, rows } = await db.watch.findAndCountAll({
 		where,
+		include: [
+			{
+				model: db.category,
+				as: 'category',
+				attributes: ['id', 'name'],
+			},
+			{
+				model: db.brand,
+				as: 'brand',
+				attributes: ['id', 'name'],
+			},
+			{
+				model: db.movementType,
+				as: 'movementType',
+				attributes: ['id', 'name'],
+			},
+			{
+				model: db.watchVariant,
+				as: 'variants',
+				attributes: ['id', 'stock_quantity'],
+				where: { del_flag: '0' },
+				required: false,
+			},
+		],
+		distinct: true,
 		order,
 		limit,
 		offset,
-		raw: true,
+	});
+
+	const items = rows.map((watch) => {
+		const watchData = watch.get({ plain: true });
+		const totalInventory = watchData.variants
+			? watchData.variants.reduce(
+					(sum, variant) => sum + (variant.stock_quantity || 0),
+					0
+			  )
+			: 0;
+
+		return {
+			...watchData,
+			totalInventory,
+		};
 	});
 
 	return {
@@ -113,7 +174,7 @@ async function getWatches(req) {
 		limit,
 		totalItems: count,
 		totalPages: Math.ceil(count / limit),
-		items: rows,
+		items,
 	};
 }
 
@@ -147,7 +208,9 @@ async function createWatch(req) {
 	const createdWatch = await db.watch
 		.create({
 			...req.body,
-			release_date: req.body.release_date ? convertYYYYMMDDtoYYYYMMDDHHMMSS(req.body.release_date) : null,
+			release_date: req.body.release_date
+				? convertYYYYMMDDtoYYYYMMDDHHMMSS(req.body.release_date)
+				: null,
 			created_at: getCurrentDateYYYYMMDDHHMMSS(),
 			created_by: req.user.userId,
 			del_flag: '0',
@@ -223,7 +286,9 @@ async function updateWatch(req) {
 				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
 				updated_by: req.user.userId,
 				...req.body,
-				release_date: req.body.release_date ? convertYYYYMMDDtoYYYYMMDDHHMMSS(req.body.release_date) : undefined,
+				release_date: req.body.release_date
+					? convertYYYYMMDDtoYYYYMMDDHHMMSS(req.body.release_date)
+					: undefined,
 			},
 			{
 				where: { id: req.params.watchId },
@@ -283,11 +348,33 @@ async function deleteWatchById(req) {
 }
 
 async function incrementWatchSoldCount(watchId, quantity = 1) {
-	const watch = await getWatchById(watchId);
+	const watch = await db.watch.findOne({
+		where: { id: watchId, del_flag: '0' },
+	});
 	if (!watch) {
 		throw new ApiError(httpStatus.NOT_FOUND, 'Watch not found');
 	}
 	await watch.increment({ sold: quantity });
+}
+
+async function decrementWatchSoldCount(watchId, quantity = 1) {
+	const watch = await db.watch.findOne({
+		where: { id: watchId, del_flag: '0' },
+	});
+	if (!watch) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Watch not found');
+	}
+	await watch.decrement({ sold: quantity });
+}
+
+async function incrementVariantStock(variantId, quantity = 1) {
+	const variant = await db.watchVariant.findOne({
+		where: { id: variantId, del_flag: '0' },
+	});
+	if (!variant) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Variant not found');
+	}
+	await variant.increment({ stock_quantity: quantity });
 }
 
 module.exports = {
@@ -297,5 +384,7 @@ module.exports = {
 	updateWatch,
 	deleteWatchById,
 	incrementWatchSoldCount,
+	decrementWatchSoldCount,
+	incrementVariantStock,
 	getWatchByVariantId,
 };

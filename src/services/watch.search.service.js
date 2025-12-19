@@ -44,6 +44,12 @@ async function search(req) {
 
 	const query = buildElasticQuery(filters, schema);
 
+	query.bool.must.push({
+		term: {
+			status: true,
+		},
+	});
+
 	if (q) {
 		query.bool.must.push({
 			multi_match: {
