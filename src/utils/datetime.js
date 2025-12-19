@@ -28,17 +28,43 @@ function yyyymmddhhmmssToUnix(str) {
 	return Math.floor(date.getTime() / 1000);
 }
 
+// function getCurrentDateYYYYMMDDHHMMSS() {
+// 	const date = new Date();
+// 	const pad = (n) => n.toString().padStart(2, '0');
+
+// 	return (
+// 		date.getFullYear().toString() +
+// 		pad(date.getMonth() + 1) +
+// 		pad(date.getDate()) +
+// 		pad(date.getHours()) +
+// 		pad(date.getMinutes()) +
+// 		pad(date.getSeconds())
+// 	);
+// }
+
 function getCurrentDateYYYYMMDDHHMMSS() {
-	const date = new Date();
-	const pad = (n) => n.toString().padStart(2, '0');
+	const now = new Date();
+
+	const parts = new Intl.DateTimeFormat('en-GB', {
+		timeZone: 'Asia/Ho_Chi_Minh',
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false,
+	}).formatToParts(now);
+
+	const get = (type) => parts.find((p) => p.type === type).value;
 
 	return (
-		date.getFullYear().toString() +
-		pad(date.getMonth() + 1) +
-		pad(date.getDate()) +
-		pad(date.getHours()) +
-		pad(date.getMinutes()) +
-		pad(date.getSeconds())
+		get('year') +
+		get('month') +
+		get('day') +
+		get('hour') +
+		get('minute') +
+		get('second')
 	);
 }
 
@@ -55,24 +81,24 @@ function parseChar14ToDDMMYYYY(str) {
 // Convert YYYY-MM-DD to YYYYMMDDHHMMSS (with 000000 for time)
 function convertYYYYMMDDtoYYYYMMDDHHMMSS(dateStr) {
 	if (!dateStr || dateStr === '') return null;
-	
+
 	// Handle YYYY-MM-DD format
 	const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
 	if (match) {
 		return `${match[1]}${match[2]}${match[3]}000000`;
 	}
-	
+
 	return null;
 }
 
 // Convert YYYYMMDDHHMMSS to YYYY-MM-DD
 function convertYYYYMMDDHHMMSStoYYYYMMDD(dateStr) {
 	if (!dateStr || dateStr.length < 8) return null;
-	
+
 	const year = dateStr.substring(0, 4);
 	const month = dateStr.substring(4, 6);
 	const day = dateStr.substring(6, 8);
-	
+
 	return `${year}-${month}-${day}`;
 }
 
