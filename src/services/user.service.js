@@ -257,12 +257,12 @@ async function updateUser(req) {
 	return updatedUser;
 }
 
-async function changePassword(password, id) {
+async function changePassword(newPassword, id) {
 	if (!id) return;
-	let newPassword = password;
-	if (password) {
-		const hashedPassword = await encryptData(password);
 
+	let updatedPassword = newPassword;
+	if (newPassword) {
+		const hashedPassword = await encryptData(newPassword);
 		if (!hashedPassword) {
 			throw new ApiError(
 				httpStatus.INTERNAL_SERVER_ERROR,
@@ -270,7 +270,7 @@ async function changePassword(password, id) {
 			);
 		}
 
-		newPassword = hashedPassword;
+		updatedPassword = hashedPassword;
 	}
 
 	const updatedUser = await db.user
@@ -278,7 +278,7 @@ async function changePassword(password, id) {
 			{
 				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
 				updated_by: id || 0,
-				password: newPassword,
+				password: updatedPassword,
 			},
 			{
 				where: { id: id || 0 },

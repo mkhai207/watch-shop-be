@@ -6,7 +6,7 @@ const {
 	emailService,
 	tokenService,
 } = require('../services');
-const { verifyToken } = require('../utils/auth');
+const { verifyToken, encryptData, decryptData } = require('../utils/auth');
 const { getClientIp, getDeviceInfo } = require('../utils/requestInfo');
 const ApiError = require('../utils/ApiError');
 
@@ -128,6 +128,33 @@ const loginByGoogle = catchAsync(async (req, res) => {
 	res.send({ user, tokens });
 });
 
+const changePassword = catchAsync(async (req, res) => {
+	const user = await userService.getUserById(req.user.userId);
+
+	const isPasswordMatch = await decryptData(
+		req.body.current_password,
+		user.password
+	);
+	if (!isPasswordMatch) {
+		throw new ApiError(
+			httpStatus.UNAUTHORIZED,
+			'Current password is incorrect'
+		);
+	}
+
+	const updatedUser = await userService.changePassword(
+		req.body.new_password,
+		req.user.userId
+	);
+	if (!updatedUser) {
+		throw new ApiError(
+			httpStatus.INTERNAL_SERVER_ERROR,
+			'Failed to change password'
+		);
+	}
+	res.send({ success: true });
+});
+
 module.exports = {
 	register,
 	login,
@@ -136,4 +163,5 @@ module.exports = {
 	refresh,
 	getMe,
 	loginByGoogle,
+	changePassword,
 };

@@ -26,6 +26,7 @@ router.get('/refresh', authController.refresh);
 router.get('/me', authController.getMe);
 
 router.post('/google', authController.loginByGoogle);
+router.put('/change-password', authController.changePassword);
 
 module.exports = router;
 
