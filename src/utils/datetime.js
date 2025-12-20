@@ -92,14 +92,53 @@ function convertYYYYMMDDtoYYYYMMDDHHMMSS(dateStr) {
 }
 
 // Convert YYYYMMDDHHMMSS to YYYY-MM-DD
-function convertYYYYMMDDHHMMSStoYYYYMMDD(dateStr) {
-	if (!dateStr || dateStr.length < 8) return null;
+// function convertYYYYMMDDHHMMSStoYYYYMMDD(dateStr) {
+// 	if (!dateStr || dateStr.length < 8) return null;
 
-	const year = dateStr.substring(0, 4);
-	const month = dateStr.substring(4, 6);
-	const day = dateStr.substring(6, 8);
+// 	const year = dateStr.substring(0, 4);
+// 	const month = dateStr.substring(4, 6);
+// 	const day = dateStr.substring(6, 8);
 
-	return `${year}-${month}-${day}`;
+// 	return `${year}-${month}-${day}`;
+// }
+
+function convertYYYYMMDDHHMMSStoYYYYMMDD(input) {
+	if (!input) return null;
+
+	// Nếu là number (yyyyMMddHHmmss hoặc timestamp)
+	if (typeof input === 'number') {
+		const str = String(input);
+		if (str.length >= 8) {
+			return `${str.slice(0, 4)}-${str.slice(4, 6)}-${str.slice(6, 8)}`;
+		}
+		return null;
+	}
+
+	// Nếu là string
+	if (typeof input === 'string') {
+		// yyyyMMddHHmmss
+		if (/^\d{14}$/.test(input)) {
+			return `${input.slice(0, 4)}-${input.slice(4, 6)}-${input.slice(
+				6,
+				8
+			)}`;
+		}
+
+		// yyyyMMdd
+		if (/^\d{8}$/.test(input)) {
+			return `${input.slice(0, 4)}-${input.slice(4, 6)}-${input.slice(
+				6,
+				8
+			)}`;
+		}
+
+		// yyyy-MM-dd → giữ nguyên
+		if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
+			return input;
+		}
+	}
+
+	return null;
 }
 
 module.exports = {
