@@ -80,6 +80,7 @@ function parseChar14ToDDMMYYYY(str) {
 
 // Convert YYYY-MM-DD to YYYYMMDDHHMMSS (with 000000 for time)
 function convertYYYYMMDDtoYYYYMMDDHHMMSS(dateStr) {
+	if (dateStr.length === 14) return dateStr;
 	if (!dateStr || dateStr === '') return null;
 
 	// Handle YYYY-MM-DD format
