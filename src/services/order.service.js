@@ -635,7 +635,7 @@ async function cancelOrderUnpaid() {
 			current_status_id: pendingPaymentStatus.id,
 			del_flag: '0',
 			[Op.and]: Sequelize.literal(
-				`to_timestamp(created_at, 'YYYYMMDDHH24MISS') <= (NOW() - INTERVAL '${constant.TIME_PAID_ORDER_LIMIT} minutes')`
+				`to_timestamp(created_at, 'YYYYMMDDHH24MISS') AT TIME ZONE 'Asia/Ho_Chi_Minh' <= (NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh' - INTERVAL '15 minutes')`
 			),
 		},
 		attributes: ['id'],
