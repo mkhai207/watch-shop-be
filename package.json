@@ -11,7 +11,8 @@
 		"prettier": "prettier --check **/*.js",
 		"dev": "cross-env NODE_ENV=development nodemon src/index.js",
 		"start": "cross-env NODE_ENV=production node src/index.js",
-		"es:sync-all": "node src/scripts/es.sync.watches.js"
+		"es:sync-all": "node src/scripts/es.sync.watches.js",
+		"cron:cancel-unpaid": "node src/scripts/cancel.unpaid.js"
 	},
 	"repository": {
 		"type": "git",

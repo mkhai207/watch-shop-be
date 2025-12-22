@@ -1,20 +1,13 @@
-const db = require('../db/models');
 const { cancelOrderUnpaid } = require('../services/order.service');
 
 const run = async () => {
 	try {
-		console.log('Starting cron script: cancelOrderUnpaid...');
+		console.log('[CRON] cancelOrderUnpaid started');
 		await cancelOrderUnpaid();
-		console.log('Cron script finished successfully.');
-		// await db.sequelize.close();
+		console.log('[CRON] cancelOrderUnpaid finished');
 		process.exit(0);
 	} catch (err) {
-		console.error('Cron script failed:', err);
-
-		if (db.sequelize) {
-			await db.sequelize.close();
-		}
-
+		console.error('[CRON] cancelOrderUnpaid failed:', err);
 		process.exit(1);
 	}
 };
