@@ -16,7 +16,8 @@ const emailService = require('./email.service');
 const watchService = require('./watch.service');
 const watchSyncService = require('./watch.sync.service');
 const constant = require('../utils/constant');
-const { Sequelize, Op } = require('../db/models');
+const { Sequelize } = require('../db/models');
+const Op = Sequelize.Op;
 
 async function sendOrderConfirmationEmail(to, order) {
 	const subject = `Xác nhận đơn hàng #${order.code} thành công`;
