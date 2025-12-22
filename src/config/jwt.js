@@ -2,7 +2,11 @@ const expressJwt = require('express-jwt');
 const config = require('./config');
 
 async function isRevoked(_req, _payload, done) {
-	done();
+	try {
+		return done(null, false);
+	} catch (error) {
+		return done(error, true);
+	}
 }
 
 function jwt() {

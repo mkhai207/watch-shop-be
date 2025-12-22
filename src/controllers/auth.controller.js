@@ -6,7 +6,7 @@ const {
 	emailService,
 	tokenService,
 } = require('../services');
-const { verifyToken, encryptData, decryptData } = require('../utils/auth');
+const { verifyToken, decryptData } = require('../utils/auth');
 const { getClientIp, getDeviceInfo } = require('../utils/requestInfo');
 const ApiError = require('../utils/ApiError');
 
@@ -87,7 +87,6 @@ const forgotPassword = catchAsync(async (req, res) => {
 
 const resetPassword = catchAsync(async (req, res) => {
 	const { id } = await verifyToken(req.query.token);
-	req.body.id = id;
 	await userService.changePassword(req.body.password, id);
 	res.send({ success: true });
 });

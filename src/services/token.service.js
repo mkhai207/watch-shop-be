@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const { Op } = require('sequelize');
 const config = require('../config/config');
 const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
@@ -62,6 +63,101 @@ async function generateAccessToken({ userId, roleId }) {
 	return accessToken;
 }
 
+// async function insertToken(tokenData, id) {
+// 	const {
+// 		ownerType,
+// 		userId,
+// 		tokenType,
+// 		tokenValue,
+// 		expiresAt,
+// 		deviceInfo,
+// 		ipAddress,
+// 	} = tokenData;
+// 	let createdToken;
+
+// 	// 0: refresh token
+// 	if (tokenType == '0') {
+// 		createdToken = await db.token
+// 			.create({
+// 				owner_type: ownerType,
+// 				user_id: userId,
+// 				token_type: tokenType,
+// 				token_value: tokenValue,
+// 				device_info: deviceInfo,
+// 				ip_address: ipAddress,
+// 				is_active: '1',
+// 				expires_at: unixToYYYYMMDDHHMMSS(expiresAt),
+// 				created_at: unixToYYYYMMDDHHMMSS(expiresAt),
+// 				created_by: id,
+// 			})
+// 			.then((resultEntity) => resultEntity.get({ plain: true }));
+
+// 		return createdToken;
+// 	}
+
+// 	const existToken = await db.token.findOne({
+// 		where: { user_id: userId, token_type: tokenType, is_active: '1' },
+// 	});
+
+// 	if (existToken && existToken.expires_at > getCurrentDateYYYYMMDDHHMMSS()) {
+// 		await existToken.update({
+// 			is_active: '0',
+// 			revoked_at: getCurrentDateYYYYMMDDHHMMSS(),
+// 		});
+// 	}
+
+// 	createdToken = await db.token
+// 		.create({
+// 			owner_type: ownerType,
+// 			user_id: userId,
+// 			token_type: tokenType,
+// 			token_value: tokenValue,
+// 			is_active: '1',
+// 			expires_at: unixToYYYYMMDDHHMMSS(expiresAt),
+// 			created_at: unixToYYYYMMDDHHMMSS(expiresAt),
+// 			created_by: id,
+// 		})
+// 		.then((resultEntity) => resultEntity.get({ plain: true }));
+
+// 	return createdToken;
+// }
+
+async function getOtherTokenUser(userId, tokenValue, tokenType, ipAddress) {
+	const existedToken = await db.token.findAll({
+		where: {
+			user_id: userId,
+			token_value: tokenValue,
+			is_active: '1',
+			token_type: tokenType,
+			ip_address: {
+				[Op.ne]: ipAddress,
+			},
+		},
+	});
+
+	if (!existedToken) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Token not found');
+	}
+
+	return existedToken;
+}
+
+async function getCurrentTokenLogging(userId) {
+	const existedToken = await db.token.findOne({
+		where: {
+			user_id: userId,
+			is_active: '1',
+			token_type: '0',
+		},
+	});
+
+	if (!existedToken) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Token not found');
+	}
+
+	return existedToken;
+}
+
 async function insertToken(tokenData, id) {
 	const {
 		ownerType,
@@ -72,50 +168,35 @@ async function insertToken(tokenData, id) {
 		deviceInfo,
 		ipAddress,
 	} = tokenData;
-	let createdToken;
 
-	if (tokenType == '0') {
-		createdToken = await db.token
-			.create({
-				owner_type: ownerType,
-				user_id: userId,
-				token_type: tokenType,
-				token_value: tokenValue,
-				device_info: deviceInfo,
-				ip_address: ipAddress,
-				is_active: '1',
-				expires_at: unixToYYYYMMDDHHMMSS(expiresAt),
-				created_at: unixToYYYYMMDDHHMMSS(expiresAt),
-				created_by: id,
-			})
-			.then((resultEntity) => resultEntity.get({ plain: true }));
-
-		return createdToken;
-	}
-
-	const existToken = await db.token.findOne({
-		where: { user_id: userId, token_type: tokenType, is_active: '1' },
-	});
-
-	if (existToken && existToken.expires_at > getCurrentDateYYYYMMDDHHMMSS()) {
-		await existToken.update({
+	await db.token.update(
+		{
 			is_active: '0',
 			revoked_at: getCurrentDateYYYYMMDDHHMMSS(),
-		});
-	}
+		},
+		{
+			where: {
+				user_id: userId,
+				is_active: '1',
+				token_type: tokenType,
+			},
+		}
+	);
 
-	createdToken = await db.token
+	const createdToken = await db.token
 		.create({
 			owner_type: ownerType,
 			user_id: userId,
 			token_type: tokenType,
 			token_value: tokenValue,
+			device_info: deviceInfo,
+			ip_address: ipAddress,
 			is_active: '1',
 			expires_at: unixToYYYYMMDDHHMMSS(expiresAt),
-			created_at: unixToYYYYMMDDHHMMSS(expiresAt),
+			created_at: getCurrentDateYYYYMMDDHHMMSS(),
 			created_by: id,
 		})
-		.then((resultEntity) => resultEntity.get({ plain: true }));
+		.then((e) => e.get({ plain: true }));
 
 	return createdToken;
 }
@@ -125,4 +206,6 @@ module.exports = {
 	generateAuthTokens,
 	insertToken,
 	generateAccessToken,
+	getOtherTokenUser,
+	getCurrentTokenLogging,
 };

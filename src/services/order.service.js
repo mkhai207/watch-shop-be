@@ -131,6 +131,7 @@ async function createOrder(req) {
 		const userId = req.user?.userId ?? null;
 
 		const detailRows = [];
+		variants.sort((a, b) => a.variant_id - b.variant_id);
 		for (const item of variants) {
 			const { variant_id, quantity } = item || {};
 			if (!variant_id || !quantity || quantity <= 0) {
@@ -615,100 +616,106 @@ async function retryPayment(req) {
 }
 
 async function cancelOrderUnpaid() {
-	const transaction = await db.sequelize.transaction();
+	const pendingPaymentStatus = await orderStatusService.getOrderStatusByCode(
+		constant.ORDER_STATUS.PENDING_PAYMENT
+	);
+	const cancelledStatus = await orderStatusService.getOrderStatusByCode(
+		constant.ORDER_STATUS.CANCEL
+	);
 
-	try {
-		const pendingPayment = await orderStatusService.getOrderStatusByCode(
-			constant.ORDER_STATUS.PENDING_PAYMENT
-		);
-		const cancelledStatus = await orderStatusService.getOrderStatusByCode(
-			constant.ORDER_STATUS.CANCEL
-		);
+	if (!pendingPaymentStatus || !cancelledStatus) {
+		console.error('Could not find PENDING_PAYMENT or CANCEL status.');
+		return;
+	}
 
-		if (!pendingPayment || !cancelledStatus) {
-			console.error('Could not find PENDING_PAYMENT or CANCEL status.');
-			await transaction.rollback();
-			return;
-		}
-
-		const ordersToCancel = await db.order.findAll({
-			where: {
-				current_status_id: pendingPayment.id,
-				del_flag: '0',
-				[Op.and]: Sequelize.literal(
-					`to_timestamp(created_at, 'YYYYMMDDHHMMSS') <= (NOW() - INTERVAL '${constant.TIME_PAID_ORDER_LIMIT} minutes')`
-				),
-			},
-			attributes: ['id'],
-			transaction,
-		});
-
-		if (ordersToCancel.length === 0) {
-			console.log('No unpaid orders found to cancel.');
-			await transaction.commit();
-			return;
-		}
-
-		const orderIds = ordersToCancel.map((order) => order.id);
-		console.log(
-			`Found ${orderIds.length} orders to cancel: ${orderIds.join(', ')}`
-		);
-
-		await db.order.update(
-			{
-				current_status_id: cancelledStatus.id,
-				updated_at: getCurrentDateYYYYMMDDHHMMSS(),
-				updated_by: '0',
-			},
-			{
-				where: { id: { [Op.in]: orderIds } },
-				transaction,
-			}
-		);
-
-		const orderDetails = await db.orderDetail.findAll({
-			where: {
-				order_id: { [Op.in]: orderIds },
-				del_flag: '0',
-			},
-			transaction,
-		});
-
-		const stockUpdates = new Map();
-		for (const item of orderDetails) {
-			const currentQty = stockUpdates.get(item.variant_id) || 0;
-			stockUpdates.set(item.variant_id, currentQty + item.quantity);
-		}
-
-		for (const [variantId, quantityToRestore] of stockUpdates.entries()) {
-			await db.watchVariant.increment('stock', {
-				by: quantityToRestore,
-				where: { id: variantId },
-				transaction,
-			});
-		}
-		console.log(`Restored stock for ${stockUpdates.size} variants.`);
-
-		const historyRecords = orderIds.map((orderId) => ({
-			order_id: orderId,
-			status_id: cancelledStatus.id,
-			note: 'Tự động hủy do quá hạn thanh toán.',
-			created_at: getCurrentDateYYYYMMDDHHMMSS(),
-			created_by: '0',
+	const ordersToCancel = await db.order.findAll({
+		where: {
+			current_status_id: pendingPaymentStatus.id,
 			del_flag: '0',
-		}));
+			[Op.and]: Sequelize.literal(
+				`to_timestamp(created_at, 'YYYYMMDDHHMMSS') <= (NOW() - INTERVAL '${constant.TIME_PAID_ORDER_LIMIT} minutes')`
+			),
+		},
+		attributes: ['id'],
+	});
 
-		await db.orderStatusHistory.bulkCreate(historyRecords, { transaction });
-		console.log(`Created ${historyRecords.length} order history records.`);
+	if (ordersToCancel.length === 0) {
+		console.log('No unpaid orders found to cancel.');
+		return;
+	}
 
-		await transaction.commit();
-		console.log(`Successfully cancelled ${orderIds.length} orders.`);
-	} catch (error) {
-		console.error(
-			'Error during cancelOrderUnpaid cron job, rolling back:',
-			error
-		);
-		await transaction.rollback();
+	for (const { id: orderId } of ordersToCancel) {
+		const t = await db.sequelize.transaction();
+		try {
+			const order = await db.order.findOne({
+				where: { id: orderId, del_flag: '0' },
+				transaction: t,
+				lock: t.LOCK.UPDATE,
+			});
+
+			if (!order) {
+				await t.rollback();
+				continue;
+			}
+
+			if (order.current_status_id !== pendingPaymentStatus.id) {
+				await t.rollback();
+				continue;
+			}
+
+			await order.update(
+				{
+					current_status_id: cancelledStatus.id,
+					updated_at: getCurrentDateYYYYMMDDHHMMSS(),
+					updated_by: '0',
+				},
+				{ transaction: t }
+			);
+
+			await db.orderStatusHistory.create(
+				{
+					order_id: order.id,
+					status_id: cancelledStatus.id,
+					note: 'Tự động hủy do quá hạn thanh toán',
+					created_at: getCurrentDateYYYYMMDDHHMMSS(),
+					created_by: '0',
+					del_flag: '0',
+				},
+				{ transaction: t }
+			);
+
+			const orderDetails = await db.orderDetail.findAll({
+				where: {
+					order_id: order.id,
+					del_flag: '0',
+				},
+				transaction: t,
+			});
+
+			orderDetails.sort((a, b) => a.variant_id - b.variant_id);
+
+			for (const item of orderDetails) {
+				const variant = await db.watchVariant.findOne({
+					where: { id: item.variant_id, del_flag: '0' },
+					transaction: t,
+					lock: t.LOCK.UPDATE,
+				});
+
+				if (!variant) continue;
+
+				await variant.update(
+					{
+						stock_quantity: variant.stock_quantity + item.quantity,
+					},
+					{ transaction: t }
+				);
+			}
+			await t.commit();
+			console.log(`Order ${order.id} cancelled successfully`);
+		} catch (error) {
+			console.error(`Failed to cancel order ${orderId}:`, error);
+			await t.rollback();
+		}
 	}
 }
 
