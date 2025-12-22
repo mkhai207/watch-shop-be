@@ -30,9 +30,9 @@ async function getOrderStatusById(orderStatusId) {
 	return orderStatus;
 }
 
-async function getOrderStatusByCode(code, sort_order) {
+async function getOrderStatusByCode(code) {
 	const orderStatus = await db.configOrderStatus.findOne({
-		where: { [Op.or]: [{ code }, { sort_order }], del_flag: '0' },
+		where: { code, del_flag: '0' },
 	});
 
 	return orderStatus;
