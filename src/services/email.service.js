@@ -63,7 +63,8 @@ const sendResetPasswordEmail = async (to, token) => {
 	}
 	const resetPasswordUrl = `${baseUrl}/reset-password?token=${token.token}`;
 	const text = `Chào bạn,
-    Để thay đổi mật khẩu, hãy click vào link: ${resetPasswordUrl}
+    Để thay đổi mật khẩu, hãy click vào link sau:
+	${resetPasswordUrl}
     Nếu bạn không yêu cầu thay đổi mật khẩu, hãy bỏ qua email này. Yêu cầu của bạn sẽ hết hạn trong ${config.resetPasswordExpirationMinutes} phút.`;
 	await sendEmail(to, subject, text);
 };
