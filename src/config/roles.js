@@ -140,7 +140,10 @@ const grantsObject = {
 			'delete:any': ['*'],
 		},
 		[resources.REPORT]: {
+			'create:any': ['*'],
 			'read:any': ['*'],
+			'update:any': ['*'],
+			'delete:any': ['*'],
 		},
 	},
 	[roleIds.USER]: {

@@ -35,7 +35,7 @@ async function generateAuthTokens({ userId, roleId }) {
 		config.jwt.refreshExpirationDays * 24
 	);
 
-	const refreshToken = generateToken({ userId }, refreshTokenExpires);
+	const refreshToken = generateToken({ userId, roleId }, refreshTokenExpires);
 
 	const accessTokenExpires = generateExpires(
 		config.jwt.accessExpirationMinutes / 60
