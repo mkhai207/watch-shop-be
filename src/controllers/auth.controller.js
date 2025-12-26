@@ -86,6 +86,16 @@ const forgotPassword = catchAsync(async (req, res) => {
 });
 
 const resetPassword = catchAsync(async (req, res) => {
+	const checkStatusToken = await authService.checkResetPasswordToken(
+		req.query.token
+	);
+
+	if (!checkStatusToken) {
+		throw new ApiError(
+			httpStatus.UNAUTHORIZED,
+			'Token not found or revoked'
+		);
+	}
 	const { id } = await verifyToken(req.query.token);
 	await userService.changePassword(req.body.password, id);
 	res.send({ success: true });

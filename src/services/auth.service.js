@@ -153,9 +153,32 @@ async function loginByGoogle(req) {
 	}
 }
 
+async function checkResetPasswordToken(token) {
+	const tokenRecord = await db.token.findOne({
+		where: {
+			token_value: token,
+			token_type: '1',
+			is_active: '1',
+		},
+		order: [['expires_at', 'DESC']],
+	});
+
+	if (!tokenRecord) {
+		throw new ApiError(
+			httpStatus.UNAUTHORIZED,
+			'Token not found or revoked'
+		);
+	}
+
+	if (tokenRecord.expires_at <= getCurrentDateYYYYMMDDHHMMSS()) {
+		throw new ApiError(httpStatus.UNAUTHORIZED, 'Token expired');
+	}
+	return true;
+}
 module.exports = {
 	loginUser,
 	refresh,
 	getMe,
 	loginByGoogle,
+	checkResetPasswordToken,
 };
