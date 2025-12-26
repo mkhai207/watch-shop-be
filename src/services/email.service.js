@@ -65,7 +65,7 @@ const sendResetPasswordEmail = async (to, token) => {
 	const text = `Chào bạn,
     Để thay đổi mật khẩu, hãy click vào link sau:
 	${resetPasswordUrl}
-    Nếu bạn không yêu cầu thay đổi mật khẩu, hãy bỏ qua email này. Yêu cầu của bạn sẽ hết hạn trong ${config.resetPasswordExpirationMinutes} phút.`;
+    Nếu bạn không yêu cầu thay đổi mật khẩu, hãy bỏ qua email này. Yêu cầu của bạn sẽ hết hạn trong ${config.jwt.resetPasswordExpirationMinutes} phút.`;
 	await sendEmail(to, subject, text);
 };
 
