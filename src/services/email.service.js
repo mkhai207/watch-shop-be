@@ -1,30 +1,49 @@
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
+// const config = require('../config/config');
+// const logger = require('../config/logger');
+
+// const transport = nodemailer.createTransport(config.email.smtp);
+
+// if (config.env !== 'test') {
+// 	transport
+// 		.verify()
+// 		.then(() => logger.info('Connected to email server'))
+// 		.catch(() =>
+// 			logger.warn(
+// 				'Unable to connect to email server. Make sure you have configured the SMTP options in .env'
+// 			)
+// 		);
+// }
+
+// /**
+//  * Send an email
+//  * @param {string} to
+//  * @param {string} subject
+//  * @param {string} text
+//  * @returns {Promise}
+//  */
+// const sendEmail = async (to, subject, text) => {
+// 	const msg = { from: config.email.from, to, subject, text };
+// 	await transport.sendMail(msg);
+// };
+
+const { Resend } = require('resend');
 const config = require('../config/config');
 const logger = require('../config/logger');
 
-const transport = nodemailer.createTransport(config.email.smtp);
+const resend = new Resend(config.email.resend.apiKey);
 
-if (config.env !== 'test') {
-	transport
-		.verify()
-		.then(() => logger.info('Connected to email server'))
-		.catch(() =>
-			logger.warn(
-				'Unable to connect to email server. Make sure you have configured the SMTP options in .env'
-			)
-		);
-}
-
-/**
- * Send an email
- * @param {string} to
- * @param {string} subject
- * @param {string} text
- * @returns {Promise}
- */
 const sendEmail = async (to, subject, text) => {
-	const msg = { from: config.email.from, to, subject, text };
-	await transport.sendMail(msg);
+	try {
+		await resend.emails.send({
+			from: config.email.from,
+			to,
+			subject,
+			text,
+		});
+	} catch (err) {
+		logger.error('Send email failed', err);
+	}
 };
 
 /**
@@ -40,15 +59,20 @@ const sendResetPasswordEmail = async (to, token) => {
 	if (!baseUrl) {
 		baseUrl = 'http://localhost:3000';
 	}
-	const resetPasswordUrl = `$${baseUrl}/reset-password?token=${token.token}`;
+	const resetPasswordUrl = `${baseUrl}/reset-password?token=${token.token}`;
 	const text = `Dear user,
     To reset your password, click on this link: ${resetPasswordUrl}
     If you did not request any password resets, then ignore this email. Your token will be expired in 24 hours.`;
 	await sendEmail(to, subject, text);
 };
 
+// module.exports = {
+// 	transport,
+// 	sendEmail,
+// 	sendResetPasswordEmail,
+// };
+
 module.exports = {
-	transport,
 	sendEmail,
 	sendResetPasswordEmail,
 };

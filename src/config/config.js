@@ -67,6 +67,7 @@ const envVarsSchema = Joi.object()
 		EMAIL_FROM: Joi.string().description(
 			'the from field in the emails sent by the app'
 		),
+		RESEND_API_KEY: Joi.string().description('ReSend API key'),
 		CLOUDINARY_CLOUD_NAME: Joi.string()
 			.required()
 			.description('Cloudinary cloud name'),
@@ -170,6 +171,9 @@ module.exports = {
 			},
 		},
 		from: envVars.EMAIL_FROM,
+		resend: {
+			apiKey: envVars.RESEND_API_KEY,
+		},
 	},
 	cloudinary: {
 		cloudName: envVars.CLOUDINARY_CLOUD_NAME,
