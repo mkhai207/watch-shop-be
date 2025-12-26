@@ -49,6 +49,20 @@ async function getUserByUsername(userName) {
 				as: 'role',
 				require: true,
 				attributes: ['id', 'name', 'code'],
+				include: [
+					{
+						model: db.permission,
+						as: 'permissions',
+						attributes: [
+							'id',
+							'name',
+							'api_path',
+							'method',
+							'module',
+						],
+						through: { attributes: [] },
+					},
+				],
 			},
 		],
 	});
