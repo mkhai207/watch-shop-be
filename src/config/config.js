@@ -98,6 +98,9 @@ const envVarsSchema = Joi.object()
 			.optional()
 			.description('Frontend server URL'),
 		AI_SERVER_URL: Joi.string().uri().required(),
+		RESET_PASSWORD_EXPIRATION_MINUTES: Joi.number()
+			.default(15)
+			.description('minutes after which reset password token expire'),
 	})
 	.unknown();
 
@@ -120,7 +123,8 @@ module.exports = {
 		secret: envVars.JWT_SECRET,
 		accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
 		refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
-		resetPasswordExpirationMinutes: 10,
+		resetPasswordExpirationMinutes:
+			envVars.RESET_PASSWORD_EXPIRATION_MINUTES,
 	},
 	cookie: {
 		cookieExpirationHours: envVars.COOKIE_EXPIRATION_HOURS,

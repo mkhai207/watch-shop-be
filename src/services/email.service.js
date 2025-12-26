@@ -35,12 +35,14 @@ const resend = new Resend(config.email.resend.apiKey);
 
 const sendEmail = async (to, subject, text) => {
 	try {
-		await resend.emails.send({
+		logger.info('Send email', to, subject, text);
+		const response = await resend.emails.send({
 			from: config.email.from,
 			to,
 			subject,
 			text,
 		});
+		logger.info('Resend Response:', response);
 	} catch (err) {
 		logger.error('Send email failed', err);
 	}
@@ -60,9 +62,9 @@ const sendResetPasswordEmail = async (to, token) => {
 		baseUrl = 'http://localhost:3000';
 	}
 	const resetPasswordUrl = `${baseUrl}/reset-password?token=${token.token}`;
-	const text = `Dear user,
-    To reset your password, click on this link: ${resetPasswordUrl}
-    If you did not request any password resets, then ignore this email. Your token will be expired in 24 hours.`;
+	const text = `Chào bạn,
+    Để thay đổi mật khẩu, hãy click vào link: ${resetPasswordUrl}
+    Nếu bạn không yêu cầu thay đổi mật khẩu, hãy bỏ qua email này. Yêu cầu của bạn sẽ hết hạn trong ${config.resetPasswordExpirationMinutes} phút.`;
 	await sendEmail(to, subject, text);
 };
 
